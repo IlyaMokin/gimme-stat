@@ -12,8 +12,8 @@ function getStat(since, until) {
 
     if(since){
         cmd.push(...[
-            '--since',
-            since
+            `--since=${since}`,
+
         ]);
     }
     if(until){
@@ -22,12 +22,10 @@ function getStat(since, until) {
             until
         ]);
     }
-    if ( opts.bare ) {
-        cmd.push('--bare');
-    }
 
-
-    return cmd.capture();
+    return cmd.oneline({encoding: 'string'});
 }
 
-getStat('2017/09/14')
+getStat('2017/09/14').then(x=>{
+    debugger
+});
