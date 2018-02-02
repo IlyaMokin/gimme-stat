@@ -9,6 +9,7 @@
   "author": "Ilya Mokin",
   "license": "ISC",
   "dependencies": {
-    "git-cmd": "^0.2.1"
+    "git-cmd": "^0.2.1",
+    "lodash": "^4.17.4"
   }
 }
