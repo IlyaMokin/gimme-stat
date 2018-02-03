@@ -135,14 +135,8 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     let compiled = _.template(text, {
         'imports': {
             '_'  : _,
-            min12: (text) => {
-                while (text.length < 12) {
-                    text += ' ';
-                }
-                return text;
-            },
-            min5 : (text) => {
-                while (text.length < 5) {
+            minSize: (text) => {
+                while (text.length < config.lmargin) {
                     text += ' ';
                 }
                 return text;

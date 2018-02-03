@@ -17,6 +17,11 @@ let config = convict({
         default: '1.months',
         arg    : 'since',
     },
+    lmargin:{
+        format : 'nat',
+        default: 12,
+        arg    : 'lmargin',
+    },
     cwd           : {
         format : 'String',
         default: '.',
