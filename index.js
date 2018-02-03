@@ -10,7 +10,7 @@ let fs = require('fs');
 require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFileSync(filename, 'utf8');};
 
 (async function () {
-    const config = require('./config');
+    const config = require('./env');
     const git = require('git-cmd');
     const _ = require('lodash');
 
@@ -27,8 +27,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
                 '--pretty=short',
                 '--stat'
             ],
-            // {cwd: '/home/user03/Projects/hmqcpos'},
-            {cwd: '/home/user03/Projects/PI_PROJECT/TruVoiceNeXT'}
+            {cwd: config.cwd}
         );
 
         if (since) {
@@ -41,7 +40,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         return cmd.oneline({encoding: 'string'});
     }
 
-    let resultText = await getStat('5.years');
+    let resultText = await getStat(config.since, config.until);
     let commits = resultText.split(/^commit .{40,40}$/mi);
 
     let resultStat = {
