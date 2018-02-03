@@ -1,0 +1,8 @@
+<% _(authors).forEach(author => { %>
+
+<%= min12(author.name) %>[<%= author.graphLine %>] <%= (author.percent * 100).toFixed(2) %>%
+<% author.byExt.forEach((ext, index) => { %>
+<%=  `${index < author.byExt.length -1 ? '├── ' : '└── '} ${min5(ext.name)} `%> [<%= ext.graphLine %>] <%= (ext.percent * 100).toFixed(2) %>% <%= ext.extensions.join(', ')%>
+<% }) %>
+
+<% }) %>

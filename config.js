@@ -1,0 +1,46 @@
+module.exports = {
+    userAliases   : {
+        'ilyamokin': 'Ilya Mokin',
+        'Sergey Galuza'     : 'Sergey G',
+        alexeyradkovich     : 'alex',
+        zhvirblis           : 'yury',
+        'viktor.romanyuk'   : 'viktor',
+        'alexandra.putko'   : 'Alexandra P',
+        'alexandra_putko'   : 'Alexandra P',
+        'Alexandra Putko'   : 'Alexandra P',
+        'vsevolod gandzyuck': 'Vsevolod G',
+        'Vsevolod Gandzyuck': 'Vsevolod G',
+        'Gandzyuck'         : 'Vsevolod G',
+        'andresha'          : 'Andrey G',
+        'Andrey Gerets'     : 'Andrey G',
+        'Georgi Sakovich'   : 'George S',
+        'George Sakovich'   : 'George S',
+        'Denisenko Kirill'  : 'Denisenko K',
+        'Vasily Labkovich'  : 'Vasily L',
+        'Alexandr Kasabucki': 'Alexandr K',
+        'Viktoria Mishina'  : 'Viktoria M',
+        'Petros Calafatidis': 'Petran',
+        'Dmitry Isachenko'  : 'Dmitry I',
+        'rallen'            : 'Rob Allen',
+        'Nick Lukyanchuk'   : 'Nikolay L',
+        'Nikolay Lukyanchuk': 'Nikolay L',
+    },
+    ignoreUsers   : ['Unknown', 'cornBuddy', 'Echoes93', 'brandon.cebulak', 'Mario'],
+    statIgnore    : [
+        /node_modules/mi,
+        /package\-lock\.json/mi,
+        /yarn\.lock/mi,
+        /assets/mi,
+        /dist/mi,
+        /\.gitignore/,
+        /www(\/|\\)build/mi,
+        /^(\/|\\)www/mi,
+        /\.idea/,
+        /config\.xml/,
+        /\.sourcemaps/,
+        /.+\.map/
+    ],
+    statExtensions: [
+        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 'json', 'ts', 'sql', 'xml', 'php'
+    ]
+}
