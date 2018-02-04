@@ -58,7 +58,7 @@ let config = convict({
 
 config.load(configFile);
 
-let configPath = `${process.cwd()}/gimme-config.js`;
+let configPath = `${process.cwd()}/gimme.config.js`;
 let fs = require('fs');
 if (fs.existsSync(configPath)) {
     config.load(require(configPath));
