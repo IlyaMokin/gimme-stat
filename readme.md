@@ -64,7 +64,7 @@ Some Man2 [=============                                                        
 Some Man3 [==========                                                                                ] 9.41%
 ```
 
-# Sample  gimme-config.js
+# Sample  `gimme-config.js`
 You can place the config in a directory which you are using for generate `gimme-stat` reports.
 
 ```
