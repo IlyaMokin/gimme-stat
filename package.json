@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "Simple toll for git repositories to generate progress statistic.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "author": "Ilya Mokin",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IlyaMokin/gimme-stat.git"
+  },
+  "homepage": "https://github.com/IlyaMokin/gimme-stat",
+  "bin": "./index.js",
   "dependencies": {
     "convict": "^4.0.2",
     "git-cmd": "^0.2.1",
