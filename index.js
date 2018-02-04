@@ -22,7 +22,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
     let repositories = config.cwd.split(',');
 
-    function getStat(since, until, rep) {
+    function getStat(rep, since, until) {
         let cmd = git([
                 'log',
                 '--no-merges',
@@ -44,7 +44,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
     let resultText = '';
     for (let rep of repositories) {
-        resultText += await getStat(config.since, config.until, rep);
+        resultText += await getStat(rep, config.since, config.until);
     }
 
 
