@@ -8,7 +8,7 @@ $ cd /home/your_git_project_name
 $ gimme-stat
 ```
 
-# Alailable arguments
+# Available arguments
  - `--since=[date]` `--until=[date]` you can use any `git log` valid formats for the options, as a rule in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
    - examplse of use:
      - --since="2014-02-12T16:36:00-07:00"
