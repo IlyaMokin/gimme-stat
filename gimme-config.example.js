@@ -20,9 +20,14 @@ module.exports = {
         /.+\.map/
     ],
 
-    //The file extensions will be shown in your statistic,
+    // The file extensions will be shown in your statistic,
     // other will be under 'other' category.
     statExtensions: [
         'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 'json', 'php', 'sql'
+    ],
+
+    //The users will be ignored for your statistic
+    ignoreUsers : [
+        'Unknown', 'user1'
     ]
 }
