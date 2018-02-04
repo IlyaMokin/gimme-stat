@@ -17,7 +17,12 @@ let config = convict({
         default: '1.months',
         arg    : 'since',
     },
-    lmargin:{
+    short         : {
+        format : 'Boolean',
+        default: false,
+        arg    : 'short',
+    },
+    lmargin       : {
         format : 'nat',
         default: 12,
         arg    : 'lmargin',

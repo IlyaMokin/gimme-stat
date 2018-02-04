@@ -1,5 +1,5 @@
 module.exports = {
-    userAliases   : 'ilyamokin=>Ilya Mokin,Sergey Galuza=>Sergey G,alexeyradkovich=>alex',
+    userAliases   : 'ilyamokin=>Ilya Mokin,Sergey Galuza=>Sergey G,alexeyradkovich=>alex,vsevolod gandzyuck=>Vsevolod Gandzyuck',
     ignoreUsers   : ['Unknown', 'cornBuddy', 'Echoes93', 'brandon.cebulak', 'Mario'],
     statIgnore    : [
         /node_modules/mi,

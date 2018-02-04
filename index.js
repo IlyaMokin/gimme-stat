@@ -18,16 +18,18 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         'node_modules',
         'package.lock',
         'package.json'
-    ]
+    ];
 
-    function getStat(since, until) {
+    let repositories = config.cwd.split(',');
+
+    function getStat(since, until, rep) {
         let cmd = git([
                 'log',
                 '--no-merges',
                 '--pretty=short',
                 '--stat'
             ],
-            {cwd: config.cwd}
+            {cwd: rep}
         );
 
         if (since) {
@@ -40,7 +42,12 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         return cmd.oneline({encoding: 'string'});
     }
 
-    let resultText = await getStat(config.since, config.until);
+    let resultText = '';
+    for (let rep of repositories) {
+        resultText += await getStat(config.since, config.until, rep);
+    }
+
+
     let commits = resultText.split(/^commit .{40,40}$/mi);
 
     let resultStat = {
@@ -120,6 +127,10 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         author.graphPercent = _.ceil(author.percent * 100, 0);
         author.graphLine = Array.from({length: 100}).map((x, index) => (index + 1) <= author.graphPercent ? '=' : ' ').join('');
 
+        if (config.short) {
+            author.byExt = [];
+            return author;
+        }
         author.byExt = _(author.byExt).map(ext => {
             ext.percent = ext.changed / author.changed;
             ext.graphPercent = _.ceil(ext.percent * 100, 0);
@@ -134,8 +145,10 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     let text = require('./template.ejs');
     let compiled = _.template(text, {
         'imports': {
-            '_'  : _,
-            minSize: (text) => {
+            '_'         : _,
+            repositories: repositories,
+            config      : config,
+            minSize     : (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
                 }
@@ -143,7 +156,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             }
         }
     });
-    let consoleText = compiled(resultStat).replace(/\n\n/gmi, '\n');
+    let consoleText = compiled(resultStat).replace(/^\s*\n/gm, '');
 
 
     console.log(consoleText);
