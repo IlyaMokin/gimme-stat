@@ -1,6 +1,6 @@
 {
   "name": "gimme-stat",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "engines"    : {
     "node": ">=8.9.1"
   },
@@ -14,7 +14,9 @@
     "url": "https://github.com/IlyaMokin/gimme-stat.git"
   },
   "homepage": "https://github.com/IlyaMokin/gimme-stat",
-  "bin": "index.js",
+  "bin": {
+    "gimme-stat": "index.js"
+  },
   "dependencies": {
     "convict": "^4.0.2",
     "git-cmd": "^0.2.1",
