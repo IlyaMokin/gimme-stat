@@ -16,6 +16,6 @@ module.exports = {
         /.+\.map/
     ],
     statExtensions: [
-        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 'json', 'ts', 'sql', 'xml', 'php'
+        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 'json', 'ts', 'sql', 'xml', 'php', 'vue'
     ]
 }

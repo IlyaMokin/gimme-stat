@@ -1,6 +1,6 @@
 # gimme-stat
 
-The toll for git repositories to generate a simple progress statistic.
+The toll for **GIT** repositories to generate a simple progress statistic by changed lines.
 
 ```
 $ npm -g install gimme-stat
