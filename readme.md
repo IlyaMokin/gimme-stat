@@ -21,7 +21,8 @@ $ gimme-stat
  - `--short` the flag to generate short statistic without details by files extensions.
  - `--cwd` you can use the argument to specify repository path in your local system if you run the commnad not from the repository or you want to specefy a few repositories.
    - single rep example: `--cwd="/home/project"`
-   - You can use a few rep splitted by comma: `--cwd="/home/project1,/home/project2,/home/project3"`
+   - You can use a few rep splitted by comma:
+     - `--cwd="/home/project1,/home/project2,/home/project3"`
 - `--lmargin=19` - the space between progress line and a left edge of the window
 
 # Examples
