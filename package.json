@@ -1,7 +1,7 @@
 {
   "name": "gimme-stat",
-  "version": "1.0.8",
-  "engines"    : {
+  "version": "1.0.9",
+  "engines": {
     "node": ">=8.9.1"
   },
   "description": "Simple toll for git repositories to generate progress statistic.",
