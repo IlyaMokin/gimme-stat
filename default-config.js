@@ -1,6 +1,6 @@
 module.exports = {
-    userAliases   : 'ilyamokin=>Ilya Mokin,Sergey Galuza=>Sergey G,alexeyradkovich=>alex,vsevolod gandzyuck=>Vsevolod Gandzyuck',
-    ignoreUsers   : ['Unknown', 'cornBuddy', 'Echoes93', 'brandon.cebulak', 'Mario'],
+    userAliases   : 'ilyamokin>Ilya Mokin,imokin>Ilya Mokin',
+    ignoreUsers   : ['Unknown'],
     statIgnore    : [
         /node_modules/mi,
         /package\-lock\.json/mi,
@@ -9,9 +9,7 @@ module.exports = {
         /dist/mi,
         /\.gitignore/,
         /www(\/|\\)build/mi,
-        /^(\/|\\)www/mi,
         /\.idea/,
-        /config\.xml/,
         /\.sourcemaps/,
         /.+\.map/
     ],

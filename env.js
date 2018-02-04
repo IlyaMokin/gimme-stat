@@ -1,5 +1,5 @@
 let convict = require('convict');
-let configFile = require('./config');
+let configFile = require('./default-config');
 
 convict.addFormat({
     name    : 'Dictionary',
@@ -40,7 +40,7 @@ let config = convict({
     userAliases   : {
         format : "Dictionary",
         default: "",
-        arg    : 'user_aliases'
+        arg    : 'useraliases'
     },
     ignoreUsers   : {
         format : Array,
@@ -57,6 +57,13 @@ let config = convict({
 });
 
 config.load(configFile);
+
+let configPath = `${process.cwd()}/gimme-config.js`;
+let fs = require('fs');
+if (fs.existsSync(configPath)) {
+    config.load(require(configPath));
+}
+
 config.validate({allowed: 'strict'});
 
 let result = config.getProperties();
@@ -64,7 +71,7 @@ let result = config.getProperties();
 let values = result.userAliases.split(',');
 let obj = {};
 for (let keyValue of values) {
-    let kv = keyValue.split('=>');
+    let kv = keyValue.split('>');
     obj[kv[0]] = kv[1];
 }
 result.userAliases = obj;
