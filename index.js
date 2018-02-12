@@ -17,14 +17,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     const git = require('git-cmd');
     const _ = require('lodash');
     const Table = require('cli-table');
-    var tableLong = new Table({head: ['Person', 'Language','Percent']
-        , colWidths: [50, 100, 50]})
-
-    const ignoreList = [
-        'node_modules',
-        'package.lock',
-        'package.json'
-    ];
+    var tableLong = new Table({head: ['Person', 'Language', 'Percent']})
 
     let repositories = config.cwd.split(',');
 
@@ -132,9 +125,9 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * config.barSize, 0);
         author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= author.graphPercent ? '=' : ' ').join('');
-            tableLong.push(
-                [author.name, 'total', Math.ceil(author.percent*100)+'%']
-            );
+        tableLong.push(
+            [author.name, 'total', Math.ceil(author.percent * 100) + '%']
+        );
 
 
         if (config.short) {
@@ -146,8 +139,8 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             ext.graphPercent = _.ceil(ext.percent * config.barSize, 0);
             ext.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= ext.graphPercent ? '=' : ' ').join('');
             ext.extensions = _.uniq(ext.extensions).filter(x => x);
-            if(ext.percent>0&&ext.name){
-            tableLong.push(['',ext.name,Math.ceil(ext.percent*100)+'% from personal results']);
+            if (ext.percent > 0 && ext.name) {
+                tableLong.push(['', ext.name, Math.ceil(ext.percent * 100) + '% from personal results']);
             }
             return ext;
         }).filter(x => x.changed).orderBy('changed', 'desc').value();
@@ -161,6 +154,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             '_'         : _,
             repositories: repositories,
             config      : config,
+            table       : config.table ? tableLong.toString() : '',
             minSize     : (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
@@ -171,12 +165,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     });
     let consoleText = compiled(resultStat).replace(/^\s*\n/gm, '');
 
-    if(!config.table) {
-        console.log(consoleText);
-    }
-    else {
-        console.log(tableLong.toString());
-    }
+    console.log(consoleText);
 
 
 })().catch(err => console.error(err.stack))
