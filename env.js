@@ -12,6 +12,11 @@ convict.addFormat({
 });
 
 let config = convict({
+    barSize: {
+        format : 'int',
+        default: 100,
+        arg:'barsize'
+    },
     since         : {
         format : 'String',
         default: '1.months',
@@ -54,6 +59,7 @@ let config = convict({
         format : Array,
         default: []
     },
+
 });
 
 config.load(configFile);

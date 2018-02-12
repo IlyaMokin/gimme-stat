@@ -4,6 +4,7 @@ module.exports = {
     since         : "3.years",
     until         : "",
     lmargin       : 19,
+    barSize       : 100,
     cwd           : "/home/rep1,/home/rep2,/home/rep3",
     statIgnore    : [ //Masks of files which will ignored in your statistic
         /node_modules/mi,
