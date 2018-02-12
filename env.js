@@ -27,6 +27,11 @@ let config = convict({
         default: false,
         arg    : 'short',
     },
+    table:{
+        format : 'Boolean',
+        default: false,
+        arg    : 'table',
+    },
     lmargin       : {
         format : 'nat',
         default: 12,
@@ -59,6 +64,7 @@ let config = convict({
         format : Array,
         default: []
     },
+
 
 });
 

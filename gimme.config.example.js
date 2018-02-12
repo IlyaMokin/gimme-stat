@@ -22,6 +22,7 @@ module.exports = {
     ],
 
     short: false,
+    table: false,
 
     // The file extensions will be shown in your statistic,
     // other will be under 'other' category.
