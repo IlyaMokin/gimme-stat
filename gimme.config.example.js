@@ -1,6 +1,7 @@
 module.exports = {
     userAliases   : 'ilyamokin>Ilya Mokin,imokin>Ilya Mokin',
     ignoreUsers   : ['Unknown'],
+    appendToMd    : "result.md",
     since         : "3.years",
     until         : "",
     lmargin       : 19,

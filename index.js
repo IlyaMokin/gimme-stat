@@ -17,7 +17,9 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     const git = require('git-cmd');
     const _ = require('lodash');
     const Table = require('cli-table');
-    var tableLong = new Table({head: ["Author", "Commits ", "insertions", "deletions", "% of changes"]})
+    var table = new Table({head: ["Author", "Commits ", "insertions", "deletions", "% of changes"],
+        style: {  'color': null }
+    });
 
     let repositories = config.cwd.split(',');
 
@@ -125,10 +127,11 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * config.barSize, 0);
         author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= author.graphPercent ? '=' : ' ').join('');
-        tableLong.push(
+
+        table.push(
             [author.name, author.commits, author.insertions,author.deletions,Math.ceil(author.percent * 100) + '%']
         );
-       
+
 
         if (config.short) {
             author.byExt = [];
@@ -152,7 +155,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             '_'         : _,
             repositories: repositories,
             config      : config,
-            table       : config.table ? tableLong.toString() : '',
+            table       : config.table ? table.toString() : '',
             minSize     : (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
@@ -164,6 +167,27 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     let consoleText = compiled(resultStat).replace(/^\s*\n/gm, '');
 
     console.log(consoleText);
+
+    let path = config.appendToMd;
+    const util = require('util');
+    const fs = require('fs') ;
+    let mb = require('./template.md.ejs');
+    let compiledmb = _.template(mb, {
+        'imports': {
+            table       : config.appendToMd.length > 1 ? table.toString() : '',
+            }
+    });
+
+    const fso = util.promisify(fs.open);
+    const fsw = util.promisify(fs.writeFile);
+
+    if(config.appendToMd){
+
+    let file = await fso(path,'w');
+    await fsw(file, compiledmb(table));
+    console.log("Saved!")
+    }
+
 
 
 })().catch(err => console.error(err.stack))

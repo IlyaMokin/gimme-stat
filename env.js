@@ -42,6 +42,11 @@ let config = convict({
         default: '.',
         arg    : 'cwd',
     },
+    appendToMd : {
+        format: 'String',
+        default: '',
+        arg    : 'appendtomd'
+    },
     until         : {
         format : 'String',
         default: "",
