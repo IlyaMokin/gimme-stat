@@ -17,7 +17,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     const git = require('git-cmd');
     const _ = require('lodash');
     const Table = require('cli-table');
-    var tableLong = new Table({head: ['Person', 'Language', 'Percent']})
+    var tableLong = new Table({head: ["Author", "Commits ", "insertions", "deletions", "% of changes"]})
 
     let repositories = config.cwd.split(',');
 
@@ -126,9 +126,9 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         author.graphPercent = _.ceil(author.percent * config.barSize, 0);
         author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= author.graphPercent ? '=' : ' ').join('');
         tableLong.push(
-            [author.name, 'total', Math.ceil(author.percent * 100) + '%']
+            [author.name, author.commits, author.insertions,author.deletions,Math.ceil(author.percent * 100) + '%']
         );
-
+       
 
         if (config.short) {
             author.byExt = [];
@@ -139,16 +139,14 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             ext.graphPercent = _.ceil(ext.percent * config.barSize, 0);
             ext.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= ext.graphPercent ? '=' : ' ').join('');
             ext.extensions = _.uniq(ext.extensions).filter(x => x);
-            if (ext.percent > 0 && ext.name) {
-                tableLong.push(['', ext.name, Math.ceil(ext.percent * 100) + '% from personal results']);
-            }
+
             return ext;
         }).filter(x => x.changed).orderBy('changed', 'desc').value();
 
         return author;
     }).orderBy('changed', 'desc').value();
 
-    let text = require('./template.ejs');
+    let text = require('./template.cmd.ejs');
     let compiled = _.template(text, {
         'imports': {
             '_'         : _,
