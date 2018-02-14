@@ -32,6 +32,11 @@ let config = convict({
         default: false,
         arg    : 'table',
     },
+    init:{
+        format : 'Boolean',
+        default: false,
+        arg    : 'init',
+    },
     lmargin       : {
         format : 'nat',
         default: 12,
@@ -44,7 +49,7 @@ let config = convict({
     },
     appendToMd : {
         format: 'String',
-        default: '',
+        default: 'result',
         arg    : 'appendtomd'
     },
     until         : {

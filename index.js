@@ -16,10 +16,20 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     const config = require('./env');
     const git = require('git-cmd');
     const _ = require('lodash');
+    const util = require('util');
+    const fs = require('fs') ;
+    const fso = util.promisify(fs.open);
+    const fsw = util.promisify(fs.writeFile);
     const Table = require('cli-table');
     var table = new Table({head: ["Author", "Commits ", "insertions", "deletions", "% of changes"],
-        style: {  'color': null }
+
     });
+        if(config.init){
+           await fso(`${process.cwd()}/gimme.config.js`,'w');
+            await fs.createReadStream(`${__dirname}\\default-config.js`).pipe(fs.createWriteStream(`${process.cwd()}/gimme.config.js`));
+            console.log(`Config file created at ${process.cwd()}/gimme.config.js`);
+            return;
+        }
 
     let repositories = config.cwd.split(',');
 
@@ -153,6 +163,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     let compiled = _.template(text, {
         'imports': {
             '_'         : _,
+            authors      : resultStat.authors,
             repositories: repositories,
             config      : config,
             table       : config.table ? table.toString() : '',
@@ -168,18 +179,26 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
     console.log(consoleText);
 
-    let path = config.appendToMd;
-    const util = require('util');
-    const fs = require('fs') ;
+    let path = config.appendToMd+'.md';
+
     let mb = require('./template.md.ejs');
     let compiledmb = _.template(mb, {
         'imports': {
-            table       : config.appendToMd.length > 1 ? table.toString() : '',
+            '_'         : _,
+            authors      : resultStat.authors,
+            repositories: repositories,
+            config      : config,
+            table       : (config.appendToMd.length > 0 && config.table)? table.toString() : '',
+            minSize     : (text) => {
+                while (text.length < config.lmargin) {
+                    text += ' ';
+                }
+                return text;
+            }
             }
     });
 
-    const fso = util.promisify(fs.open);
-    const fsw = util.promisify(fs.writeFile);
+
 
     if(config.appendToMd){
 

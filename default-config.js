@@ -1,12 +1,14 @@
 module.exports = {
     userAliases   : 'maksim.sarvas>Maksim Sarvas,ladamashina>Maksim Sarvas',
-    ignoreUsers   : ['Unknown'],
     since         : "3.months",
     until         : "",
     lmargin       : 19,
     barSize       : 100,
     cwd           : "C:\\repository\\CatchUp",
-    statIgnore    : [ //Masks of files which will ignored in your statistic
+    appendToMd    : "result",
+    statIgnore    : [
+        //Masks of files which will ignored in your statistic
+
         /node_modules/mi,
         /package\-lock\.json/mi,
         /yarn\.lock/mi,
@@ -23,6 +25,7 @@ module.exports = {
 
     short: false,
     table: false,
+    init: false,
 
     // The file extensions will be shown in your statistic,
     // other will be under 'other' category.
