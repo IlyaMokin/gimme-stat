@@ -9,6 +9,7 @@ $ gimme-stat
 ```
 
 # Available arguments
+- `--init`  - create `gimme.config.js` at current directory, in this file you can configure default value for every flag for  next call
  - `--since=[date]` `--until=[date]` you can use any `git log` valid formats for the options, as a rule in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
    - examplse of use:
      - --since="2014-02-12T16:36:00-07:00"
@@ -28,7 +29,8 @@ $ gimme-stat
 - `--table` - generate table with shot personal commit statistic 
     - Note: can be used with `--appendtomd` flag, this will add table to you statistic file
 - `--appendtomd=codersStatistics`  - will create `codersStatistics.md` file with statistic in your project  directory
-    - Note: can be use without parameter in this case file will be created with default name `result.md`
+    - Note: you can set default name for report file at `gimme.config.js`  but in this case 
+    result file will be create or update every time you use `gimme-stat`.
 
 # Examples
 ```
@@ -75,7 +77,7 @@ $ gimme-stat --since=3.months --table
 ├─────────────────┼──────────┼────────────┼───────────┼──────────────┤
 │ Dat Ding        │ 61       │ 1920       │ 1035      │ 35%          │
 ├─────────────────┼──────────┼────────────┼───────────┼──────────────┤
-│ Ilya Mokin      │ 92       │ 2335       │ 905       │ 39%          │
+│ Ilya Mokin      │ 92       │ 2335       │ 905       │ 38%          │
 ├─────────────────┼──────────┼────────────┼───────────┼──────────────┤
 │ Some Man1       │ 42       │ 1384       │ 639       │ 24%          │
 ├─────────────────┼──────────┼────────────┼───────────┼──────────────┤
@@ -89,12 +91,15 @@ You can place the config in a directory which you are using for generate `gimme-
 ```
 module.exports = {
     userAliases   : 'ilyamokin>Ilya Mokin,imokin>Ilya Mokin',
-    ignoreUsers   : ['Unknown'],
-    since         : "3.years",
+    since         : "3.months",
     until         : "",
     lmargin       : 19,
+    barSize       : 100,
     cwd           : "/home/rep1,/home/rep2,/home/rep3",
-    statIgnore    : [ //Masks of files which will ignored in your statistic
+    appendToMd    : "", 
+    statIgnore    : [
+        //Masks of files which will ignored in your statistic
+
         /node_modules/mi,
         /package\-lock\.json/mi,
         /yarn\.lock/mi,
@@ -110,11 +115,13 @@ module.exports = {
     ],
 
     short: false,
+    table: false,
+    init: false,
 
     // The file extensions will be shown in your statistic,
     // other will be under 'other' category.
     statExtensions: [
-        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 'json', 'php', 'sql'
+        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 'json', 'php', 'sql','cs'
     ],
 
     //The users will be ignored for your statistic

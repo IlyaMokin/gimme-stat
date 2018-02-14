@@ -17,7 +17,6 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     const git = require('git-cmd');
     const _ = require('lodash');
     const util = require('util');
-    const fs = require('fs') ;
     const fso = util.promisify(fs.open);
     const fsw = util.promisify(fs.writeFile);
     const Table = require('cli-table');
@@ -179,7 +178,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
     console.log(consoleText);
 
-    let path = config.appendToMd+'.md';
+    let path = config.appendToMd + '.md';
 
     let mb = require('./template.md.ejs');
     let compiledmb = _.template(mb, {
@@ -200,7 +199,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
 
 
-    if(config.appendToMd){
+    if(config.appendToMd.length>0){
 
     let file = await fso(path,'w');
     await fsw(file, compiledmb(table));

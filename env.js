@@ -49,7 +49,7 @@ let config = convict({
     },
     appendToMd : {
         format: 'String',
-        default: 'result',
+        default: '',
         arg    : 'appendtomd'
     },
     until         : {

@@ -1,11 +1,11 @@
 module.exports = {
-    userAliases   : 'maksim.sarvas>Maksim Sarvas,ladamashina>Maksim Sarvas',
+    userAliases   : 'ilyamokin>Ilya Mokin,imokin>Ilya Mokin',
     since         : "3.months",
     until         : "",
     lmargin       : 19,
     barSize       : 100,
     cwd           : "C:\\repository\\CatchUp",
-    appendToMd    : "result",
+    appendToMd    : "",
     statIgnore    : [
         //Masks of files which will ignored in your statistic
 
