@@ -4,7 +4,7 @@ module.exports = {
     until         : "",
     lmargin       : 19,
     barSize       : 100,
-    cwd           : "C:\\repository\\CatchUp",
+    cwd           : "/home/rep1,/home/rep2,/home/rep3",
     graph         : "short",
     appendToMd    : "",
     statIgnore    : [

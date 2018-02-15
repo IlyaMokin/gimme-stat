@@ -19,7 +19,7 @@ let config = convict({
     },
     since         : {
         format : 'String',
-        default: '',
+        default: '3.years',
         arg    : 'since',
     },
     graph         :{

@@ -19,7 +19,8 @@ $ gimme-stat
      - --since="2014-02-12T16:36:00-07:00"
      - --since="1 month ago"
      - --since="2 weeks 3 days 2 hours 30 minutes 59 seconds ago"
- - `--short` - the flag to generate short statistic without details by files extensions.
+ - `--graph[ all | short | detailed ]` - take one of specified flags, to set detail level of statistic information it showed at Examples,
+ using `all` return both `short` and `detailed`.
  - `--cwd` you can use the argument to specify repository path in your local system if you run the commnad not from the repository or you want to specify a few repositories.
    - single rep example: `--cwd="/home/project"`
    - You can use a few rep split by comma:
@@ -34,41 +35,56 @@ $ gimme-stat
 
 # Examples
 ```
-$ gimme-stat --since=3.months --cwd="/home/project1,/home/project2,/home/project3"
+$ gimme-stat --since=3.months --cwd="/home/project" --barsize=50 --graph=detailed
 
-Dat Ding  [===================================                                                       ] 34.62%
-├── js    [=====================================================================                     ] 68.80%
-├── html  [=======================                                                                   ] 22.98%
-└── less  [=========                                                                                 ] 8.22%
-Ilya Mokin[===================                                                                       ] 18.46%
-├── js    [====================================================================================      ] 86.74%
-├── other [=========                                                                                 ] 8.06%
-├── json  [===                                                                                       ] 2.69%
-└── html  [===                                                                                       ] 2.51%
-Some Man1 [================                                                                          ] 15.89%
-├── html  [===========================================================                               ] 58.17%
-├── js    [=========================================                                                 ] 40.37%
-└── less  [==                                                                                        ] 1.46%
-Some Man2 [=============                                                                             ] 12.27%
-├── js    [=======================================================================================   ] 93.13%
-├── html  [=====                                                                                     ] 4.58%
-└── less  [===                                                                                       ] 2.29%
-Some Man3 [==========                                                                                ] 9.41%
-├── js    [====================================                                                      ] 35.85%
-├── html  [===============================                                                           ] 30.76%
-├── ts    [=======================                                                                   ] 22.32%
-├── scss  [===========                                                                               ] 10.37%
-└── json  [=                                                                                         ] 0.70%
+
+SomeMan1            [=======================================           ] 19.18%
+
+├── cs              [=========================                         ] 24.83% 
+├── other           [=============                                     ] 12.98% 
+├── js              [========                                          ] 7.84% 
+├── scss            [===                                               ] 2.98% 
+├── json            [=                                                 ] 0.69% 
+└── sql             [=                                                 ] 0.68% 
+
+
+SomeMan2            [===================================               ] 17.49%
+
+├── cs              [============================                      ] 27.31% 
+├── other           [==================                                ] 17.21% 
+├── js              [=====                                             ] 4.04% 
+├── json            [=                                                 ] 0.47% 
+├── html            [=                                                 ] 0.34% 
+├── scss            [=                                                 ] 0.30% 
+├── css             [=                                                 ] 0.24% 
+└── sql             [=                                                 ] 0.08% 
+
+
+SomeMan3            [========================                          ] 11.98%
+
+├── cs              [========================                          ] 23.65% 
+├── other           [===============                                   ] 14.66% 
+├── js              [=========                                         ] 8.77% 
+├── sql             [==                                                ] 1.06% 
+├── json            [=                                                 ] 0.91% 
+├── scss            [=                                                 ] 0.77% 
+└── html            [=                                                 ] 0.17% 
+
+Ilya Mokin          [===                                               ] 1.35%
+
+├── cs              [===============================================   ] 46.05% 
+├── other           [====                                              ] 3.07% 
+└── js              [=                                                 ] 0.88% 
+                                                                                  
 ```
 
 ```
-$ gimme-stat --since=3.months --short --barsize=50
+$ gimme-stat --since=3.months --graph=short --barsize=50
 
-Dat Ding  [===================================                                                       ] 34.62%
-Ilya Mokin[===================                                                                       ] 18.46%
-Some Man1 [================                                                                          ] 15.89%
-Some Man2 [=============                                                                             ] 12.27%
-Some Man3 [==========                                                                                ] 9.41%
+SomeMan1       [=======================================           ] 19.18%
+SomeMan1       [===================================               ] 17.49%
+SomeMan1       [========================                          ] 11.98%
+Ilya Mokin     [===                                               ] 1.35%
 ```
 ```
 $ gimme-stat --since=3.months --table
@@ -91,12 +107,13 @@ You can place the config in a directory which you are using for generate `gimme-
 ```
 module.exports = {
     userAliases   : 'ilyamokin>Ilya Mokin,imokin>Ilya Mokin',
-    since         : "3.months",
+    since         : "",
     until         : "",
     lmargin       : 19,
     barSize       : 100,
     cwd           : "/home/rep1,/home/rep2,/home/rep3",
-    appendToMd    : "", 
+    graph         : "short",
+    appendToMd    : "",
     statIgnore    : [
         //Masks of files which will ignored in your statistic
 
@@ -114,14 +131,15 @@ module.exports = {
         /.+\.map/
     ],
 
-    short: false,
+
     table: false,
     init: false,
 
     // The file extensions will be shown in your statistic,
     // other will be under 'other' category.
     statExtensions: [
-        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 'json', 'php', 'sql','cs'
+        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 
+        'json', 'php', 'sql','cs'
     ],
 
     //The users will be ignored for your statistic
