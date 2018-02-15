@@ -1,3 +1,9 @@
+<% if (config.graph == 'short') { %>
+Short statistic
+<% } %>
+<% if (config.graph == 'detailed') { %>
+Detailed statistic
+<% } %>
 <% if (repositories.length > 1) { %>
 Repositories:
 
@@ -9,11 +15,17 @@ Repositories:
 
 <% _(authors).forEach(author => { %>
 
-<%= minSize(author.name) %> [<%= author.graphLine %>] <%= (author.percent * 100).toFixed(2) %>%
+<%= minSize(author.name) %> [<%= author.graphLine %>] <%= (author.percent * config.barSize).toFixed(2) %>%
 <% author.byExt.forEach((ext, index) => { %>
-<%=  minSize(`${index < author.byExt.length -1 ? '├── ' : '└── '}${ext.name}`) %> [<%= ext.graphLine %>] <%= (ext.percent * 100).toFixed(2) %>% <%= ext.extensions.join(', ')%>
+<%=  minSize(`${index < author.byExt.length -1 ? '├── ' : '└── '}${ext.name}`) %> [<%= ext.graphLine %>] <%= (ext.percent * config.barSize).toFixed(2) %>% <%= ext.extensions.join(', ')%>
 <% }) %>
 
 <% }) %>
+<% if (config.graph == 'short') { %>
+/Short statistic
+<% } %>
+<% if (config.graph == 'detailed') { %>
+/Detailed statistic
+<% } %>
 
 <%= table %>

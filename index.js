@@ -131,18 +131,26 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             resultStat.authors[author].byExt[fileExt].changed += changed;
         }
     }
+    if(config.table) {
+        let buff = resultStat.authors
+          _(buff).map(author => {
+            author.percent = author.changed / resultStat.changed;
+            author.graphPercent = _.ceil(author.percent * config.barSize, 0);
+            author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= author.graphPercent ? '=' : ' ').join('');
 
+            table.push(
+                [author.name, author.commits, author.insertions, author.deletions, Math.ceil(author.percent * 100) + '%']
+            );
+        });
+    }
+   function getResultStat(){
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * config.barSize, 0);
         author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= author.graphPercent ? '=' : ' ').join('');
 
-        table.push(
-            [author.name, author.commits, author.insertions,author.deletions,Math.ceil(author.percent * 100) + '%']
-        );
 
-
-        if (config.short) {
+        if (config.graph == 'short') {
             author.byExt = [];
             return author;
         }
@@ -157,6 +165,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
         return author;
     }).orderBy('changed', 'desc').value();
+    }
 
     let text = require('./template.cmd.ejs');
     let compiled = _.template(text, {
@@ -174,10 +183,19 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             }
         }
     });
-    let consoleText = compiled(resultStat).replace(/^\s*\n/gm, '');
+    if(config.graph == 'short' || config.graph == 'detailed') {
+        let consoleText = compiled(getResultStat()).replace(/^\s*\n/gm, '');
 
-    console.log(consoleText);
-
+        console.log(consoleText);
+    }
+    if(config.graph == 'all'){
+        config.graph = 'detailed';
+        let consoleTextDetailed = compiled(getResultStat()).replace(/^\s*\n/gm, '');
+        config.graph = 'short';
+        let consoleTextShort = compiled(getResultStat()).replace(/^\s*\n/gm, '');
+        console.log(consoleTextShort);
+        console.log(consoleTextDetailed);
+    }
     let path = config.appendToMd + '.md';
 
     let mb = require('./template.md.ejs');

@@ -19,20 +19,21 @@ let config = convict({
     },
     since         : {
         format : 'String',
-        default: '1.months',
+        default: '',
         arg    : 'since',
     },
-    short         : {
-        format : 'Boolean',
-        default: false,
-        arg    : 'short',
+    graph         :{
+        format: ["all", "short", "detailed"],
+        default: 'short',
+        arg    : 'graph',
+        env: "GRAPH_FLAG_MISMATCH"
     },
-    table:{
+    table         :{
         format : 'Boolean',
         default: false,
         arg    : 'table',
     },
-    init:{
+    init          :{
         format : 'Boolean',
         default: false,
         arg    : 'init',

@@ -1,10 +1,11 @@
 module.exports = {
     userAliases   : 'ilyamokin>Ilya Mokin,imokin>Ilya Mokin',
-    since         : "3.months",
+    since         : "",
     until         : "",
     lmargin       : 19,
     barSize       : 100,
     cwd           : "C:\\repository\\CatchUp",
+    graph         : "short",
     appendToMd    : "",
     statIgnore    : [
         //Masks of files which will ignored in your statistic
@@ -23,7 +24,7 @@ module.exports = {
         /.+\.map/
     ],
 
-    short: false,
+
     table: false,
     init: false,
 

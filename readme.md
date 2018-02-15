@@ -9,7 +9,7 @@ $ gimme-stat
 ```
 
 # Available arguments
-- `--init`  - create `gimme.config.js` at current directory, in this file you can configure default value for every flag for  next call
+ - `--init`  - create `gimme.config.js` at current directory, in this file you can configure default value for every flag for  next call
  - `--since=[date]` `--until=[date]` you can use any `git log` valid formats for the options, as a rule in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
    - examplse of use:
      - --since="2014-02-12T16:36:00-07:00"
@@ -24,11 +24,11 @@ $ gimme-stat
    - single rep example: `--cwd="/home/project"`
    - You can use a few rep split by comma:
      - `--cwd="/home/project1,/home/project2,/home/project3"`
-- `--lmargin=19` - the space between progress line and a left edge of the window
-- `--barSize=200` - set length of progress bar in chars, default value set at 100 chars
-- `--table` - generate table with shot personal commit statistic 
+ - `--lmargin=19` - the space between progress line and a left edge of the window
+ - `--barSize=200` - set length of progress bar in chars, default value set at 100 chars
+ - `--table` - generate table with shot personal commit statistic 
     - Note: can be used with `--appendtomd` flag, this will add table to you statistic file
-- `--appendtomd=codersStatistics`  - will create `codersStatistics.md` file with statistic in your project  directory
+ - `--appendtomd=codersStatistics`  - will create `codersStatistics.md` file with statistic in your project  directory
     - Note: you can set default name for report file at `gimme.config.js`  but in this case 
     result file will be create or update every time you use `gimme-stat`.
 
