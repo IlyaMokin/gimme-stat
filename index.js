@@ -135,7 +135,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * 100, 0);
-        author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= author.graphPercent ? '=' : ' ').join('');
+        author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (author.graphPercent/100*config.barSize) ? '=' : ' ').join('');
 
         if(config.table){
             table.push(
@@ -146,8 +146,8 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
         author.byExt = _(author.byExt).map(ext => {
             ext.percent = ext.changed / author.changed;
-            ext.graphPercent = _.ceil(ext.percent * config.barSize, 0);
-            ext.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= ext.graphPercent ? '=' : ' ').join('');
+            ext.graphPercent = _.ceil(ext.percent * 100, 0);
+            ext.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (ext.graphPercent/100*config.barSize) ? '=' : ' ').join('');
             ext.extensions = _.uniq(ext.extensions).filter(x => x);
 
             return ext;
