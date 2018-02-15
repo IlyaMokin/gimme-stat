@@ -176,7 +176,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     });
 
         let consoleText = compiled(resultStat).replace(/^\s*\n/gm, '');
-        console.log(consoleText);
+        console.log(consoleText.replace(/^\s*\n/gm, ''));
 
     let path = config.appendToMd + '.md';
 
@@ -202,7 +202,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     if(config.appendToMd.length>0){
 
     let file = await fso(path,'w');
-    await fsw(file, compiledmb(table));
+    await fsw(file, compiledmb(table).replace(/^\s*\n/gm, ''));
     console.log("Saved!")
     }
 
