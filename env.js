@@ -12,6 +12,7 @@ convict.addFormat({
 });
 
 let config = convict({
+
     barSize: {
         format : 'int',
         default: 100,
@@ -44,8 +45,8 @@ let config = convict({
         arg    : 'lmargin',
     },
     cwd           : {
-        format : 'String',
-        default: '.',
+        format : 'Array',
+        default: '',
         arg    : 'cwd',
     },
     appendToMd : {
@@ -59,7 +60,7 @@ let config = convict({
         arg    : 'until',
     },
     userAliases   : {
-        format : "Dictionary",
+        format : "Array",
         default: "",
         arg    : 'useraliases'
     },
@@ -91,7 +92,7 @@ config.validate({allowed: 'strict'});
 
 let result = config.getProperties();
 
-let values = result.userAliases.split(',');
+let values = result.userAliases;
 let obj = {};
 for (let keyValue of values) {
     let kv = keyValue.split('>');
