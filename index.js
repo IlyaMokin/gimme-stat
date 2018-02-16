@@ -20,7 +20,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     const fso = util.promisify(fs.open);
     const fsw = util.promisify(fs.writeFile);
     const Table = require('cli-table');
-    var table = new Table({head: ["Author", "Commits ", "insertions", "deletions", "% of changes"],
+    var table = new Table({head: ["Author", "Commits ", "Insertions", "Deletions", "% of changes"],
 
     });
         if(config.init){

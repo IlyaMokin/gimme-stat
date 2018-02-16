@@ -11,16 +11,20 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/IlyaMokin/gimme-stat.git"
+    "url": "git+https://github.com/IlyaMokin/gimme-stat.git"
   },
   "homepage": "https://github.com/IlyaMokin/gimme-stat",
   "bin": {
     "gimme-stat": "index.js"
   },
   "dependencies": {
-    "cli-table": "ladamashina/cli-table#0.3.1a",
+    "cli-table": "github:ladamashina/cli-table#0.3.1a",
     "convict": "^4.0.2",
     "git-cmd": "^0.2.1",
     "lodash": "^4.17.4"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/IlyaMokin/gimme-stat/issues"
+  },
+  "devDependencies": {}
 }

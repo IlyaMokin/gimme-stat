@@ -1,15 +1,19 @@
 module.exports = {
-    userAliases   : 'ilyamokin>Ilya Mokin,imokin>Ilya Mokin',
-    since         : "",
+    userAliases   : [
+        'ilyamokin>Ilya Mokin',
+        'imokin>Ilya Mokin'
+    ],
+    appendToMd    : "",
+    since         : "3.months",
     until         : "",
+    graph         : "short",
     lmargin       : 19,
     barSize       : 100,
-    cwd           : "/home/rep1,/home/rep2,/home/rep3",
-    graph         : "short",
-    appendToMd    : "",
-    statIgnore    : [
-        //Masks of files which will ignored in your statistic
-
+    cwd           : [
+        "C:\\repository\\CatchUp",
+        "C:\\repository\\LabelVisor"
+    ],
+    statIgnore    : [ //Masks of files which will ignored in your statistic
         /node_modules/mi,
         /package\-lock\.json/mi,
         /yarn\.lock/mi,
@@ -26,12 +30,11 @@ module.exports = {
 
 
     table: false,
-    init: false,
 
     // The file extensions will be shown in your statistic,
     // other will be under 'other' category.
     statExtensions: [
-        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 'json', 'php', 'sql','cs'
+        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less', 'json', 'php', 'sql'
     ],
 
     //The users will be ignored for your statistic
