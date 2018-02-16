@@ -139,7 +139,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
         if(config.table){
             table.push(
-                [author.name, author.commits, author.insertions, author.deletions, Math.ceil(author.percent * 100) + '%']
+                [author.name, author.commits, author.insertions, author.deletions, Math.ceil(author.percent * 100)]
             );
         }
 
@@ -156,6 +156,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         return author;
     }).orderBy('changed', 'desc').value();
 
+    table.sort( (a,b) => b[4]-a[4]); //table sorting desc
 
 
     let text = require('./template.cmd.ejs');
