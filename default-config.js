@@ -8,7 +8,7 @@ module.exports = {
     until         : "",
     graph         : "short",
     lmargin       : 19,
-    barSize       : 100,
+    barSize       : 60,
     cwd           : [ "." ],
 
     //Masks of files which will ignored in your statistic

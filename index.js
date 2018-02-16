@@ -138,7 +138,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
         if (config.table) {
             table.push(
-                [author.name, author.commits, author.insertions, author.deletions, Math.ceil(author.percent * 100)]
+                [author.name, author.commits, author.insertions, author.deletions,_.ceil(author.percent * 100, 2).toFixed(2)]
             );
         }
 
