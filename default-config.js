@@ -9,10 +9,7 @@ module.exports = {
     graph         : "short",
     lmargin       : 19,
     barSize       : 100,
-    cwd           : [
-        "C:\\repository\\CatchUp",
-        "C:\\repository\\LabelVisor"
-    ],
+    cwd           : [ ],
     statIgnore    : [ //Masks of files which will ignored in your statistic
         /node_modules/mi,
         /package\-lock\.json/mi,
