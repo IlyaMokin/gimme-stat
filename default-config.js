@@ -3,14 +3,16 @@ module.exports = {
         'ilyamokin>Ilya Mokin',
         'imokin>Ilya Mokin'
     ],
-    appendToMd    : "",
+    appendToMd    : false,
     since         : "3.months",
     until         : "",
     graph         : "short",
     lmargin       : 19,
     barSize       : 100,
     cwd           : [ "." ],
-    statIgnore    : [ //Masks of files which will ignored in your statistic
+
+    //Masks of files which will ignored in your statistic
+    statIgnore    : [
         /node_modules/mi,
         /package\-lock\.json/mi,
         /yarn\.lock/mi,

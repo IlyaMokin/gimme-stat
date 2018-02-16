@@ -17,18 +17,18 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     const git = require('git-cmd');
     const _ = require('lodash');
     const util = require('util');
-    const fso = util.promisify(fs.open);
-    const fsw = util.promisify(fs.writeFile);
+    const openFileStream = util.promisify(fs.open);
+    const writeFile = util.promisify(fs.writeFile);
     const Table = require('cli-table');
-    var table = new Table({head: ["Author", "Commits ", "Insertions", "Deletions", "% of changes"],
+    let table = new Table({
+        head: ["Author", "Commits ", "Insertions", "Deletions", "% of changes"],
 
     });
-        if(config.init){
-           await fso(`${process.cwd()}/gimme.config.js`,'w');
-            await fs.createReadStream(`${__dirname}\\default-config.js`).pipe(fs.createWriteStream(`${process.cwd()}/gimme.config.js`));
-            console.log(`Config file created at ${process.cwd()}/gimme.config.js`);
-            return;
-        }
+    if (config.init) {
+        await fs.createReadStream(`${__dirname}/default-config.js`).pipe(fs.createWriteStream(`${process.cwd()}/gimme.config.js`));
+        console.log(`Config file created at ${process.cwd()}/gimme.config.js`);
+        return;
+    }
 
     let repositories = config.cwd;
 
@@ -134,9 +134,9 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * 100, 0);
-        author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (author.graphPercent/100*config.barSize) ? '=' : ' ').join('');
+        author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (author.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
 
-        if(config.table){
+        if (config.table) {
             table.push(
                 [author.name, author.commits, author.insertions, author.deletions, Math.ceil(author.percent * 100)]
             );
@@ -146,7 +146,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         author.byExt = _(author.byExt).map(ext => {
             ext.percent = ext.changed / author.changed;
             ext.graphPercent = _.ceil(ext.percent * 100, 0);
-            ext.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (ext.graphPercent/100*config.barSize) ? '=' : ' ').join('');
+            ext.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (ext.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
             ext.extensions = _.uniq(ext.extensions).filter(x => x);
 
             return ext;
@@ -155,14 +155,14 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         return author;
     }).orderBy('changed', 'desc').value();
 
-    table.sort( (a,b) => b[4]-a[4]); //table sorting desc
+    table.sort((a, b) => b[4] - a[4]); //table sorting desc
 
 
     let text = require('./template.cmd.ejs');
     let compiled = _.template(text, {
         'imports': {
             '_'         : _,
-            authors      : resultStat.authors,
+            authors     : resultStat.authors,
             repositories: repositories,
             config      : config,
             table       : config.table ? table.toString() : '',
@@ -175,37 +175,37 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         }
     });
 
-        let consoleText = compiled(resultStat).replace(/^\s*\n/gm, '');
-        console.log(consoleText.replace(/^\s*\n/gm, ''));
+    let consoleText = compiled(resultStat)
+        .replace(/(\r*\n){2,}(.+)/gm, '\r\n$2')
+        .replace(/\$#/gm, '');
 
-    let path = config.appendToMd + '.md';
+    console.log(consoleText);
 
-    let mb = require('./template.md.ejs');
-    let compiledmb = _.template(mb, {
+    let mdFilePath = _.isString(config.appendToMd) ? config.appendToMd : 'Readme.md' ;
+
+    let mdTemplate = require('./template.md.ejs');
+    let compiledmb = _.template(mdTemplate, {
         'imports': {
             '_'         : _,
-            authors      : resultStat.authors,
+            authors     : resultStat.authors,
             repositories: repositories,
             config      : config,
-            table       : (config.appendToMd.length > 0 && config.table)? table.toString() : '',
+            table       : table.toString(),
             minSize     : (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
                 }
                 return text;
             }
-            }
+        }
     });
 
 
-
-    if(config.appendToMd.length>0){
-
-    let file = await fso(path,'w');
-    await fsw(file, compiledmb(table).replace(/^\s*\n/gm, ''));
-    console.log("Saved!")
+    if (config.appendToMd) {
+        let file = await openFileStream(mdFilePath, 'w');
+        await writeFile(file, compiledmb(table).replace(/^\s*\n/gm, ''));
+        console.log(`\r\n\r\n >>>>>>>>>>> Saved to ${mdFilePath} <<<<<<<<<<<<<<`)
     }
-
 
 
 })().catch(err => console.error(err.stack))

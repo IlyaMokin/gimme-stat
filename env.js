@@ -50,8 +50,8 @@ let config = convict({
         arg    : 'cwd',
     },
     appendToMd : {
-        format: 'String',
-        default: '',
+        format: '*',
+        default: false,
         arg    : 'appendtomd'
     },
     until         : {
