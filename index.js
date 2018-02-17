@@ -177,7 +177,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
     let consoleText = compiled(resultStat)
         .replace(/(\r*\n){2,}(.+)/gm, '\r\n$2')
-        .replace(/\$#/gm, '');
+        .replace(/\$br/gm, '');
 
     console.log(consoleText);
 

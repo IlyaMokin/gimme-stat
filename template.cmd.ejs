@@ -7,21 +7,19 @@ Repositories:
 <% }) %>
 
 <% } %>
-$#
-$#
 
 <% if (config.graph == 'short'||config.graph == 'all') { %>
-
-
+$br
+$br
 <% _(authors).forEach(author => { %>
 <%= minSize(author.name) %> [<%= author.graphLine %>] <%= (author.percent * 100).toFixed(2) %>%
 <% }) %>
 <% } %>
-$#
-$#
 <% if (config.graph == 'detailed' || config.graph =='all') { %>
-
-
+$br
+$br
+Detailed:
+$br
 <% _(authors).forEach(author => { %>
 <%= minSize(author.name) %> [<%= author.graphLine %>] <%= (author.percent * 100).toFixed(2) %>%
 <% author.byExt.forEach((ext, index) => { %>
@@ -30,7 +28,8 @@ $#
 <% }) %>
 
 <% } %>
-
-$#
-$#
+<% if(table) { %>
+$br
+$br
 <%= table %>
+<% } %>
