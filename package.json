@@ -4,6 +4,7 @@
   "engines": {
     "node": ">=8.9.1"
   },
+  "preferGlobal": true,
   "description": "Simple toll for git repositories to generate progress statistic.",
   "main": "index.js",
   "scripts": {},
