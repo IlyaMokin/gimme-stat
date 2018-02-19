@@ -2,7 +2,7 @@
 
 The toll for **GIT** repositories to generate a simple progress statistic by changed lines.
 
-```
+```sh
 $ npm -g install gimme-stat
 $ cd /home/your_git_project_name        
 $ gimme-stat
@@ -34,7 +34,7 @@ $ gimme-stat
     result file will be create or update every time you use `gimme-stat`.
 
 # Examples
-```
+```sh
 $ gimme-stat --since=3.months --cwd="/home/project"  --graph=detailed
 
 SomeMan1     [===================                               ] 38.36%
@@ -71,7 +71,7 @@ Ilya Mokin   [=                                                 ] 2.70%
  
 ```
 
-```
+```sh
 $ gimme-stat --since=3.months --graph=short --barsize=50
 
 SomeMan1     [=======================================           ] 19.18% 
@@ -79,7 +79,7 @@ SomeMan2     [===================================               ] 17.49%
 SomeMan3     [========================                          ] 11.98% 
 Ilya Mokin   [===                                               ] 1.35%
 ```
-```
+```sh
 $ gimme-stat --since=3.months --table
 ┌─────────────────┬──────────┬────────────┬───────────┬──────────────┐
 │ Author          │ Commits  │ Insertions │ Deletions │ % of changes │   
@@ -99,7 +99,7 @@ $ gimme-stat --since=3.months --table
 # Sample  `gimme.config.js`
 You can place the config in a directory which you are using for generate `gimme-stat` reports.
 
-```
+```js
 module.exports = {
     userAliases   : [
         'ilyamokin>Ilya Mokin',
