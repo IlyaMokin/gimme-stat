@@ -74,10 +74,10 @@ Ilya Mokin[=                                               ] 2.70%
 ```sh
 $ gimme-stat --since=3.months --graph=short --barsize=50
 
-SomeMan1   [=====================================         ] 19.18% 
-SomeMan2   [=================================             ] 17.49% 
-SomeMan3   [======================                        ] 11.98% 
-Ilya Mokin [=                                             ] 1.35%
+SomeMan1       [================                          ] 35.83%
+SomeMan2       [===============                           ] 34.69%
+SomeMan3       [==========                                ] 23.45%
+Ilya Mokin     [=                                         ] 6.04%
 ```
 ```sh
 $ gimme-stat --since=3.months --table
