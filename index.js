@@ -25,9 +25,13 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
     });
     if (config.init) {
-        await fs.createReadStream(`${__dirname}/default-config.js`).pipe(fs.createWriteStream(`${process.cwd()}/gimme.config.js`));
-        console.log(`Config file created at ${process.cwd()}/gimme.config.js`);
+        let configPath = `${process.cwd()}/gimme.config.js`;
+        const checkExistence = util.promisify(fs.stat);
+        checkExistence(configPath).then(()=> console.log('Fail: gimme.config.js already exists.') )
+            .catch(()=>{ fs.createReadStream(`${__dirname}/default-config.js`).pipe(fs.createWriteStream(configPath));
+            console.log(`Config file created at ${process.cwd()}/gimme.config.js`);});
         return;
+
     }
 
     let repositories = config.cwd;
