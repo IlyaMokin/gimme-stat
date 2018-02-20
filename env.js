@@ -18,6 +18,11 @@ let config = convict({
         default: 100,
         arg:'barsize'
     },
+    daily: {
+        format: Boolean,
+        default: false,
+        arg:'daily'
+    },
     since         : {
         format : 'String',
         default: '3.years',

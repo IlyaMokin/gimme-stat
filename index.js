@@ -20,6 +20,8 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
     const openFileStream = util.promisify(fs.open);
     const writeFile = util.promisify(fs.writeFile);
     const Table = require('cli-table');
+
+    
     let table = new Table({
         head: ["Author", "Commits ", "Insertions", "Deletions", "% of changes"],
 
@@ -40,7 +42,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         let cmd = git([
                 'log',
                 '--no-merges',
-                '--pretty=short',
+                '--pretty=medium',
                 '--stat'
             ],
             {cwd: rep}
@@ -65,16 +67,19 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
     let resultStat = {
         changed: 0,
-        authors: {}
+        authors: {},
+        daily  : {}
     };
 
-
+     
     for (let commit of commits) {
         if (!commit) {
             continue;
         }
-        let author = (/Author: (.+)( $| <)/mi).exec(commit)[1];
-        author = config.userAliases[author] || author;
+
+        var author = (/Author: (.+)( $| <)/mi).exec(commit)[1];
+            author = config.userAliases[author] || author;
+
 
         if (config.ignoreUsers.some(user => user === author)) {
             continue;
@@ -82,7 +87,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
         if (!resultStat.authors[author]) {
             resultStat.authors[author] = {
-                name      : author,
+                name      :  author,
                 commits   : 0,
                 changed   : 0,
                 insertions: 0,
@@ -104,6 +109,8 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
                     extensions: []
                 };
             }
+
+
         }
 
         resultStat.authors[author].commits += 1;
@@ -115,61 +122,116 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             if (config.statIgnore.some(regExp => regExp.test(fileName))) {
                 continue;
             }
-            let fileExt    = (info[3] || 'other').toLowerCase(),
-                changed    = (info[5] || '').length,
+            let changed    = (info[5] || '').length,
                 changesArr = Array.from(info[5]),
                 insertions = changesArr.filter(x => x === '+').length,
+                fileExt    = (info[3] || 'other').toLowerCase(),
                 deletions  = changed - insertions;
 
             if (fileExt === 'other') {
-                let data = /(\.(\w{2,5}))* +\| +(\d+) ((\+|-)+)/.exec(info[0]);
+                let date = /(\.(\w{2,5}))* +\| +(\d+) ((\+|-)+)/.exec(info[0]);
 
-                resultStat.authors[author].byExt[fileExt].extensions.push(data[2]);
+                resultStat.authors[author].byExt[fileExt].extensions.push(date[2]);
             }
             resultStat.changed += changed;
             resultStat.authors[author].changed += changed;
             resultStat.authors[author].insertions += insertions;
             resultStat.authors[author].deletions += deletions;
-
             resultStat.authors[author].byExt[fileExt].changed += changed;
         }
+
+        if(config.daily){
+            var  day = (/Date:(.+)/mi).exec(commit)[1];
+            day =  (new Date (Date.parse(day))).toDateString();
+
+            if (!resultStat.daily[day]) {
+                resultStat.daily[day] = {
+                    date      :  day,
+                    commits   : 0,
+                    changed   : 0,
+                    insertions: 0,
+                    deletions : 0,
+                };
+        }
+            resultStat.daily[day].commits += 1;
+
+            let info;
+            while (info = fileChangesRegExp.exec(commit)) {
+                let fileName = info[0];
+                if (config.statIgnore.some(regExp => regExp.test(fileName))) {
+                    continue;
+                }
+                let changed    = (info[5] || '').length,
+                    changesArr = Array.from(info[5]),
+                    insertions = changesArr.filter(x => x === '+').length,
+                    deletions  = changed - insertions;
+                resultStat.daily[day].changed += changed;
+                resultStat.daily[day].insertions += insertions;
+                resultStat.daily[day].deletions += deletions;
+
+        }
+    }
     }
 
-    resultStat.authors = _(resultStat.authors).map(author => {
-        author.percent = author.changed / resultStat.changed;
-        author.graphPercent = _.ceil(author.percent * 100, 0);
-        author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (author.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
-
-        if (config.table) {
-            table.push(
-                [author.name, author.commits, author.insertions, author.deletions,_.ceil(author.percent * 100, 2).toFixed(2)]
-            );
-        }
 
 
-        author.byExt = _(author.byExt).map(ext => {
-            ext.percent = ext.changed / author.changed;
-            ext.graphPercent = _.ceil(ext.percent * 100, 0);
-            ext.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (ext.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
-            ext.extensions = _.uniq(ext.extensions).filter(x => x);
+        resultStat.authors = _(resultStat.authors).map(author => {
+            author.percent = author.changed / resultStat.changed;
+            author.graphPercent = _.ceil(author.percent * 100, 0);
+            author.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (author.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
+            if (config.table) {
+                table.push(
+                    [author.name, author.commits, author.insertions, author.deletions, _.ceil(author.percent * 100, 2).toFixed(2)]
+                );
+            }
 
-            return ext;
-        }).filter(x => x.changed).orderBy('changed', 'desc').value();
+            author.byExt = _(author.byExt).map(ext => {
+                ext.percent = ext.changed / author.changed;
+                ext.graphPercent = _.ceil(ext.percent * 100, 0);
+                ext.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (ext.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
+                ext.extensions = _.uniq(ext.extensions).filter(x => x);
 
-        return author;
-    }).orderBy('changed', 'desc').value();
+                return ext;
+            }).filter(x => x.changed).orderBy('changed', 'desc').value();
 
-    table.sort((a, b) => b[4] - a[4]); //table sorting desc
+            return author;
+        }).orderBy('changed', 'desc').value();
+
+
+    if(config.daily){
+
+        resultStat.daily = _(resultStat.daily).map(day => {
+            day.percent = day.changed / resultStat.changed;
+            day.graphPercent = _.ceil((day.percent * 100 * resultStat.authors.length)>100?100:day.percent * 100 * (resultStat.authors.length), 0);
+
+            day.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (day.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
+            return day;
+        }).value();
+
+    }
+    if(config.table) {
+        table.sort((a, b) => b[4] - a[4]); //table sorting desc
+    }
 
 
     let text = require('./template.cmd.ejs');
+    function getSpaces (length) {
+        let space ='';
+        while(space.length < length){
+            space += ' ';
+        }
+        space+='commits|changed lines';
+        return space;
+    }
     let compiled = _.template(text, {
         'imports': {
             '_'         : _,
             authors     : resultStat.authors,
+            daily       : config.daily ? resultStat.daily : '',
             repositories: repositories,
             config      : config,
             table       : config.table ? table.toString() : '',
+            header      : config.daily ? getSpaces((config.barSize + config.lmargin-7)): '',
             minSize     : (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
@@ -192,9 +254,11 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         'imports': {
             '_'         : _,
             authors     : resultStat.authors,
+            daily       : resultStat.daily,
             repositories: repositories,
             config      : config,
             table       : table.toString(),
+            header      : config.daily ? getSpaces((config.barSize + config.lmargin-1)): '',
             minSize     : (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
