@@ -28,6 +28,15 @@ $br
 <% }) %>
 
 <% } %>
+<% if(config.daily) { %>
+$br
+$br
+Daily:<%=header%>
+<% _(daily).forEach(day => { %>
+<%= minSize(day.date) %> [<%= day.graphLine %>] <%= day.commits %> | <%= day.changed%>
+<% }) %>
+$br
+<% } %>
 <% if(table) { %>
 $br
 $br
