@@ -199,10 +199,12 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
 
     if(config.daily){
+        let maxChanged = 0;
+        _.forEach(resultStat.daily,a=> a.changed>maxChanged?maxChanged=a.changed:'');
 
         resultStat.daily = _(resultStat.daily).map(day => {
-            day.percent = day.changed / resultStat.changed;
-            day.graphPercent = _.ceil((day.percent * 100 * resultStat.authors.length)>100?100:day.percent * 100 * (resultStat.authors.length), 0);
+            day.percent = day.changed / maxChanged;
+            day.graphPercent = _.ceil((day.percent * 100), 0);
 
             day.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (day.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
             return day;
