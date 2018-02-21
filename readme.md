@@ -180,7 +180,7 @@ module.exports = {
 
 
     table: false,
-
+    daily: false,
     // The file extensions will be shown in your statistic,
     // other will be under 'other' category.
     statExtensions: [
@@ -246,7 +246,7 @@ Ilya Mokin[=                                                 ] 2.44%
 ```
 ##Daily:
 ```
-                                                      commits|changed lines
+                                                      commits|changed 
 Thu Jan 25 2018 [=======                                 ] 2 | 137
 Tue Jan 23 2018 [====                                    ] 1 | 69
 Mon Jan 22 2018 [===                                     ] 2 | 60
