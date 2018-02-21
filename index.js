@@ -204,8 +204,17 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         resultStat.daily = _(resultStat.daily).map(day => {
             day.percent = day.changed / maxChanged.changed;
             day.graphPercent = _.ceil((day.percent * 100), 0);
-
             day.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (day.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
+            switch (day.commits.toString().length){
+                case 1:
+                    day.commits+='  ';
+                    break;
+                case 2:
+                    day.commits+=' ';
+                    break;
+                default:
+                 break;
+            }
             return day;
         }).value();
 
@@ -221,7 +230,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
         while(space.length < length){
             space += ' ';
         }
-        space+='commits|changed lines';
+        space+='commits|changes';
         return space;
     }
     let compiled = _.template(text, {
@@ -232,7 +241,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             repositories: repositories,
             config      : config,
             table       : config.table ? table.toString() : '',
-            header      : config.daily ? getSpaces((config.barSize + config.lmargin-7)): '',
+            header      : config.daily ? getSpaces((config.barSize + config.lmargin-4)): '',
             minSize     : (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
@@ -259,7 +268,7 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
             repositories: repositories,
             config      : config,
             table       : table.toString(),
-            header      : config.daily ? getSpaces((config.barSize + config.lmargin-1)): '',
+            header      : config.daily ? getSpaces((config.barSize + config.lmargin-4)): '',
             minSize     : (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';

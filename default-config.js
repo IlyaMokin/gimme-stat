@@ -29,7 +29,7 @@ module.exports = {
 
 
     table: false,
-    daily: false,
+    daily: true,
     // The file extensions will be shown in your statistic,
     // other will be under 'other' category.
     statExtensions: [
