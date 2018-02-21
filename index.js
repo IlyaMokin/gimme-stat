@@ -129,9 +129,9 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
                 deletions  = changed - insertions;
 
             if (fileExt === 'other') {
-                let date = /(\.(\w{2,5}))* +\| +(\d+) ((\+|-)+)/.exec(info[0]);
+                let data = /(\.(\w{2,5}))* +\| +(\d+) ((\+|-)+)/.exec(info[0]);
 
-                resultStat.authors[author].byExt[fileExt].extensions.push(date[2]);
+                resultStat.authors[author].byExt[fileExt].extensions.push(data[2]);
             }
             resultStat.changed += changed;
             resultStat.authors[author].changed += changed;
@@ -199,11 +199,10 @@ require.extensions['.ejs'] = (module, filename) => {module.exports = fs.readFile
 
 
     if(config.daily){
-        let maxChanged = 0;
-        _.forEach(resultStat.daily,a=> a.changed>maxChanged?maxChanged=a.changed:'');
+        let maxChanged = _(resultStat.daily).toArray().maxBy('changed');
 
         resultStat.daily = _(resultStat.daily).map(day => {
-            day.percent = day.changed / maxChanged;
+            day.percent = day.changed / maxChanged.changed;
             day.graphPercent = _.ceil((day.percent * 100), 0);
 
             day.graphLine = Array.from({length: config.barSize}).map((x, index) => (index + 1) <= (day.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');

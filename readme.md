@@ -29,6 +29,8 @@ $ gimme-stat
  - `--barSize=200` - set length of progress bar in chars, default value set at 100 chars
  - `--table` - generate table with shot personal commit statistic 
     - Note: can be used with `--appendtomd` flag, this will add table to you statistic file
+ - `--daily` - generate per day statistic based on number of changed lines.
+    - Note:Progress bar length calculations based on day with greatest number of changed lines. This day result takes as 100%.
  - `--appendtomd=codersStatistics`  - will create `codersStatistics.md` file with statistic in your project  directory
     - Note: you can set default name for report file at `gimme.config.js`  but in this case 
     result file will be create or update every time you use `gimme-stat`.
@@ -72,12 +74,56 @@ Ilya Mokin[=                                               ] 2.70%
 ```
 
 ```sh
-$ gimme-stat --since=3.months --graph=short --barsize=50
+$ gimme-stat --since=3.months --graph=short --barsize=50 --daily
 
 SomeMan1       [================                          ] 35.83%
 SomeMan2       [===============                           ] 34.69%
 SomeMan3       [==========                                ] 23.45%
 Ilya Mokin     [=                                         ] 6.04%
+
+                                                      commits|changed
+Thu Jan 25 2018 [=======                                 ] 2 | 137
+Tue Jan 23 2018 [====                                    ] 1 | 69
+Mon Jan 22 2018 [===                                     ] 2 | 60
+Sat Jan 20 2018 [========                                ] 3 | 159
+Fri Jan 19 2018 [======                                  ] 2 | 119
+Thu Jan 18 2018 [========                                ] 3 | 142
+Wed Jan 17 2018 [========                                ] 2 | 150
+Tue Jan 16 2018 [===                                     ] 1 | 63
+Mon Jan 15 2018 [=                                       ] 1 | 24
+Fri Jan 12 2018 [====                                    ] 3 | 88
+Thu Jan 11 2018 [==                                      ] 1 | 48
+Wed Jan 10 2018 [===                                     ] 2 | 62
+Tue Jan 09 2018 [=========                               ] 4 | 164
+Mon Jan 08 2018 [============================            ] 10 | 531
+Fri Jan 05 2018 [===========================             ] 11 | 504
+Thu Jan 04 2018 [================                        ] 7 | 298
+Wed Jan 03 2018 [==============                          ] 7 | 255
+Fri Dec 29 2017 [==============                          ] 8 | 274
+Thu Dec 28 2017 [===========                             ] 5 | 211
+Tue Dec 26 2017 [==========                              ] 6 | 187
+Mon Dec 25 2017 [==============                          ] 5 | 270
+Fri Dec 22 2017 [==                                      ] 1 | 42
+Tue Dec 19 2017 [====                                    ] 1 | 81
+Fri Dec 15 2017 [===                                     ] 1 | 54
+Thu Dec 14 2017 [==                                      ] 1 | 39
+Tue Dec 12 2017 [===                                     ] 2 | 56
+Mon Dec 11 2017 [====                                    ] 1 | 77
+Fri Dec 08 2017 [=======                                 ] 6 | 138
+Thu Dec 07 2017 [====                                    ] 2 | 85
+Wed Dec 06 2017 [==================                      ] 8 | 342
+Tue Dec 05 2017 [==============                          ] 7 | 252
+Mon Dec 04 2017 [================                        ] 7 | 292
+Fri Dec 01 2017 [================                        ] 11 | 297
+Thu Nov 30 2017 [========================================] 20 | 741
+Wed Nov 29 2017 [==============                          ] 5 | 265
+Tue Nov 28 2017 [============================            ] 8 | 517
+Mon Nov 27 2017 [==================                      ] 6 | 330
+Fri Nov 24 2017 [================                        ] 7 | 290
+Thu Nov 23 2017 [==========                              ] 6 | 196
+Wed Nov 22 2017 [====================                    ] 6 | 373
+Tue Nov 21 2017 [=========                               ] 7 | 164
+
 ```
 ```sh
 $ gimme-stat --since=3.months --table
@@ -197,6 +243,51 @@ Ilya Mokin[=                                                 ] 2.44%
 ├── cs    [==============================================    ] 92.11% 
 ├── other [===                                               ] 6.14% 
 └── js    [=                                                 ] 1.75% 
+```
+##Daily:
+```
+                                                      commits|changed lines
+Thu Jan 25 2018 [=======                                 ] 2 | 137
+Tue Jan 23 2018 [====                                    ] 1 | 69
+Mon Jan 22 2018 [===                                     ] 2 | 60
+Sat Jan 20 2018 [========                                ] 3 | 159
+Fri Jan 19 2018 [======                                  ] 2 | 119
+Thu Jan 18 2018 [========                                ] 3 | 142
+Wed Jan 17 2018 [========                                ] 2 | 150
+Tue Jan 16 2018 [===                                     ] 1 | 63
+Mon Jan 15 2018 [=                                       ] 1 | 24
+Fri Jan 12 2018 [====                                    ] 3 | 88
+Thu Jan 11 2018 [==                                      ] 1 | 48
+Wed Jan 10 2018 [===                                     ] 2 | 62
+Tue Jan 09 2018 [=========                               ] 4 | 164
+Mon Jan 08 2018 [============================            ] 10 | 531
+Fri Jan 05 2018 [===========================             ] 11 | 504
+Thu Jan 04 2018 [================                        ] 7 | 298
+Wed Jan 03 2018 [==============                          ] 7 | 255
+Fri Dec 29 2017 [==============                          ] 8 | 274
+Thu Dec 28 2017 [===========                             ] 5 | 211
+Tue Dec 26 2017 [==========                              ] 6 | 187
+Mon Dec 25 2017 [==============                          ] 5 | 270
+Fri Dec 22 2017 [==                                      ] 1 | 42
+Tue Dec 19 2017 [====                                    ] 1 | 81
+Fri Dec 15 2017 [===                                     ] 1 | 54
+Thu Dec 14 2017 [==                                      ] 1 | 39
+Tue Dec 12 2017 [===                                     ] 2 | 56
+Mon Dec 11 2017 [====                                    ] 1 | 77
+Fri Dec 08 2017 [=======                                 ] 6 | 138
+Thu Dec 07 2017 [====                                    ] 2 | 85
+Wed Dec 06 2017 [==================                      ] 8 | 342
+Tue Dec 05 2017 [==============                          ] 7 | 252
+Mon Dec 04 2017 [================                        ] 7 | 292
+Fri Dec 01 2017 [================                        ] 11 | 297
+Thu Nov 30 2017 [========================================] 20 | 741
+Wed Nov 29 2017 [==============                          ] 5 | 265
+Tue Nov 28 2017 [============================            ] 8 | 517
+Mon Nov 27 2017 [==================                      ] 6 | 330
+Fri Nov 24 2017 [================                        ] 7 | 290
+Thu Nov 23 2017 [==========                              ] 6 | 196
+Wed Nov 22 2017 [====================                    ] 6 | 373
+Tue Nov 21 2017 [=========                               ] 7 | 164
 ```
 
 ```
