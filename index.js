@@ -81,13 +81,16 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             continue;
         }
 
-        var author = (/Author: (.+)( $| <)/mi).exec(commit)[1];
+        let author = (/Author: (.+)( $| <)/mi).exec(commit)[1];
         author = config.userAliases[author] || author;
 
+        // noinspection JSAnnotator
 
-        if (config.ignoreUsers.some(user => user === author)) {
-            continue;
-        }
+
+        if (config.users[0] === "" || config.users.includes(author)) {
+            if (config.ignoreUsers.some(user => user === author)) {
+                continue;
+            }
 
         if (!resultStat.authors[author]) {
             resultStat.authors[author] = {
@@ -147,8 +150,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         if (config.daily) {
 
 
-
-            var day = (/Date:(.+)/mi).exec(commit)[1];
+            let day = (/Date:(.+)/mi).exec(commit)[1];
             day = (new Date(Date.parse(day))).toDateString();
 
             if (!resultStat.daily[day]) {
@@ -177,6 +179,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 resultStat.daily[day].deletions += deletions;
             }
         }
+    }
     }
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
@@ -243,7 +246,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         }
         allDaysInPeriode.forEach((emptyDay, index) => {
             resultStat.daily.forEach(day =>{
-                if(day.date == emptyDay.date ){
+                if(day.date === emptyDay.date ){
                     allDaysInPeriode[index] = day;
                 }
             })

@@ -74,6 +74,11 @@ let config = convict({
         default: "",
         arg    : 'useraliases'
     },
+    users   : {
+        format : "Array",
+        default: "",
+        arg    : 'users'
+    },
     ignoreUsers   : {
         format : Array,
         default: []
