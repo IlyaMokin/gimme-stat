@@ -49,6 +49,11 @@ let config = convict({
         default: false,
         arg    : 'init',
     },
+    prepull       :{
+        format : 'Boolean',
+        default: false,
+        arg    : 'prepull',
+    },
     lmargin       : {
         format : 'nat',
         default: 12,

@@ -21,7 +21,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
     const writeFile = util.promisify(fs.writeFile);
     const Table = require('cli-table');
     const moment = require('moment');require('twix');
-    let allDaysInPeriode=[];
+    let allDaysInPeriod=[];
 
     let table = new Table({
         head: ["Author", "Commits ", "Insertions", "Deletions", "% of changes"],
@@ -64,6 +64,9 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
 
     let resultText = '';
     for (let rep of repositories) {
+        if(config.prepull){
+           await git(['pull', 'origin'], {cwd: rep}).pass();
+        }
         resultText += await getStat(rep, config.since, config.until);
     }
 
@@ -242,24 +245,24 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 progressBar+=' ';
             }
             let obj = {date:itr.next().toDate().toDateString(),commits:"0  ",changed:0,insertions:0,deletions:0,graphLine:progressBar,graphPercent:0,percent:0};
-            allDaysInPeriode.push(obj)
+            allDaysInPeriod.push(obj)
         }
-        allDaysInPeriode.forEach((emptyDay, index) => {
+        allDaysInPeriod.forEach((emptyDay, index) => {
             resultStat.daily.forEach(day =>{
                 if(day.date === emptyDay.date ){
-                    allDaysInPeriode[index] = day;
+                    allDaysInPeriod[index] = day;
                 }
             })
         });
-        if(allDaysInPeriode.length>90 && !config.ignorLimit){
+        if(allDaysInPeriod.length>90 && !config.ignorLimit){
             let buff = [];
             for(let i=0;i<90;i++){
-                buff.unshift(allDaysInPeriode[allDaysInPeriode.length - 1 - i])
+                buff.unshift(allDaysInPeriod[allDaysInPeriod.length - 1 - i])
             }
             resultStat.daily = buff;
         }
         else{
-        resultStat.daily = allDaysInPeriode;
+        resultStat.daily = allDaysInPeriod;
         }
     }
 

@@ -25,6 +25,9 @@ $ gimme-stat
    - single rep example: `--cwd="/home/project"`
    - You can use a few rep split by comma:
      - `--cwd="/home/project1,/home/project2,/home/project3"`
+ - `--prepull` - pull commits for all repositories before analyse.
+    - Note: doesn't resolve merge conflicts.
+ - `--users="Me,ThatGuy"` - take array of names, and return statistic  only for them . 
  - `--lmargin=19` - the space between progress line and a left edge of the window
  - `--barSize=200` - set length of progress bar in chars, default value set at 100 chars
  - `--table` - generate table with shot personal commit statistic 
