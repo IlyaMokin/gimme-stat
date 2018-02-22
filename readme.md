@@ -31,6 +31,8 @@ $ gimme-stat
     - Note: can be used with `--appendtomd` flag, this will add table to you statistic file
  - `--daily` - generate per day statistic based on number of changed lines.
     - Note:Progress bar length calculations based on day with greatest number of changed lines. This day result takes as 100%.
+    - By default this flag return information about last 90 days at maximum, if you like to get information about all days in chosen period
+        add additional flag `--ignorlimit`
  - `--appendtomd=codersStatistics`  - will create `codersStatistics.md` file with statistic in your project  directory
     - Note: you can set default name for report file at `gimme.config.js`  but in this case 
     result file will be create or update every time you use `gimme-stat`.

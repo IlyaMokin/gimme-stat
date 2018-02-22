@@ -23,6 +23,11 @@ let config = convict({
         default: false,
         arg:'daily'
     },
+    ignorLimit:{
+        format: Boolean,
+        default: false,
+        arg:'ignorlimit'
+    },
     since         : {
         format : 'String',
         default: '3.years',
