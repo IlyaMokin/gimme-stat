@@ -248,7 +248,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 }
             })
         });
-        if(allDaysInPeriode.length>90 || config.ignorLimit){
+        if(allDaysInPeriode.length>90 && !config.ignorLimit){
             let buff = [];
             for(let i=0;i<90;i++){
                 buff.unshift(allDaysInPeriode[allDaysInPeriode.length - 1 - i])
