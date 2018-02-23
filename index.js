@@ -254,16 +254,16 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 }
             })
         });
-        if(allDaysInPeriod.length>90 && !config.ignorLimit){
-            let buff = [];
-            for(let i=0;i<90;i++){
-                buff.unshift(allDaysInPeriod[allDaysInPeriod.length - 1 - i])
-            }
-            resultStat.daily = buff;
-        }
-        else{
+        // if(allDaysInPeriod.length>90 && !config.ignorLimit){
+        //     let buff = [];
+        //     for(let i=0;i<90;i++){
+        //         buff.unshift(allDaysInPeriod[allDaysInPeriod.length - 1 - i])
+        //     }
+        //     resultStat.daily = buff;
+        // }
+        // else{
         resultStat.daily = allDaysInPeriod;
-        }
+        // }
     }
 
     let text = require('./template.cmd.ejs');
