@@ -14,6 +14,20 @@
     "type": "git",
     "url": "git+https://github.com/IlyaMokin/gimme-stat.git"
   },
+  "keywords": [
+    "git",
+    "statistics",
+    "stats",
+    "analytics",
+    "grading",
+    "chart",
+    "commits",
+    "table",
+    "period",
+    "simple",
+    "multi",
+    "multiple"
+  ],
   "homepage": "https://github.com/IlyaMokin/gimme-stat",
   "bin": {
     "gimme-stat": "index.js"
