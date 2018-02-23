@@ -10,6 +10,7 @@ module.exports = {
     lmargin       : 19,
     barSize       : 60,
     cwd           : [ "." ],
+    users         :'',
 
     //Masks of files which will ignored in your statistic
     statIgnore    : [
@@ -29,7 +30,8 @@ module.exports = {
 
 
     table: false,
-    daily: true,
+    daily: false,
+    prepull: false,
     // The file extensions will be shown in your statistic,
     // other will be under 'other' category.
     statExtensions: [
