@@ -187,7 +187,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * 100, 0);
-        author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (author.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
+        author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (author.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
         if (config.table) {
             table.push(
                 [author.name, author.commits, author.insertions, author.deletions, _.ceil(author.percent * 100, 2).toFixed(2)]
@@ -197,7 +197,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         author.byExt = _(author.byExt).map(ext => {
             ext.percent = ext.changed / author.changed;
             ext.graphPercent = _.ceil(ext.percent * 100, 0);
-            ext.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (ext.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
+            ext.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (ext.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
             ext.extensions = _.uniq(ext.extensions).filter(x => x);
 
             return ext;
@@ -213,7 +213,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         resultStat.daily = _(resultStat.daily).map(day => {
             day.percent = day.changed / maxChanged.changed;
             day.graphPercent = _.ceil((day.percent * 100), 0);
-            day.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (day.graphPercent / 100 * config.barSize) ? '=' : ' ').join('');
+            day.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (day.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
             switch (day.commits.toString().length) {
                 case 1:
                     day.commits += '  ';
@@ -242,7 +242,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         while(itr.hasNext()){
             let progressBar ='';
             while (progressBar.length<config.barSize){
-                progressBar+=' ';
+                progressBar+='░';
             }
             let obj = {date:itr.next().toDate().toDateString(),commits:"0  ",changed:0,insertions:0,deletions:0,graphLine:progressBar,graphPercent:0,percent:0};
             allDaysInPeriod.push(obj)
@@ -283,7 +283,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             repositories: repositories,
             config: config,
             table: config.table ? table.toString() : '',
-            header: config.daily ? getSpaces((config.barSize + config.lmargin - 4)) : '',
+            header: config.daily ? getSpaces((config.barSize + config.lmargin - 6)) : '',
             minSize: (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
@@ -310,7 +310,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             repositories: repositories,
             config: config,
             table: table.toString(),
-            header: config.daily ? getSpaces((config.barSize + config.lmargin - 4)) : '',
+            header: config.daily ? getSpaces((config.barSize + config.lmargin - 6)) : '',
             minSize: (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';

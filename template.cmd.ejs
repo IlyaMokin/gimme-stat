@@ -12,7 +12,7 @@ Repositories:
 $br
 $br
 <% _(authors).forEach(author => { %>
-<%= minSize(author.name) %> [<%= author.graphLine %>] <%= (author.percent * 100).toFixed(2) %>%
+<%= minSize(author.name) %> <%= author.graphLine %> <%= (author.percent * 100).toFixed(2) %>%
 <% }) %>
 <% } %>
 <% if (config.graph == 'detailed' || config.graph =='all') { %>
@@ -21,9 +21,9 @@ $br
 Detailed:
 $br
 <% _(authors).forEach(author => { %>
-<%= minSize(author.name) %> [<%= author.graphLine %>] <%= (author.percent * 100).toFixed(2) %>%
+<%= minSize(author.name) %> <%= author.graphLine %> <%= (author.percent * 100).toFixed(2) %>%
 <% author.byExt.forEach((ext, index) => { %>
-<%=  minSize(`${index < author.byExt.length -1 ? '├── ' : '└── '}${ext.name}`) %> [<%= ext.graphLine %>] <%= (ext.percent * 100).toFixed(2) %>% <%= ext.extensions.join(', ')%>
+<%=  minSize(`${index < author.byExt.length -1 ? '├── ' : '└── '}${ext.name}`) %> <%= ext.graphLine %> <%= (ext.percent * 100).toFixed(2) %>% <%= ext.extensions.join(', ')%>
 <% }) %>
 <% }) %>
 
@@ -39,7 +39,7 @@ $br
 $br
 Daily<%=header%>
 <% _(daily).forEach(day => { %>
-<%= minSize(day.date) %> [<%= day.graphLine %>] <%= day.commits %> | <%= day.changed%>
+<%= minSize(day.date) %> <%= day.graphLine %> <%= day.commits %> | <%= day.changed%>
 <% }) %>
 $br
 <% } %>
