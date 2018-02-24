@@ -30,7 +30,7 @@ let config = convict({
     },
     since         : {
         format : 'String',
-        default: '3.years',
+        default: '1.months',
         arg    : 'since',
     },
     graph         :{
