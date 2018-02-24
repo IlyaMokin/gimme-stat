@@ -74,11 +74,9 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
-cli-table@^0.3.1:
+"cli-table@github:ladamashina/cli-table#0.3.1a":
   version "0.3.1"
-  resolved "https://registry.yarnpkg.com/cli-table/-/cli-table-0.3.1.tgz#f53b05266a8b1a0b934b3d0821e6e2dc5914ae23"
-  dependencies:
-    colors "1.0.3"
+  resolved "https://codeload.github.com/ladamashina/cli-table/tar.gz/058a0d2d7ea4e46e8e42718f4eb2907f1f4607dc"
 
 cliui@^2.1.0:
   version "2.1.0"
@@ -87,10 +85,6 @@ cliui@^2.1.0:
     center-align "^0.1.1"
     right-align "^0.1.1"
     wordwrap "0.0.2"
-
-colors@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
 
 concat-map@0.0.1:
   version "0.0.1"
@@ -322,6 +316,10 @@ moment@2.19.3:
   version "2.19.3"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
 
+moment@^2.20.1:
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+
 nopt@3.x:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"
@@ -438,6 +436,10 @@ supports-color@^3.1.0:
 through@~2.3.4:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
+
+twix@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/twix/-/twix-1.2.1.tgz#daadc747ea14b35b16a77eeca46ba8d2815236f8"
 
 type-check@~0.3.1:
   version "0.3.2"
