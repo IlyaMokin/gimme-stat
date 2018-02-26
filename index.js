@@ -187,7 +187,27 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * 100, 0);
-        author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (author.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
+        // здесь условие отображения
+        //author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (author.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
+        let coefficient = author.deletions >0 ? author.insertions / author.deletions:'plus';
+        let filledBarLenght = author.graphPercent / 100 * config.barSize;
+        author.graphLine = Array.from({ length: config.barSize }).map((x, index) => {if((index + 1) <= (filledBarLenght)){
+            if(filledBarLenght==1){
+                (coefficient>=1||coefficient=='plus')?'+':'-'
+            }
+            else if(filledBarLenght==2&&index==1){
+                (coefficient!='plus')?'+-':'++'
+            }
+            else if(filledBarLenght>=3){
+                //логика плюсиков и минусиков
+            }
+            else{
+                return '';
+            }
+        }
+        else{
+           return '░';
+        } }).join('');
         if (config.table) {
             table.push(
                 [author.name, author.commits, author.insertions, author.deletions, _.ceil(author.percent * 100, 2).toFixed(2)]
@@ -197,7 +217,8 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         author.byExt = _(author.byExt).map(ext => {
             ext.percent = ext.changed / author.changed;
             ext.graphPercent = _.ceil(ext.percent * 100, 0);
-            ext.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (ext.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
+            ext.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
+                (index + 1) <= (ext.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
             ext.extensions = _.uniq(ext.extensions).filter(x => x);
 
             return ext;
@@ -327,7 +348,4 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         console.log(`\r\n\r\n >>>>>>>>>>> Saved to ${mdFilePath} <<<<<<<<<<<<<<`)
     }
 
-
 })().catch(err => console.error(err.stack))
-
-
