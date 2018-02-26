@@ -11,7 +11,7 @@ module.exports = {
     barSize       : 60,
     cwd           : [ "." ],
     users         :'',
-
+    barType       :'default',
     //Masks of files which will ignored in your statistic
     statIgnore    : [
         /node_modules/mi,

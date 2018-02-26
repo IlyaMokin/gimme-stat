@@ -187,27 +187,41 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * 100, 0);
-        // здесь условие отображения
-        //author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (author.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
-        let coefficient = author.deletions >0 ? author.insertions / author.deletions:'plus';
-        let filledBarLenght = author.graphPercent / 100 * config.barSize;
+        let filledBarLenght = Math.round(author.graphPercent / 100 * config.barSize);
+        let insertionsPrecent = author.insertions / (author.insertions + author.deletions);
+        let deletionsPrecent = author.deletions / (author.insertions + author.deletions);
+        if(config.barType == 'default'){
+        author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (filledBarLenght) ? '█' : '░').join('');
+        }
+        if(config.barType == 'detailed'){
         author.graphLine = Array.from({ length: config.barSize }).map((x, index) => {if((index + 1) <= (filledBarLenght)){
             if(filledBarLenght==1){
-                (coefficient>=1||coefficient=='plus')?'+':'-'
+                (insertionsPrecent>deletionsPrecent)?'+':'-'
             }
-            else if(filledBarLenght==2&&index==1){
-                (coefficient!='plus')?'+-':'++'
+            else if(filledBarLenght==2&&index==0){
+                if(insertionsPrecent>0&&deletionsPrecent>0){
+                    return '-+';
+                }
+                else if(insertionsPrecent>0){
+                    return '++';
+                }
+                else if(deletionsPrecent>0){
+                    return '--';
+                }
             }
-            else if(filledBarLenght>=3){
-                //логика плюсиков и минусиков
-            }
-            else{
-                return '';
+            else if(filledBarLenght>2) {
+                if(index+1<filledBarLenght-(filledBarLenght*deletionsPrecent)){
+                    return '-';
+                }
+                else{
+                    return '+';
+                }
             }
         }
         else{
            return '░';
         } }).join('');
+    }
         if (config.table) {
             table.push(
                 [author.name, author.commits, author.insertions, author.deletions, _.ceil(author.percent * 100, 2).toFixed(2)]
@@ -237,10 +251,10 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             day.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (day.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
             switch (day.commits.toString().length) {
                 case 1:
-                    day.commits += '  ';
+                    day.commits += '  '; //alignment to 3 digits limit
                     break;
                 case 2:
-                    day.commits += ' ';
+                    day.commits += ' '; //alignment to 3 digits limit
                     break;
                 default:
                     break;
