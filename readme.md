@@ -4,11 +4,12 @@ The toll for **GIT** repositories to generate a simple progress statistic by cha
 
 ```sh
 $ npm -g install gimme-stat
-$ cd /home/your_git_project_name        
+$ cd /home/your_git_project_name
 $ gimme-stat
 ```
 
 # Available arguments
+
  - `--init`  - create default configuration file `gimme.config.js`. The config can be alternative for console arguments.
  - `--since=[date]` `--until=[date]` you can use any `git log` valid formats for the options, as a rule in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
    - examplse of use:

@@ -9,26 +9,39 @@ Repositories:
 <% } %>
 
 <% if (config.graph == 'short'||config.graph == 'all') { %>
-$br
+Short:
 $br
 <% _(authors).forEach(author => { %>
-<%= minSize(author.name) %> <%= author.graphLine %> <%= (author.percent * 100).toFixed(2) %>%
+<% if(config.barType !='default') { %>
+<%= minSize(author.name) %> [<%= author.graphLine %>] <%= (author.percent * 100).toFixed(2) %>%
+<% } %>
 <% }) %>
+<% if(config.barType =='default'){ %>
+<%= minSize(author.name) %> <%= author.graphLine %> <%= (author.percent * 100).toFixed(2) %>%
+<% } %>
 <% } %>
 <% if (config.graph == 'detailed' || config.graph =='all') { %>
 $br
 $br
 Detailed:
 $br
+<% if(config.barType !='default') { %>
 <% _(authors).forEach(author => { %>
-<%= minSize(author.name) %> <%= author.graphLine %> <%= (author.percent * 100).toFixed(2) %>%
+<%= minSize(author.name) %> [<%= author.graphLine %>] <%= (author.percent * 100).toFixed(2) %>%
 <% author.byExt.forEach((ext, index) => { %>
-<%=  minSize(`${index < author.byExt.length -1 ? '├── ' : '└── '}${ext.name}`) %> <%= ext.graphLine %> <%= (ext.percent * 100).toFixed(2) %>% <%= ext.extensions.join(', ')%>
+<%= minSize(`${index < author.byExt.length -1 ? '├── ' : '└── '}${ext.name}`) %> [<%= ext.graphLine %>] <%= (ext.percent * 100).toFixed(2) %>% <%= ext.extensions.join(', ')%>
 <% }) %>
 <% }) %>
-
 <% } %>
-
+<% if(config.barType =='default'){ %>
+<% _(authors).forEach(author => { %>
+<%= minSize(author.name) %> <%= author.graphLine %> <%= (author.percent * 100).toFixed(2) %>
+<% author.byExt.forEach((ext, index) => { %>
+<%= minSize(`${index < author.byExt.length -1 ? '├── ' : '└── '}${ext.name}`) %> <%= ext.graphLine %> <%= (ext.percent * 100).toFixed(2) %> <%= ext.extensions.join(', ')%>
+<% }) %>
+<% }) %>
+<% } %>
+<% } %>
 <% if(table) { %>
 $br
 $br
