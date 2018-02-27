@@ -143,7 +143,7 @@ module.exports = {
         "C:/repository/MyProject2"
     ],
     users         :'',
-
+    barType       :'default',
     //Masks of files which will ignored in your statistic
     statIgnore    : [
         /node_modules/mi,
