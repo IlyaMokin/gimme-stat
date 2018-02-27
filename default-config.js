@@ -4,7 +4,7 @@ module.exports = {
         'imokin>Ilya Mokin'
     ],
     appendToMd    : false,
-    since         : "1.months",
+    since         : "3.months",
     until         : "",
     graph         : "short",
     lmargin       : 19,
