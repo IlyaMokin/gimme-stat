@@ -72,6 +72,11 @@ Ilya Mokin          █░░░░░░░░░░░░░░░░░░░
 
 ```sh
 $ gimme-stat  --graph=short --bartype=detailed --barsize=40 
+
+    Legend:
+    + - insertions
+    - - deletions
+
 SomeMan1       [-----------------+++++++++++            ] 71.26%
 SomeMan2       [-------++++                             ] 28.74%
 ```
