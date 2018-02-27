@@ -4,14 +4,14 @@ module.exports = {
         'imokin>Ilya Mokin'
     ],
     appendToMd    : false,
-    since         : "1.months",
+    since         : "3.months",
     until         : "",
     graph         : "short",
     lmargin       : 19,
     barSize       : 60,
     cwd           : [ "." ],
     users         :'',
-
+    barType       :'default',
     //Masks of files which will ignored in your statistic
     statIgnore    : [
         /node_modules/mi,
@@ -27,7 +27,6 @@ module.exports = {
         /\.sourcemaps/,
         /.+\.map/
     ],
-
 
     table: false,
     daily: false,

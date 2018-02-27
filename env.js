@@ -2,98 +2,103 @@ let convict = require('convict');
 let configFile = require('./default-config');
 
 convict.addFormat({
-    name    : 'Dictionary',
+    name: 'Dictionary',
     validate: function (val) {
         return true;
     },
-    coerce  : function (val) {
+    coerce: function (val) {
         return val
     }
 });
 
 let config = convict({
-
     barSize: {
-        format : 'int',
+        format: 'int',
         default: 100,
-        arg:'barsize'
+        arg: 'barsize'
     },
     daily: {
         format: Boolean,
         default: false,
-        arg:'daily'
+        arg: 'daily'
     },
-    ignorLimit:{
+    ignorLimit: {
         format: Boolean,
         default: false,
-        arg:'ignorlimit'
+        arg: 'ignorlimit'
     },
-    since         : {
-        format : 'String',
+    since: {
+        format: 'String',
         default: '1.months',
-        arg    : 'since',
+        arg: 'since',
     },
-    graph         :{
-        format: ["all", "short", "detailed"],
+    graph: {
+        format: ["all", "short", "detailed", "none"],
         default: 'short',
-        arg    : 'graph',
+        arg: 'graph',
         env: "GRAPH_FLAG_MISMATCH"
     },
-    table         :{
-        format : 'Boolean',
-        default: false,
-        arg    : 'table',
+    barType: {
+        format: ['default','detailed'],
+        default :'default',
+        arg: 'bartype',
+        env: "GRAPH_FLAG_MISMATCH"
     },
-    init          :{
-        format : 'Boolean',
+    table: {
+        format: 'Boolean',
         default: false,
-        arg    : 'init',
+        arg: 'table',
     },
-    prepull       :{
-        format : 'Boolean',
+    init: {
+        format: 'Boolean',
         default: false,
-        arg    : 'prepull',
+        arg: 'init',
     },
-    lmargin       : {
-        format : 'nat',
+    prepull: {
+        format: 'Boolean',
+        default: false,
+        arg: 'prepull',
+    },
+    lmargin: {
+        format: 'nat',
         default: 12,
-        arg    : 'lmargin',
+        arg: 'lmargin',
     },
-    cwd           : {
-        format : 'Array',
+    cwd: {
+        format: 'Array',
         default: '',
-        arg    : 'cwd',
+        arg: 'cwd',
     },
-    appendToMd : {
+    appendToMd: {
         format: '*',
         default: false,
-        arg    : 'appendtomd'
+        arg: 'appendtomd'
     },
-    until         : {
-        format : 'String',
+    until: {
+        format: 'String',
         default: "",
-        arg    : 'until',
+        arg: 'until',
     },
-    userAliases   : {
-        format : "Array",
+    userAliases: {
+        format: "Array",
         default: "",
-        arg    : 'useraliases'
+        arg: 'useraliases'
     },
-    users   : {
-        format : "Array",
+    users: {
+        format: "Array",
         default: "",
-        arg    : 'users'
+        arg: 'users'
     },
-    ignoreUsers   : {
-        format : Array,
+    ignoreUsers: {
+        format: Array,
         default: []
     },
-    statIgnore    : {
-        format : Array,
+    statIgnore: {
+        format: Array,
         default: []
     },
     statExtensions: {
-        format : Array,
+        format: Array,
         default: []
     },
 
@@ -108,7 +113,7 @@ if (fs.existsSync(configPath)) {
     config.load(require(configPath));
 }
 
-config.validate({allowed: 'strict'});
+config.validate({ allowed: 'strict' });
 
 let result = config.getProperties();
 

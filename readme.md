@@ -4,11 +4,12 @@ The toll for **GIT** repositories to generate a simple progress statistic by cha
 
 ```sh
 $ npm -g install gimme-stat
-$ cd /home/your_git_project_name        
+$ cd /home/your_git_project_name
 $ gimme-stat
 ```
 
 # Available arguments
+
  - `--init`  - create default configuration file `gimme.config.js`. The config can be alternative for console arguments.
  - `--since=[date]` `--until=[date]` you can use any `git log` valid formats for the options, as a rule in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
    - examplse of use:
@@ -19,8 +20,8 @@ $ gimme-stat
      - --since="2014-02-12T16:36:00-07:00"
      - --since="1 month ago"
      - --since="2 weeks 3 days 2 hours 30 minutes 59 seconds ago"
- - `--graph[ all | short | detailed ]` - take one of specified flags, to set detail level of statistic information it showed at Examples,
- using `all` return both `short` and `detailed`.
+ - `--graph[ all | short | detailed | none ]` - take one of specified flags, to set detail level of statistic information it showed at Examples,
+ using `all` return both `short` and `detailed`. `none` will hide per user statistics, use it if only `table` or `daily` needed.
  - `--cwd` you can use the argument to specify repository path in your local system if you run the commnad not from the repository or you want to specify a few repositories.
    - single rep example: `--cwd="/home/project"`
    - You can use a few rep split by comma:
@@ -33,6 +34,7 @@ $ gimme-stat
  - `--table` - generate table with shot personal commit statistic
  - `--daily` - generate per day statistic based on number of changed lines.
  - `--appendtomd=report.md`  - will create `report.md` file with statistic in your project  directory
+ - `--bartype = [default | detailed]` - change progress bar representation, `detailed`  show insertions/deletions, `default` dosen't. 
 
 # Examples
 ```sh
@@ -61,11 +63,22 @@ SomeMan3            █████████░░░░░░░░░░░
 ├── json            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.73%
 ├── scss            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.45%
 └── html            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.11%
-Alexander Mokin     █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%
+Ilya Mokin          █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%
 ├── cs              █████████████████████████████████████░░░ 92.11%
 ├── other           ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 6.14%
 └── js              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.75%
 
+```
+
+```sh
+$ gimme-stat  --graph=short --bartype=detailed --barsize=40 
+
+    Legend:
+    + - insertions
+    - - deletions
+
+SomeMan1       [-----------------+++++++++++            ] 71.26%
+SomeMan2       [-------++++                             ] 28.74%
 ```
 
 ```sh
@@ -87,7 +100,7 @@ Wed Nov 29 2017 █████████████████████�
 ```
 
 ```sh
-$ gimme-stat --since=1.weeks --daily --users="Dat Ding"
+$ gimme-stat --since=1.weeks --daily --users="Dat Ding" --graph=none
                                                       commits|changes
 Thu Nov 23 2017 ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 4   | 119
 Fri Nov 24 2017 ████████████████░░░░░░░░░░░░░░░░░░░░░░░░ 7   | 290
@@ -99,7 +112,7 @@ Wed Nov 29 2017 █████████████████████�
 ```
 
 ```sh
-$ gimme-stat --since=3.months --table
+$ gimme-stat --since=3.months --graph=none --table 
 ┌──────────────┬─────────┬────────────┬───────────┬──────────────┐
 │ Author       │ Commits │ Insertions │ Deletions │ % of changes │
 ├──────────────┼─────────┼────────────┼───────────┼──────────────┤
@@ -135,7 +148,7 @@ module.exports = {
         "C:/repository/MyProject2"
     ],
     users         :'',
-
+    barType       :'default',
     //Masks of files which will ignored in your statistic
     statIgnore    : [
         /node_modules/mi,
