@@ -33,8 +33,8 @@ let config = convict({
         arg: 'since',
     },
     graph: {
-        format: ["all", "short", "detailed","none"],
-        default: 'none',
+        format: ["all", "short", "detailed", "none"],
+        default: 'short',
         arg: 'graph',
         env: "GRAPH_FLAG_MISMATCH"
     },

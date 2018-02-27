@@ -377,7 +377,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             repositories: repositories,
             config: config,
             table: config.table ? table.toString() : '',
-            header: config.daily ? getSpaces((config.barSize + config.lmargin - 6)) : '',
+            header: config.daily ? getSpaces((config.barSize + config.lmargin - (config.barType=='default'? 6:3))) : '',
             minSize: (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
@@ -404,7 +404,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             repositories: repositories,
             config: config,
             table: table.toString(),
-            header: config.daily ? getSpaces((config.barSize + config.lmargin - 6)) : '',
+            header: config.daily ? getSpaces((config.barSize + config.lmargin - (config.barType=='default'? 6:3))) : '',
             minSize: (text) => {
                 while (text.length < config.lmargin) {
                     text += ' ';
