@@ -28,7 +28,6 @@ module.exports = {
         /.+\.map/
     ],
 
-
     table: false,
     daily: false,
     prepull: false,
