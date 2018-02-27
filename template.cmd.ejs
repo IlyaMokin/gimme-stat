@@ -7,7 +7,12 @@ Repositories:
 <% }) %>
 $br
 <% } %>
-
+<% if(config.barType !='default') { %>
+ Legend:
+ + - insertions
+ - - deletions
+ $br
+<% } %>
 <% if (config.graph == 'short'||config.graph == 'all' && config.graph !='none') { %>
 Short:
 $br

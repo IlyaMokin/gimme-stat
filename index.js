@@ -393,7 +393,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
 
     console.log(consoleText);
 
-    let mdFilePath = _.isString(config.appendToMd) ? config.appendToMd : 'Readme.md';
+    let mdFilePath = _.isString(typeof config.appendToMd !== Boolean) ? config.appendToMd : 'Result.md';
 
     let mdTemplate = require('./template.md.ejs');
     let compiledmb = _.template(mdTemplate, {
