@@ -12,7 +12,6 @@ convict.addFormat({
 });
 
 let config = convict({
-
     barSize: {
         format: 'int',
         default: 100,
@@ -34,8 +33,8 @@ let config = convict({
         arg: 'since',
     },
     graph: {
-        format: ["all", "short", "detailed"],
-        default: 'short',
+        format: ["all", "short", "detailed","none"],
+        default: 'none',
         arg: 'graph',
         env: "GRAPH_FLAG_MISMATCH"
     },

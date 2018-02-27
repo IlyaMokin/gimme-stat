@@ -87,9 +87,6 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         let author = (/Author: (.+)( $| <)/mi).exec(commit)[1];
         author = config.userAliases[author] || author;
 
-        // noinspection JSAnnotator
-
-
         if (config.users[0] === "" || config.users.includes(author)) {
             if (config.ignoreUsers.some(user => user === author)) {
                 continue;
@@ -119,8 +116,6 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                         extensions: []
                     };
                 }
-
-
             }
 
             resultStat.authors[author].commits += 1;
@@ -187,7 +182,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * 100, 0);
-        let filledBarLenght = Math.round(author.graphPercent / 100 * config.barSize);
+        let filledBarLenght = Math.floor(author.graphPercent / 100 * config.barSize);
         let insertionsPrecent = author.insertions / (author.insertions + author.deletions);
         let deletionsPrecent = author.deletions / (author.insertions + author.deletions);
         if (config.barType == 'default') {
@@ -197,17 +192,11 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             author.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
                 if ((index + 1) <= filledBarLenght) {
                     if (filledBarLenght == 1) {
-                        (insertionsPrecent > deletionsPrecent) ? '+' : '-'
-                    }
-                    else if (filledBarLenght == 2 && index == 0) {
-                        if (insertionsPrecent > 0 && deletionsPrecent > 0) {
-                            return '-+';
+                        if (insertionsPrecent > deletionsPrecent) {
+                            return '+';
                         }
-                        else if (insertionsPrecent > 0) {
-                            return '++';
-                        }
-                        else if (deletionsPrecent > 0) {
-                            return '--';
+                        else {
+                            return '-';
                         }
                     }
                     else if (filledBarLenght > 2) {
@@ -229,11 +218,10 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 [author.name, author.commits, author.insertions, author.deletions, _.ceil(author.percent * 100, 2).toFixed(2)]
             );
         }
-
         author.byExt = _(author.byExt).map(ext => {
             ext.percent = ext.changed / author.changed;
             ext.graphPercent = _.ceil(ext.percent * 100, 0);
-            let filledBarLenghtExt = Math.round(ext.graphPercent / 100 * config.barSize);
+            let filledBarLenghtExt = Math.floor(ext.graphPercent / 100 * config.barSize);
             if (config.barType == 'default') {
                 ext.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
                     (index + 1) <= (filledBarLenghtExt) ? '█' : '░').join('');
@@ -241,21 +229,15 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             if (config.barType == 'detailed') {
                 ext.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
                     if ((index + 1) <= filledBarLenghtExt) {
-                        if (filledBarLenghtExt == 1) {
-                            (insertionsPrecent > deletionsPrecent) ? '+' : '-'
-                        }
-                        else if (filledBarLenghtExt == 2 && index == 0) {
-                            if (insertionsPrecent > 0 && deletionsPrecent > 0) {
-                                return '-+';
+                        if (filledBarLenghtExt >= 1 && filledBarLenghtExt < 2) {
+                            if (insertionsPrecent > deletionsPrecent) {
+                                return '+';
                             }
-                            else if (insertionsPrecent > 0) {
-                                return '++';
-                            }
-                            else if (deletionsPrecent > 0) {
-                                return '--';
+                            else {
+                                return '-';
                             }
                         }
-                        else if (filledBarLenghtExt > 2) {
+                        else {
                             if (index + 1 < filledBarLenghtExt - (filledBarLenghtExt * deletionsPrecent)) {
                                 return '-';
                             }
@@ -277,14 +259,48 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         return author;
     }).orderBy('changed', 'desc').value();
 
-
     if (config.daily) {
         let maxChanged = _(resultStat.daily).toArray().maxBy('changed');
 
         resultStat.daily = _(resultStat.daily).map(day => {
             day.percent = day.changed / maxChanged.changed;
             day.graphPercent = _.ceil((day.percent * 100), 0);
-            day.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (day.graphPercent / 100 * config.barSize) ? '█' : '░').join('');
+            let filledBarLenghtDay = Math.floor(day.graphPercent / 100 * config.barSize);
+            let insertionsPrecentDay = day.insertions / (day.insertions + day.deletions);
+            let deletionsPrecentDay = day.deletions / (day.insertions + day.deletions);
+            if (config.barType == 'default') {
+                day.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
+                    (index + 1) <= (day.graphPercent) ? '█' : '░').join('');
+            }
+            if (config.barType == 'detailed') {
+                day.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
+
+                    if ((index + 1) <= filledBarLenghtDay) {
+                        if (filledBarLenghtDay == 1) {
+                            if (insertionsPrecentDay > deletionsPrecentDay) {
+                                return '+';
+                            }
+                            else {
+                                return '-';
+                            }
+                        }
+                        else {
+                            if (index + 1 < filledBarLenghtDay - (filledBarLenghtDay * deletionsPrecentDay)) {
+                                return '-';
+                            }
+                            else {
+                                return '+';
+                            }
+                        }
+                    }
+                    else {
+                        if (index == config.barSize - 1) {
+                            return '  ';
+                        }
+                        return ' ';
+                    }
+                }).join('');
+            }
             switch (day.commits.toString().length) {
                 case 1:
                     day.commits += '  '; //alignment to 3 digits limit
@@ -312,8 +328,15 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         var itr = moment.twix(new Date(firstDay), new Date(lastDay)).iterate("days");
         while (itr.hasNext()) {
             let progressBar = '';
-            while (progressBar.length < config.barSize) {
-                progressBar += '░';
+            if (config.barType == 'default') {
+                while (progressBar.length < config.barSize) {
+                    progressBar += '░';
+                }
+            }
+            if (config.barType == 'detailed') {
+                while (progressBar.length <= config.barSize) {
+                    progressBar += ' ';
+                }
             }
             let obj = { date: itr.next().toDate().toDateString(), commits: "0  ", changed: 0, insertions: 0, deletions: 0, graphLine: progressBar, graphPercent: 0, percent: 0 };
             allDaysInPeriod.push(obj)
