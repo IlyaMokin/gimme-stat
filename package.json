@@ -1,6 +1,6 @@
 {
   "name": "gimme-stat",
-  "version": "2.5.4",
+  "version": "2.5.5",
   "engines": {
     "node": ">=8.9.1"
   },
