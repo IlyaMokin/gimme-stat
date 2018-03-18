@@ -103,6 +103,8 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                         other: {
                             name: 'other',
                             changed: 0,
+                            insertions: 0,
+                            deletions: 0,
                             percent: 0,
                             extensions: []
                         }
@@ -112,6 +114,8 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                     resultStat.authors[author].byExt[ext] = {
                         name: ext,
                         changed: 0,
+                        insertions: 0,
+                        deletions: 0,
                         percent: 0,
                         extensions: []
                     };
@@ -143,6 +147,8 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 resultStat.authors[author].insertions += insertions;
                 resultStat.authors[author].deletions += deletions;
                 resultStat.authors[author].byExt[fileExt].changed += changed;
+                resultStat.authors[author].byExt[fileExt].insertions += insertions;
+                resultStat.authors[author].byExt[fileExt].deletions += deletions;
             }
 
             if (config.daily) {
@@ -182,33 +188,22 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * 100, 0);
-        let filledBarLenght = Math.floor(author.graphPercent / 100 * config.barSize);
-        let insertionsPrecent = author.insertions / (author.insertions + author.deletions);
-        let deletionsPrecent = author.deletions / (author.insertions + author.deletions);
+        let filledBarLength = Math.floor(author.graphPercent / 100 * config.barSize);
+        let insertionsPercent = author.insertions / author.changed;
+        let deletionsPercent = author.deletions / author.changed;
         if (config.barType == 'default') {
-            author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (filledBarLenght) ? '█' : '░').join('');
+            author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (filledBarLength) ? '█' : '░').join('');
         }
         if (config.barType == 'detailed') {
+            let filledBarLengthPlus = Math.floor(insertionsPercent * filledBarLength);
+            let filledBarLengthMinus = Math.floor(deletionsPercent * filledBarLength);
+            let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
             author.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
-                if ((index + 1) <= filledBarLenght) {
-                    if (filledBarLenght == 1) {
-                        if (insertionsPrecent > deletionsPrecent) {
-                            return '+';
-                        }
-                        else {
-                            return '-';
-                        }
-                    }
-                    else if (filledBarLenght > 2) {
-                        if (index + 1 < filledBarLenght - (filledBarLenght * deletionsPrecent)) {
-                            return '-';
-                        }
-                        else {
-                            return '+';
-                        }
-                    }
-                }
-                else {
+                if ((index + 1) <= filledBarLengthMinus) {
+                    return '-';
+                } else if((index + 1) <= filledBarLengthSum){
+                    return '+'
+                } else {
                     return ' ';
                 }
             }).join('');
@@ -221,32 +216,25 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         author.byExt = _(author.byExt).map(ext => {
             ext.percent = ext.changed / author.changed;
             ext.graphPercent = _.ceil(ext.percent * 100, 0);
-            let filledBarLenghtExt = Math.floor(ext.graphPercent / 100 * config.barSize);
+            let filledBarLength = Math.floor(ext.graphPercent / 100 * config.barSize);
+
+            let insertionsPercent = ext.insertions / ext.changed;
+            let deletionsPercent = ext.deletions / ext.changed;
+
+            let filledBarLengthPlus = Math.floor(insertionsPercent * filledBarLength);
+            let filledBarLengthMinus = Math.floor(deletionsPercent * filledBarLength);
+            let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
             if (config.barType == 'default') {
                 ext.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
-                    (index + 1) <= (filledBarLenghtExt) ? '█' : '░').join('');
+                    (index + 1) <= (filledBarLengthExt) ? '█' : '░').join('');
             }
             if (config.barType == 'detailed') {
                 ext.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
-                    if ((index + 1) <= filledBarLenghtExt) {
-                        if (filledBarLenghtExt >= 1 && filledBarLenghtExt < 2) {
-                            if (insertionsPrecent > deletionsPrecent) {
-                                return '+';
-                            }
-                            else {
-                                return '-';
-                            }
-                        }
-                        else {
-                            if (index + 1 < filledBarLenghtExt - (filledBarLenghtExt * deletionsPrecent)) {
-                                return '-';
-                            }
-                            else {
-                                return '+';
-                            }
-                        }
-                    }
-                    else {
+                    if ((index + 1) <= filledBarLengthMinus) {
+                        return '-';
+                    } else if((index + 1) <= filledBarLengthSum){
+                        return '+'
+                    } else {
                         return ' ';
                     }
                 }).join('');
