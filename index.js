@@ -200,8 +200,10 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
             if (filledBarLengthSum == 0 && insertionsPercent > deletionsPercent) {
                 filledBarLengthPlus = 1;
+                filledBarLengthSum = 1;
             } else if (filledBarLengthSum == 0) {
                 filledBarLengthMinus = 0;
+                filledBarLengthSum = 1;
             }
             author.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
                 if ((index + 1) <= filledBarLengthMinus) {
@@ -232,8 +234,10 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
 
             if (filledBarLengthSum == 0 && insertionsPercent > deletionsPercent) {
                 filledBarLengthPlus = 1;
+                filledBarLengthSum = 1;
             } else if (filledBarLengthSum == 0) {
                 filledBarLengthMinus = 0;
+                filledBarLengthSum = 1;
             }
 
             if (config.barType == 'default') {
@@ -272,6 +276,14 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             let filledBarLengthPlus = Math.floor(insertionsPercent * filledBarLength);
             let filledBarLengthMinus = Math.floor(deletionsPercent * filledBarLength);
             let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
+
+            if (filledBarLengthSum == 0 && insertionsPercent > deletionsPercent) {
+                filledBarLengthPlus = 1;
+                filledBarLengthSum = 1;
+            } else if (filledBarLengthSum == 0) {
+                filledBarLengthMinus = 0;
+                filledBarLengthSum = 1;
+            }
 
             if (config.barType == 'default') {
                 day.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
