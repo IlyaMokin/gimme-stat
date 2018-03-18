@@ -198,6 +198,11 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             let filledBarLengthPlus = Math.floor(insertionsPercent * filledBarLength);
             let filledBarLengthMinus = Math.floor(deletionsPercent * filledBarLength);
             let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
+            if (filledBarLengthSum == 0 && insertionsPercent > deletionsPercent) {
+                filledBarLengthPlus = 1;
+            } else if (filledBarLengthSum == 0) {
+                filledBarLengthMinus = 0;
+            }
             author.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
                 if ((index + 1) <= filledBarLengthMinus) {
                     return '-';
@@ -224,6 +229,13 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             let filledBarLengthPlus = Math.floor(insertionsPercent * filledBarLength);
             let filledBarLengthMinus = Math.floor(deletionsPercent * filledBarLength);
             let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
+
+            if (filledBarLengthSum == 0 && insertionsPercent > deletionsPercent) {
+                filledBarLengthPlus = 1;
+            } else if (filledBarLengthSum == 0) {
+                filledBarLengthMinus = 0;
+            }
+
             if (config.barType == 'default') {
                 ext.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
                     (index + 1) <= (filledBarLength) ? '█' : '░').join('');
