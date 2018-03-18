@@ -226,7 +226,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
             let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
             if (config.barType == 'default') {
                 ext.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
-                    (index + 1) <= (filledBarLengthExt) ? '█' : '░').join('');
+                    (index + 1) <= (filledBarLength) ? '█' : '░').join('');
             }
             if (config.barType == 'detailed') {
                 ext.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
@@ -253,38 +253,25 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         resultStat.daily = _(resultStat.daily).map(day => {
             day.percent = day.changed / maxChanged.changed;
             day.graphPercent = _.ceil((day.percent * 100), 0);
-            let filledBarLenghtDay = Math.floor(day.graphPercent / 100 * config.barSize);
-            let insertionsPrecentDay = day.insertions / (day.insertions + day.deletions);
-            let deletionsPrecentDay = day.deletions / (day.insertions + day.deletions);
+            let filledBarLength = Math.floor(day.graphPercent / 100 * config.barSize);
+            let insertionsPercent = day.insertions / maxChanged.changed;
+            let deletionsPercent = day.deletions / maxChanged.changed;
+
+            let filledBarLengthPlus = Math.floor(insertionsPercent * filledBarLength);
+            let filledBarLengthMinus = Math.floor(deletionsPercent * filledBarLength);
+            let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
+
             if (config.barType == 'default') {
                 day.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
                     (index + 1) <= (day.graphPercent) ? '█' : '░').join('');
             }
             if (config.barType == 'detailed') {
                 day.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
-
-                    if ((index + 1) <= filledBarLenghtDay) {
-                        if (filledBarLenghtDay == 1) {
-                            if (insertionsPrecentDay > deletionsPrecentDay) {
-                                return '+';
-                            }
-                            else {
-                                return '-';
-                            }
-                        }
-                        else {
-                            if (index + 1 < filledBarLenghtDay - (filledBarLenghtDay * deletionsPrecentDay)) {
-                                return '-';
-                            }
-                            else {
-                                return '+';
-                            }
-                        }
-                    }
-                    else {
-                        if (index == config.barSize - 1) {
-                            return '  ';
-                        }
+                    if ((index + 1) <= filledBarLengthMinus) {
+                        return '-';
+                    } else if((index + 1) <= filledBarLengthSum){
+                        return '+'
+                    } else {
                         return ' ';
                     }
                 }).join('');
@@ -322,7 +309,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 }
             }
             if (config.barType == 'detailed') {
-                while (progressBar.length <= config.barSize) {
+                while (progressBar.length < config.barSize) {
                     progressBar += ' ';
                 }
             }
