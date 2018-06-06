@@ -266,7 +266,9 @@ gimmeStat().then((answer) => {
 Also you can choose parameters, send it as object
 ``` js
 let gimmeStat = require('gimme-stat');
-gimmeStat({appendToMd:false
+gimmeStat({
+    appendToMd:false
+    stringFormat: "string"
     barSize:60
     barType:"default"
     cwd:Array(1) ["."]
@@ -282,4 +284,4 @@ gimmeStat({appendToMd:false
     users:Array(1) [""]
 }).then((answer) => {console.log(answer);});
 ```
-Note: setting flag `appendToMd: true` will return string in md format.
+Note: setting flag `stringFormat: "md"` will return string in md format.

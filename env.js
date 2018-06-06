@@ -27,6 +27,11 @@ let config = convict({
         default: false,
         arg: 'returnstring'
     },
+    stringFormat:{
+        format: 'String',
+        default: 'string',
+        arg: 'stringFormat'
+    },
     since: {
         format: 'String',
         default: '1.months',
