@@ -383,7 +383,7 @@ var stat = async function (config) {
     if(config.returnString == false){
         console.log(consoleText);
     }
-    if(config.returnString){
+    if(config.returnString && !config.appendToMd){
         return consoleText;
     }
 
@@ -407,12 +407,13 @@ var stat = async function (config) {
             }
         }
     });
-
-
-    if (config.appendToMd) {
+    if (!config.returnString && config.appendToMd) {
         let file = await openFileStream(mdFilePath, 'w');
         await writeFile(file, compiledmb(table).replace(/^\s*\n/gm, ''));
         console.log(`\r\n\r\n >>>>>>>>>>> Saved to ${mdFilePath} <<<<<<<<<<<<<<`)
+    }
+    if(config.returnString && config.appendToMd){
+        return compiledmb(table).replace(/^\s*\n/gm, '');
     }
 }
 module.exports = stat;

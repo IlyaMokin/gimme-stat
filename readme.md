@@ -282,3 +282,4 @@ gimmeStat({appendToMd:false
     users:Array(1) [""]
 }).then((answer) => {console.log(answer);});
 ```
+Note: setting flag `appendToMd: true` will return string in md format.
