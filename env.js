@@ -22,10 +22,10 @@ let config = convict({
         default: false,
         arg: 'daily'
     },
-    ignorLimit: {
+    returnString: {
         format: Boolean,
         default: false,
-        arg: 'ignorlimit'
+        arg: 'returnstring'
     },
     since: {
         format: 'String',
