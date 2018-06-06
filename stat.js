@@ -1,45 +1,3 @@
-function polymorph() {
-    var len2func = [];
-    for (var i = 0; i < arguments.length; i++)
-        if (typeof (arguments[i]) == "function")
-            len2func[arguments[i].length] = arguments[i];
-    return  function () {
-        return  len2func[arguments.length].apply(this, arguments);
-    }
-}
-
-var gimmeStat = polymorph(
-     function () {
-        let stat = require('./stat');
-        const config = require('./env');
-        if (require.main !== module) {
-            config.returnString = true;
-            var result =  stat(config);
-            return result;
-        }
-        if (require.main === module) {
-            stat(config);
-        }
-    },
-    function (object) {
-        let stat = require('./stat');
-        let config = require('./env');
-        config = Object.assign(config, object);
-        if (typeof path == "array") {
-            config.cwd = path;
-        }
-        else {
-            throw "unacceptable path type"
-        }
-        config.returnString = true;
-        return stat(config);
-    }
-)
-if (require.main === module) {
-    gimmeStat();
-}
-module.exports = gimmeStat;
-=======
 #!/usr/bin/env node
 
 "use strict";
@@ -53,9 +11,8 @@ module.exports = gimmeStat;
 let fs = require('fs');
 
 require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFileSync(filename, 'utf8'); };
-
-(async function () {
-    const config = require('./env');
+var stat = async function (config) {
+    // const config = require('./env');
     const git = require('git-cmd');
     const _ = require('lodash');
     const util = require('util');
@@ -145,8 +102,6 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                         other: {
                             name: 'other',
                             changed: 0,
-                            insertions: 0,
-                            deletions: 0,
                             percent: 0,
                             extensions: []
                         }
@@ -156,8 +111,6 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                     resultStat.authors[author].byExt[ext] = {
                         name: ext,
                         changed: 0,
-                        insertions: 0,
-                        deletions: 0,
                         percent: 0,
                         extensions: []
                     };
@@ -189,8 +142,6 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 resultStat.authors[author].insertions += insertions;
                 resultStat.authors[author].deletions += deletions;
                 resultStat.authors[author].byExt[fileExt].changed += changed;
-                resultStat.authors[author].byExt[fileExt].insertions += insertions;
-                resultStat.authors[author].byExt[fileExt].deletions += deletions;
             }
 
             if (config.daily) {
@@ -230,29 +181,33 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
     resultStat.authors = _(resultStat.authors).map(author => {
         author.percent = author.changed / resultStat.changed;
         author.graphPercent = _.ceil(author.percent * 100, 0);
-        let filledBarLength = Math.floor(author.graphPercent / 100 * config.barSize);
-        let insertionsPercent = author.insertions / author.changed;
-        let deletionsPercent = author.deletions / author.changed;
+        let filledBarLenght = Math.floor(author.graphPercent / 100 * config.barSize);
+        let insertionsPrecent = author.insertions / (author.insertions + author.deletions);
+        let deletionsPrecent = author.deletions / (author.insertions + author.deletions);
         if (config.barType == 'default') {
-            author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (filledBarLength) ? '█' : '░').join('');
+            author.graphLine = Array.from({ length: config.barSize }).map((x, index) => (index + 1) <= (filledBarLenght) ? '█' : '░').join('');
         }
         if (config.barType == 'detailed') {
-            let filledBarLengthPlus = Math.floor(insertionsPercent * filledBarLength);
-            let filledBarLengthMinus = Math.floor(deletionsPercent * filledBarLength);
-            let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
-            if (filledBarLengthSum == 0 && insertionsPercent > deletionsPercent) {
-                filledBarLengthPlus = 1;
-                filledBarLengthSum = 1;
-            } else if (filledBarLengthSum == 0) {
-                filledBarLengthMinus = 0;
-                filledBarLengthSum = 1;
-            }
             author.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
-                if ((index + 1) <= filledBarLengthMinus) {
-                    return '-';
-                } else if((index + 1) <= filledBarLengthSum){
-                    return '+'
-                } else {
+                if ((index + 1) <= filledBarLenght) {
+                    if (filledBarLenght == 1) {
+                        if (insertionsPrecent > deletionsPrecent) {
+                            return '+';
+                        }
+                        else {
+                            return '-';
+                        }
+                    }
+                    else if (filledBarLenght > 2) {
+                        if (index + 1 < filledBarLenght - (filledBarLenght * deletionsPrecent)) {
+                            return '-';
+                        }
+                        else {
+                            return '+';
+                        }
+                    }
+                }
+                else {
                     return ' ';
                 }
             }).join('');
@@ -265,34 +220,32 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         author.byExt = _(author.byExt).map(ext => {
             ext.percent = ext.changed / author.changed;
             ext.graphPercent = _.ceil(ext.percent * 100, 0);
-            let filledBarLength = Math.floor(ext.graphPercent / 100 * config.barSize);
-
-            let insertionsPercent = ext.insertions / ext.changed;
-            let deletionsPercent = ext.deletions / ext.changed;
-
-            let filledBarLengthPlus = Math.floor(insertionsPercent * filledBarLength);
-            let filledBarLengthMinus = Math.floor(deletionsPercent * filledBarLength);
-            let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
-
-            if (filledBarLengthSum == 0 && insertionsPercent > deletionsPercent) {
-                filledBarLengthPlus = 1;
-                filledBarLengthSum = 1;
-            } else if (filledBarLengthSum == 0) {
-                filledBarLengthMinus = 0;
-                filledBarLengthSum = 1;
-            }
-
+            let filledBarLenghtExt = Math.floor(ext.graphPercent / 100 * config.barSize);
             if (config.barType == 'default') {
                 ext.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
-                    (index + 1) <= (filledBarLength) ? '█' : '░').join('');
+                    (index + 1) <= (filledBarLenghtExt) ? '█' : '░').join('');
             }
             if (config.barType == 'detailed') {
                 ext.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
-                    if ((index + 1) <= filledBarLengthMinus) {
-                        return '-';
-                    } else if((index + 1) <= filledBarLengthSum){
-                        return '+'
-                    } else {
+                    if ((index + 1) <= filledBarLenghtExt) {
+                        if (filledBarLenghtExt >= 1 && filledBarLenghtExt < 2) {
+                            if (insertionsPrecent > deletionsPrecent) {
+                                return '+';
+                            }
+                            else {
+                                return '-';
+                            }
+                        }
+                        else {
+                            if (index + 1 < filledBarLenghtExt - (filledBarLenghtExt * deletionsPrecent)) {
+                                return '-';
+                            }
+                            else {
+                                return '+';
+                            }
+                        }
+                    }
+                    else {
                         return ' ';
                     }
                 }).join('');
@@ -311,33 +264,38 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         resultStat.daily = _(resultStat.daily).map(day => {
             day.percent = day.changed / maxChanged.changed;
             day.graphPercent = _.ceil((day.percent * 100), 0);
-            let filledBarLength = Math.floor(day.graphPercent / 100 * config.barSize);
-            let insertionsPercent = day.insertions / maxChanged.changed;
-            let deletionsPercent = day.deletions / maxChanged.changed;
-
-            let filledBarLengthPlus = Math.floor(insertionsPercent * filledBarLength);
-            let filledBarLengthMinus = Math.floor(deletionsPercent * filledBarLength);
-            let filledBarLengthSum = filledBarLengthPlus + filledBarLengthMinus;
-
-            if (filledBarLengthSum == 0 && insertionsPercent > deletionsPercent) {
-                filledBarLengthPlus = 1;
-                filledBarLengthSum = 1;
-            } else if (filledBarLengthSum == 0) {
-                filledBarLengthMinus = 0;
-                filledBarLengthSum = 1;
-            }
-
+            let filledBarLenghtDay = Math.floor(day.graphPercent / 100 * config.barSize);
+            let insertionsPrecentDay = day.insertions / (day.insertions + day.deletions);
+            let deletionsPrecentDay = day.deletions / (day.insertions + day.deletions);
             if (config.barType == 'default') {
                 day.graphLine = Array.from({ length: config.barSize }).map((x, index) =>
                     (index + 1) <= (day.graphPercent) ? '█' : '░').join('');
             }
             if (config.barType == 'detailed') {
                 day.graphLine = Array.from({ length: config.barSize }).map((x, index) => {
-                    if ((index + 1) <= filledBarLengthMinus) {
-                        return '-';
-                    } else if((index + 1) <= filledBarLengthSum){
-                        return '+'
-                    } else {
+
+                    if ((index + 1) <= filledBarLenghtDay) {
+                        if (filledBarLenghtDay == 1) {
+                            if (insertionsPrecentDay > deletionsPrecentDay) {
+                                return '+';
+                            }
+                            else {
+                                return '-';
+                            }
+                        }
+                        else {
+                            if (index + 1 < filledBarLenghtDay - (filledBarLenghtDay * deletionsPrecentDay)) {
+                                return '-';
+                            }
+                            else {
+                                return '+';
+                            }
+                        }
+                    }
+                    else {
+                        if (index == config.barSize - 1) {
+                            return '  ';
+                        }
                         return ' ';
                     }
                 }).join('');
@@ -375,7 +333,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 }
             }
             if (config.barType == 'detailed') {
-                while (progressBar.length < config.barSize) {
+                while (progressBar.length <= config.barSize) {
                     progressBar += ' ';
                 }
             }
@@ -389,16 +347,7 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
                 }
             })
         });
-        // if(allDaysInPeriod.length>90 && !config.ignorLimit){
-        //     let buff = [];
-        //     for(let i=0;i<90;i++){
-        //         buff.unshift(allDaysInPeriod[allDaysInPeriod.length - 1 - i])
-        //     }
-        //     resultStat.daily = buff;
-        // }
-        // else{
         resultStat.daily = allDaysInPeriod;
-        // }
     }
 
     let text = require('./template.cmd.ejs');
@@ -431,8 +380,12 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
     let consoleText = compiled(resultStat)
         .replace(/(\r*\n){2,}(.+)/gm, '\r\n$2')
         .replace(/\$br/gm, '');
-
-    console.log(consoleText);
+    if(config.returnString == false){
+        console.log(consoleText);
+    }
+    if(config.returnString){
+        return consoleText;
+    }
 
     let mdFilePath = _.isString(typeof config.appendToMd !== Boolean) ? config.appendToMd : 'Result.md';
 
@@ -461,5 +414,5 @@ require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFil
         await writeFile(file, compiledmb(table).replace(/^\s*\n/gm, ''));
         console.log(`\r\n\r\n >>>>>>>>>>> Saved to ${mdFilePath} <<<<<<<<<<<<<<`)
     }
-
-})().catch(err => console.error(err.stack))
+}
+module.exports = stat;
