@@ -25,12 +25,6 @@ var gimmeStat = polymorph(
         let stat = require('./stat');
         let config = require('./env');
         config = Object.assign(config, object);
-        if (typeof path == "array") {
-            config.cwd = path;
-        }
-        else {
-            throw "unacceptable path type"
-        }
         config.returnString = true;
         return stat(config);
     }
