@@ -7,35 +7,6 @@ $ npm -g install gimme-stat
 $ cd /home/your_git_project_name
 $ gimme-stat
 ```
-# Usage
-Gimme-that can be used thru terminal and as required module. Way you like to use it will be detected automatically.
-Easiest way to use it is to call module with default parameters.
-``` js
-let gimmeStat = require('gimme-stat');
-gimmeStat().then((answer) => {
-    console.log(answer);
-    });
-```
-Also you can choose parameters, send it as object
-``` js
-let gimmeStat = require('gimme-stat');
-gimmeStat(
-    {appendToMd:false
-barSize:60
-barType:"default"
-cwd:Array(1) ["."]
-daily:false
-graph:"short"
-ignoreUsers:Array(2) ["Unknown", "user1"]
-init:false
-prepull:false
-since:"3.months"
-table:false
-until:""
-userAliases:Object {ilyamokin: "Ilya Mokin", imokin: "Ilya Mokin"}
-users:Array(1) [""]
-}).then((answer) => {console.log(answer);});
-```
 
 # Available arguments
 
@@ -284,3 +255,30 @@ Tue Nov 28 2017 █████████████████████�
 Wed Nov 29 2017 ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 5   | 265
 Thu Nov 30 2017 ████████████████████████████████████████ 20  | 741
 ``` 
+# Usage as nodejs module
+Easiest way to use it is to call module with default parameters.
+``` js
+let gimmeStat = require('gimme-stat');
+gimmeStat().then((answer) => {
+    console.log(answer);
+    });
+```
+Also you can choose parameters, send it as object
+``` js
+let gimmeStat = require('gimme-stat');
+gimmeStat({appendToMd:false
+    barSize:60
+    barType:"default"
+    cwd:Array(1) ["."]
+    daily:false
+    graph:"short"
+    ignoreUsers:Array(2) ["Unknown", "user1"]
+    init:false
+    prepull:false
+    since:"3.months"
+    table:false
+    until:""
+    userAliases:Object {ilyamokin: "Ilya Mokin", imokin: "Ilya Mokin"}
+    users:Array(1) [""]
+}).then((answer) => {console.log(answer);});
+```
