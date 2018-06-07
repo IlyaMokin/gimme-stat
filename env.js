@@ -22,16 +22,6 @@ let config = convict({
         default: false,
         arg: 'daily'
     },
-    returnString: {
-        format: Boolean,
-        default: false,
-        arg: 'returnstring'
-    },
-    stringFormat:{
-        format: 'String',
-        default: 'string',
-        arg: 'stringFormat'
-    },
     since: {
         format: 'String',
         default: '1.months',

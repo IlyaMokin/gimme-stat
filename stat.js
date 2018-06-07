@@ -11,7 +11,7 @@
 let fs = require('fs');
 
 require.extensions['.ejs'] = (module, filename) => { module.exports = fs.readFileSync(filename, 'utf8'); };
-var stat = async function (config) {
+var stat = async function (config, specialParams) {
     // const config = require('./env');
     const git = require('git-cmd');
     const _ = require('lodash');
@@ -380,11 +380,14 @@ var stat = async function (config) {
     let consoleText = compiled(resultStat)
         .replace(/(\r*\n){2,}(.+)/gm, '\r\n$2')
         .replace(/\$br/gm, '');
-    if(config.returnString == false){
+    if(specialParams.output == "cmd"){
         console.log(consoleText);
     }
-    if(config.returnString && config.stringFormat == "string"){
-        return consoleText;
+    if(specialParams.output == "text"){
+        return {json: resultStat.authors, text: consoleText};
+    }
+    if(specialParams.output == "json"){
+        return {json: resultStat.authors};
     }
 
     let mdFilePath = _.isString(typeof config.appendToMd !== Boolean) ? config.appendToMd : 'Result.md';
@@ -407,13 +410,14 @@ var stat = async function (config) {
             }
         }
     });
-    if (!config.returnString && config.appendToMd) {
+    if (config.appendToMd) {
         let file = await openFileStream(mdFilePath, 'w');
         await writeFile(file, compiledmb(table).replace(/^\s*\n/gm, ''));
         console.log(`\r\n\r\n >>>>>>>>>>> Saved to ${mdFilePath} <<<<<<<<<<<<<<`)
     }
-    if(config.returnString && config.stringFormat == "md"){
-        return compiledmb(table).replace(/^\s*\n/gm, '');
+    if(specialParams.output == "md"){
+        let md = compiledmb(table).replace(/^\s*\n/gm, '');
+        return {json: resultStat.authors, md: md};
     }
 }
 module.exports = stat;
