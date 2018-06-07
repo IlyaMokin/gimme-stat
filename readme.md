@@ -256,32 +256,35 @@ Wed Nov 29 2017 ██████████████░░░░░░░�
 Thu Nov 30 2017 ████████████████████████████████████████ 20  | 741
 ``` 
 # Usage as nodejs module
-Easiest way to use it is to call module with default parameters.
+Easiest way to use it is to call module with default parameters, use empty object for this.
 ``` js
 let gimmeStat = require('gimme-stat');
-gimmeStat().then((answer) => {
+gimmeStat.text({}).then((answer) => {
     console.log(answer);
     });
 ```
+Availble 3 type of return:
+ - `gimmeStat.text({})` - `{json, string}` - json will contain raw data and second field will be in requested format
+ - `gimmeStat.md({})` - `{json, md}`
+ - `gimmeStat.json({})` - `{json}`
+
 Also you can choose parameters, send it as object
 ``` js
 let gimmeStat = require('gimme-stat');
-gimmeStat({
-    appendToMd:false
-    stringFormat: "string"
-    barSize:60
-    barType:"default"
-    cwd:Array(1) ["."]
-    daily:false
-    graph:"short"
-    ignoreUsers:Array(2) ["Unknown", "user1"]
-    init:false
-    prepull:false
-    since:"3.months"
-    table:false
-    until:""
-    userAliases:Object {ilyamokin: "Ilya Mokin", imokin: "Ilya Mokin"}
+gimmeStat.text({
+    appendToMd:false,
+    barSize:60,
+    barType:"default",
+    cwd:Array(1) ["."],
+    daily:false,
+    graph:"short",
+    ignoreUsers:Array(2) ["Unknown", "user1"],
+    init:false,
+    prepull:false,
+    since:"3.months",
+    table:false,
+    until:"",
+    userAliases:Object {ilyamokin: "Ilya Mokin", imokin: "Ilya Mokin"},
     users:Array(1) [""]
 }).then((answer) => {console.log(answer);});
 ```
-Note: setting flag `stringFormat: "md"` will return string in md format.
