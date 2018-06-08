@@ -1,8 +1,11 @@
+#!/usr/bin/env node
+"use strict";
+
 var gimmeStat = {
     cmd: () => {
         let stat = require('./stat');
         const defaultConfig = require('./env');
-        specialParams = {
+        let specialParams = {
             output: "cmd"
         }
         stat(defaultConfig,specialParams);
@@ -11,7 +14,7 @@ var gimmeStat = {
         let stat = require('./stat');
         let defaultConfig = require('./env');
         defaultConfig = Object.assign(defaultConfig, userConfig);
-        specialParams = {
+        let specialParams = {
             output: "text"
         }
         return stat(defaultConfig,specialParams);
@@ -20,7 +23,7 @@ var gimmeStat = {
         let stat = require('./stat');
         let defaultConfig = require('./env');
         defaultConfig = Object.assign(defaultConfig, userConfig);
-        specialParams = {
+        let specialParams = {
             output: "md"
         }
         return stat(defaultConfig,specialParams);
@@ -29,7 +32,7 @@ var gimmeStat = {
         let stat = require('./stat');
         let defaultConfig = require('./env');
         defaultConfig = Object.assign(defaultConfig, userConfig);
-        specialParams = {
+        let specialParams = {
             output: "json"
         }
         return stat(defaultConfig,specialParams);
