@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 "use strict";
-//git log --no-merges --pretty=short --stat --since 2017/09/14 --until 2018/01/01
+//git log --no-merges --pretty=short --stat --branches --since 2017/09/14 --until 2018/01/01
 //https://regex101.com/r/HjC7th/1
 //https://www.npmjs.com/package/console-progress
 //https://www.npmjs.com/package/msee
@@ -46,7 +46,8 @@ var stat = async function (config, specialParams) {
             'log',
             '--no-merges',
             '--pretty=medium',
-            '--stat'
+            '--stat',
+            '--branches'
         ],
             { cwd: rep }
         );
