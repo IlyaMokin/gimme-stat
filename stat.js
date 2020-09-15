@@ -47,7 +47,7 @@ var stat = async function (config, specialParams) {
             '--no-merges',
             '--pretty=medium',
             '--stat',
-            '--branches'
+            '--all'
         ],
             { cwd: rep }
         );
