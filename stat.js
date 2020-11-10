@@ -391,7 +391,7 @@ var stat = async function (config, specialParams) {
         return {json: resultStat.authors};
     }
 
-    let mdFilePath = _.isString(typeof config.appendToMd !== Boolean) ? config.appendToMd : 'Result.md';
+    let mdFilePath = _.isString(config.appendToMd) ? config.appendToMd : 'Result.md';
 
     let mdTemplate = require('./template.md.ejs');
     let compiledmb = _.template(mdTemplate, {
