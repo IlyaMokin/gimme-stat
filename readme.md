@@ -36,7 +36,7 @@ $ gimme-stat
  - `--daily` - generate per day statistic based on number of changed lines.
  - `--appendtomd=report.md`  - will create `report.md` file with statistic in your project  directory
  - `--bartype = [default | detailed]` - change progress bar representation, `detailed`  show insertions/deletions, `default` dosen't. 
- - `--ignoreusers="FirstName LastName,FirstName2 LastName2,SomeUsername"` - allow to to do not include specific users into statistic (They contribution will be ignored fully).
+ - `--ignoreusers="FirstName LastName,FirstName2 LastName2,SomeUsername"` - allow to do not include specific users into statistic (They contribution will be ignored fully).
  - `--statignore="package-lock.json,assets,bin"` - you can put any files which will be ignored. 
    - Items in the list are [RegExp](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp) strings. NOTES: Flags `mi` will be appended for the RegExp.
    - With config file `gimme.config.js` can be configured with more flexibility (see Examples bellow).
