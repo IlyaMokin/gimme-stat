@@ -20,21 +20,26 @@ $ gimme-stat
      - --since="2014-02-12T16:36:00-07:00"
      - --since="1 month ago"
      - --since="2 weeks 3 days 2 hours 30 minutes 59 seconds ago"
- - `--graph[ all | short | detailed | none ]` - take one of specified flags, to set detail level of statistic information it showed at Examples,
+ - `--graph = [ all | short | detailed | none ]` - take one of specified flags, to set detail level of statistic information it showed at Examples,
  using `all` return both `short` and `detailed`. `none` will hide per user statistics, use it if only `table` or `daily` needed.
+ - `--statext = "js,html,htm,cs,css,scss,less,json,php,sql"` - The list of extensions which you wanted to see in `--graph=detailed` mode.
  - `--cwd` you can use the argument to specify repository path in your local system if you run the commnad not from the repository or you want to specify a few repositories.
    - single rep example: `--cwd="/home/project"`
    - You can use a few rep split by comma:
      - `--cwd="/home/project1,/home/project2,/home/project3"`
  - `--prepull` - pull commits for all repositories before analyse.
     - Note: doesn't resolve merge conflicts.
- - `--users="Me,ThatGuy"` - take array of names, and return statistic  only for them .
+ - `--users = "Me,ThatGuy"` - take array of names, and return statistic  only for them .
  - `--lmargin=19` - the space between progress line and a left edge of the window
  - `--barSize=200` - set length of progress bar in chars, default value set at 100 chars
  - `--table` - generate table with shot personal commit statistic
  - `--daily` - generate per day statistic based on number of changed lines.
  - `--appendtomd=report.md`  - will create `report.md` file with statistic in your project  directory
  - `--bartype = [default | detailed]` - change progress bar representation, `detailed`  show insertions/deletions, `default` dosen't. 
+ - `--ignoreusers="FirstName LastName,FirstName2 LastName2,SomeUsername"` - allow to to do not include specific users into statistic (They contribution will be ignored fully).
+ - `--statignore="package-lock.json,assets,bin"` - you can put any files which will be ignored. 
+   - Items in the list are [RegExp](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp) strings. NOTES: Flags `mi` will be appended for the RegExp.
+   - With config file `gimme.config.js` can be configured with more flexibility (see Examples bellow).
 
 # Examples
 ```sh

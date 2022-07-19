@@ -1,13 +1,23 @@
 let convict = require('convict');
 let configFile = require('./default-config');
+let _ = require('lodash');
 
 convict.addFormat({
-    name: 'Dictionary',
+    name: 'Array[RegExp]',
     validate: function (val) {
         return true;
     },
     coerce: function (val) {
-        return val
+        if(_.isString(val)) {
+            let regExArr = _(val)
+                .split(',').filter(x => x)
+                .map(x => new RegExp(x, 'mi'));
+            return regExArr.value();
+        } else if (_.isArray(val)){
+            return val;
+        }
+
+        throw new Error('must be a Araray of RegExps');
     }
 });
 
@@ -86,15 +96,18 @@ let config = convict({
     },
     ignoreUsers: {
         format: Array,
-        default: []
+        default: [],
+        arg: 'ignoreusers'
     },
     statIgnore: {
-        format: Array,
-        default: []
+        format: 'Array[RegExp]',
+        default: [],
+        arg: 'statignore'
     },
     statExtensions: {
         format: Array,
-        default: []
+        default: [],
+        arg: 'statext'
     },
 
 
