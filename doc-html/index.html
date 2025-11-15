@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gimme-stat - CLI GIT Report Tool</title>
+
+    <!-- xterm.js for terminal display -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+
+    <!-- Prism.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>gimme-stat is a CLI <strong>GIT report tool</strong></h1>
+            <p>Having a git repository you can get the report which includes commits count per developer, number of changed lines, their percentage relative with other project developers.</p>
+            <p>It has flexible customization which allows to combine a list of repositories, merge developers nicknames, exclude some of them from the report. Allow to export the report to MD format.</p>
+        </header>
+
+        <section class="installation">
+            <h2>Installation</h2>
+            <div class="terminal-example">
+                <div class="terminal-header">
+                    <span class="terminal-title">Terminal</span>
+                </div>
+                <div id="terminal-install"></div>
+            </div>
+        </section>
+
+        <section class="arguments">
+            <h2>Available arguments</h2>
+            <ul class="arguments-list">
+                <li>
+                    <code>--init</code> - create default configuration file <code>gimme.config.js</code>. The config can be an alternative for console arguments.
+                </li>
+                <li>
+                    <code>--since=[date]</code> <code>--until=[date]</code> you can use any <code>git log</code> valid formats for the options, as a rule in <a href="https://en.wikipedia.org/wiki/ISO_8601" target="_blank">ISO 8601</a>
+                    <ul>
+                        <li>examples of use:
+                            <ul>
+                                <li>--since="2014-02-12T16:36:00-07:00"</li>
+                            </ul>
+                        </li>
+                        <li>Note: you can also use:
+                            <ul>
+                                <li>--since="2.years"</li>
+                                <li>--since="3.months"</li>
+                                <li>--since="2014-02-12T16:36:00-07:00"</li>
+                                <li>--since="1 month ago"</li>
+                                <li>--since="2 weeks 3 days 2 hours 30 minutes 59 seconds ago"</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <code>--graph = [ all | short | detailed | none ]</code> - take one of specified flags, to set detail level of statistic information as shown in the Examples, using <code>all</code> return both <code>short</code> and <code>detailed</code>. <code>none</code> will hide per user statistics, use it if only <code>table</code> or <code>daily</code> needed.
+                </li>
+                <li>
+                    <code>--statext = "js,html,htm,cs,css,scss,less,json,php,sql"</code> - The list of extensions which you want to see in <code>--graph=detailed</code> mode.
+                </li>
+                <li>
+                    <code>--cwd</code> you can use the argument to specify repository path in your local system if you run the command not from the repository or you want to specify a few repositories.
+                    <ul>
+                        <li>single rep example: <code>--cwd="/home/project"</code></li>
+                        <li>You can use multiple repos separated by commas:
+                            <ul>
+                                <li><code>--cwd="/home/project1,/home/project2,/home/project3"</code></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <code>--prepull</code> - pull commits for all repositories before analysis.
+                    <ul>
+                        <li>Note: doesn't resolve merge conflicts.</li>
+                    </ul>
+                </li>
+                <li>
+                    <code>--users = "Me,ThatGuy"</code> - takes an array of names and returns statistics only for them.
+                </li>
+                <li>
+                    <code>--lmargin=19</code> - the space between progress line and a left edge of the window
+                </li>
+                <li>
+                    <code>--barSize=200</code> - set length of progress bar in chars, default value set at 100 chars
+                </li>
+                <li>
+                    <code>--table</code> - generate table with short personal commit statistic
+                </li>
+                <li>
+                    <code>--daily</code> - generate per day statistic based on number of changed lines.
+                </li>
+                <li>
+                    <code>--appendtomd=report.md</code> - will create <code>report.md</code> file with statistic in your project directory
+                </li>
+                <li>
+                    <code>--bartype = [default | detailed]</code> - change progress bar representation, <code>detailed</code> show insertions/deletions, <code>default</code> doesn't.
+                </li>
+                <li>
+                    <code>--ignoreusers="FirstName LastName,FirstName2 LastName2,SomeUsername"</code> - allows you to exclude specific users from the statistics (Their contribution will be ignored fully).
+                </li>
+                <li>
+                    <code>--statignore="package-lock.json,assets,bin"</code> - you can put any files which will be ignored.
+                    <ul>
+                        <li>Items in the list are <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp" target="_blank">RegExp</a> strings. NOTES: Flags <code>mi</code> will be appended for the RegExp.</li>
+                        <li>With config file <code>gimme.config.js</code> can be configured with more flexibility (see Examples below).</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section class="examples">
+            <h2>Examples</h2>
+
+            <div class="example-block">
+                <h3>Example 1: Detailed graph with file extensions</h3>
+                <button class="collapse-btn" data-target="example1">Show Output</button>
+                <div class="command-line">
+                    <code>$ gimme-stat --since=3.months --cwd="/home/project" --graph=detailed</code>
+                </div>
+                <div id="example1" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Output</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+
+            <div class="example-block">
+                <h3>Example 2: Short graph with detailed bar type</h3>
+                <button class="collapse-btn" data-target="example2">Show Output</button>
+                <div class="command-line">
+                    <code>$ gimme-stat --graph=short --bartype=detailed --barsize=40</code>
+                </div>
+                <div id="example2" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Output</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+
+            <div class="example-block">
+                <h3>Example 3: Short graph with daily statistics</h3>
+                <button class="collapse-btn" data-target="example3">Show Output</button>
+                <div class="command-line">
+                    <code>$ gimme-stat --since=1.weeks --graph=short --barsize=50 --daily</code>
+                </div>
+                <div id="example3" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Output</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+
+            <div class="example-block">
+                <h3>Example 4: Daily statistics for specific user</h3>
+                <button class="collapse-btn" data-target="example4">Show Output</button>
+                <div class="command-line">
+                    <code>$ gimme-stat --since=1.weeks --daily --users="Dat Ding" --graph=none</code>
+                </div>
+                <div id="example4" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Output</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+
+            <div class="example-block">
+                <h3>Example 5: Table format</h3>
+                <button class="collapse-btn" data-target="example5">Show Output</button>
+                <div class="command-line">
+                    <code>$ gimme-stat --since=3.months --graph=none --table</code>
+                </div>
+                <div id="example5" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Output</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="config">
+            <h2>Sample <code>gimme.config.js</code></h2>
+            <p>You can place the config in a directory which you are using to generate <code>gimme-stat</code> reports.</p>
+            <pre><code class="language-javascript">module.exports = {
+    userAliases   : [
+        'ilyamokin>Ilya Mokin',
+        'imokin>Ilya Mokin'
+    ],
+    appendToMd    : "report.md",
+    since         : "1.weeks",
+    until         : "",
+    graph         : "short",
+    lmargin       : 19,
+    barSize       : 100,
+    cwd           : [
+        "C:/repository/MyProject1",
+        "C:/repository/MyProject2"
+    ],
+    users         :'',
+    barType       :'default',
+    //Masks of files which will be ignored in your statistic
+    statIgnore    : [
+        /node_modules/mi,
+        /package\-lock\.json/mi,
+        /yarn\.lock/mi,
+        /assets/mi,
+        /dist/mi,
+        /\.gitignore/,
+        /www(\/|\\)build/mi,
+        /^(\/|\\)www/mi,
+        /\.idea/,
+        /config\.xml/,
+        /\.sourcemaps/,
+        /.+\.map/
+    ],
+
+
+    table: false,
+    daily: false,
+    prepull: false,
+    // The file extensions will be shown in your statistic,
+    // other will be under 'other' category.
+    statExtensions: [
+        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less',
+        'json', 'php', 'sql'
+    ],
+
+    //The users will be ignored in your statistics
+    ignoreUsers : [
+        'Unknown', 'user1'
+    ]
+}</code></pre>
+        </section>
+
+        <section class="report-sample">
+            <h2>Sample <code>report.md</code></h2>
+            <p>Chart generated by gimme-stat at Fri Feb 16 2018 12:43:46</p>
+            <div class="example-block">
+                <button class="collapse-btn" data-target="report-repos">Show Repositories</button>
+                <div id="report-repos" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Repositories</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+
+            <div class="example-block">
+                <h3>Short</h3>
+                <button class="collapse-btn" data-target="report-short">Show Output</button>
+                <div id="report-short" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Short Statistics</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+
+            <div class="example-block">
+                <h3>Detailed</h3>
+                <button class="collapse-btn" data-target="report-detailed">Show Output</button>
+                <div id="report-detailed" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Detailed Statistics</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+
+            <div class="example-block">
+                <h3>Table</h3>
+                <button class="collapse-btn" data-target="report-table">Show Output</button>
+                <div id="report-table" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Table Statistics</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+
+            <div class="example-block">
+                <h3>Daily</h3>
+                <button class="collapse-btn" data-target="report-daily">Show Output</button>
+                <div id="report-daily" class="terminal-example collapsible">
+                    <div class="terminal-header">
+                        <span class="terminal-title">Daily Statistics</span>
+                    </div>
+                    <div class="terminal-wrapper"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="nodejs-usage">
+            <h2>Usage as nodejs module</h2>
+            <p>Easiest way to use it is to call module with default parameters, use empty object for this.</p>
+
+            <pre><code class="language-javascript">let gimmeStat = require('gimme-stat');
+gimmeStat.text({}).then((answer) => {
+    console.log(answer);
+});</code></pre>
+
+            <p>Available 3 type of return:</p>
+            <ul>
+                <li><code>gimmeStat.text({})</code> - <code>{json, string}</code> - json will contain raw data and second field will be in requested format</li>
+                <li><code>gimmeStat.md({})</code> - <code>{json, md}</code></li>
+                <li><code>gimmeStat.json({})</code> - <code>{json}</code></li>
+            </ul>
+
+            <p>Also you can choose parameters, pass it as an object</p>
+            <pre><code class="language-javascript">let gimmeStat = require('gimme-stat');
+gimmeStat.text({
+    appendToMd:false,
+    barSize:60,
+    barType:"default",
+    cwd:Array(1) ["."],
+    daily:false,
+    graph:"short",
+    ignoreUsers:Array(2) ["Unknown", "user1"],
+    init:false,
+    prepull:false,
+    since:"3.months",
+    table:false,
+    until:"",
+    userAliases:Object {ilyamokin: "Ilya Mokin", imokin: "Ilya Mokin"},
+    users:Array(1) [""]
+}).then((answer) => {console.log(answer);});</code></pre>
+        </section>
+
+        <footer>
+            <p>Created with gimme-stat | <a href="https://github.com/ioncreature/gimme-stat" target="_blank">GitHub Repository</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

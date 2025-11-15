@@ -1,53 +1,10 @@
-# gimme-stat is a CLI **GIT report tool**
-
-Having a git repository you can get the report which includes commits count per developer, number of changed lines, their percentage relative with other project developers.
-
-It has flexible customization which allows to combine a list of repositories, merge developers nicknames, exclude some of them from the report. Allow to export the report to MD format.
-
-```sh
-$ npm -g install gimme-stat
+// Terminal outputs data
+const terminalOutputs = {
+    install: `$ npm -g install gimme-stat
 $ cd /home/your_git_project_name
-$ gimme-stat
-```
+$ gimme-stat`,
 
-# Available arguments
-
- - `--init`  - create default configuration file `gimme.config.js`. The config can be an alternative for console arguments.
- - `--since=[date]` `--until=[date]` you can use any `git log` valid formats for the options, as a rule in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
-   - examples of use:
-     - --since="2014-02-12T16:36:00-07:00"
-   - Note: you can also use:
-     - --since="2.years"
-     - --since="3.months"
-     - --since="2014-02-12T16:36:00-07:00"
-     - --since="1 month ago"
-     - --since="2 weeks 3 days 2 hours 30 minutes 59 seconds ago"
- - `--graph = [ all | short | detailed | none ]` - take one of specified flags, to set detail level of statistic information as shown in the Examples,
- using `all` return both `short` and `detailed`. `none` will hide per user statistics, use it if only `table` or `daily` needed.
- - `--statext = "js,html,htm,cs,css,scss,less,json,php,sql"` - The list of extensions which you want to see in `--graph=detailed` mode.
- - `--cwd` you can use the argument to specify repository path in your local system if you run the command not from the repository or you want to specify a few repositories.
-   - single rep example: `--cwd="/home/project"`
-   - You can use multiple repos separated by commas:
-     - `--cwd="/home/project1,/home/project2,/home/project3"`
- - `--prepull` - pull commits for all repositories before analysis.
-    - Note: doesn't resolve merge conflicts.
- - `--users = "Me,ThatGuy"` - takes an array of names and returns statistics only for them.
- - `--lmargin=19` - the space between progress line and a left edge of the window
- - `--barSize=200` - set length of progress bar in chars, default value set at 100 chars
- - `--table` - generate table with short personal commit statistic
- - `--daily` - generate per day statistic based on number of changed lines.
- - `--appendtomd=report.md`  - will create `report.md` file with statistic in your project  directory
- - `--bartype = [default | detailed]` - change progress bar representation, `detailed`  show insertions/deletions, `default` doesn't. 
- - `--ignoreusers="FirstName LastName,FirstName2 LastName2,SomeUsername"` - allows you to exclude specific users from the statistics (Their contribution will be ignored fully).
- - `--statignore="package-lock.json,assets,bin"` - you can put any files which will be ignored. 
-   - Items in the list are [RegExp](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/RegExp) strings. NOTES: Flags `mi` will be appended for the RegExp.
-   - With config file `gimme.config.js` can be configured with more flexibility (see Examples below).
-
-# Examples
-```sh
-$ gimme-stat --since=3.months --cwd="/home/project" --graph=detailed
-
-SomeMan1            ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
+    example1: `SomeMan1            ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
 ├── cs              ███████████████████░░░░░░░░░░░░░░░░░░░░░ 47.51%
 ├── other           ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 26.64%
 ├── js              ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 16.88%
@@ -73,25 +30,16 @@ SomeMan3            █████████░░░░░░░░░░░
 Ilya Mokin          █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%
 ├── cs              █████████████████████████████████████░░░ 92.11%
 ├── other           ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 6.14%
-└── js              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.75%
+└── js              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.75%`,
 
-```
-
-```sh
-$ gimme-stat  --graph=short --bartype=detailed --barsize=40 
-
-    Legend:
+    example2: `    Legend:
     + - insertions
     - - deletions
 
 SomeMan1       [-----------------+++++++++++            ] 71.26%
-SomeMan2       [-------++++                             ] 28.74%
-```
+SomeMan2       [-------++++                             ] 28.74%`,
 
-```sh
-$ gimme-stat --since=1.weeks --graph=short --barsize=50 --daily
-
-SomeMan1       ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
+    example3: `SomeMan1       ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
 SomeMan2       ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 35.91%
 SomeMan3       █████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 22.84%
 Ilya Mokin     █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%
@@ -103,24 +51,18 @@ Sat Nov 25 2017 ░░░░░░░░░░░░░░░░░░░░░�
 Sun Nov 26 2017 ██████████████████░░░░░░░░░░░░░░░░░░░░░░ 6   | 330
 Mon Nov 27 2017 ████████████████████████████░░░░░░░░░░░░ 8   | 517
 Tue Nov 28 2017 ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 5   | 265
-Wed Nov 29 2017 ████████████████████████████████████████ 20  | 741
-```
+Wed Nov 29 2017 ████████████████████████████████████████ 20  | 741`,
 
-```sh
-$ gimme-stat --since=1.weeks --daily --users="Dat Ding" --graph=none
-                                                      commits|changes
+    example4: `                                                      commits|changes
 Thu Nov 23 2017 ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 4   | 119
 Fri Nov 24 2017 ████████████████░░░░░░░░░░░░░░░░░░░░░░░░ 7   | 290
 Sat Nov 25 2017 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0   | 0
 Sun Nov 26 2017 ██████████████████░░░░░░░░░░░░░░░░░░░░░░ 6   | 330
 Mon Nov 27 2017 ████████████████████████████░░░░░░░░░░░░ 8   | 517
 Tue Nov 28 2017 ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 5   | 265
-Wed Nov 29 2017 ████████████████████████████████████████ 20  | 741
-```
+Wed Nov 29 2017 ████████████████████████████████████████ 20  | 741`,
 
-```sh
-$ gimme-stat --since=3.months --graph=none --table 
-┌──────────────┬─────────┬────────────┬───────────┬──────────────┐
+    example5: `┌──────────────┬─────────┬────────────┬───────────┬──────────────┐
 │ Author       │ Commits │ Insertions │ Deletions │ % of changes │
 ├──────────────┼─────────┼────────────┼───────────┼──────────────┤
 │ SomeMan      │ 69      │ 2237       │ 1110      │ 36           │
@@ -132,81 +74,18 @@ $ gimme-stat --since=3.months --graph=none --table
 │ SomeMan3     │ 5       │ 209        │ 127       │ 4            │
 ├──────────────┼─────────┼────────────┼───────────┼──────────────┤
 │ Ilya Mokin   │ 4       │ 193        │ 35        │ 3            │
-└──────────────┴─────────┴────────────┴───────────┴──────────────┘
-```
+└──────────────┴─────────┴────────────┴───────────┴──────────────┘`,
 
-# Sample  `gimme.config.js`
-You can place the config in a directory which you are using to generate `gimme-stat` reports.
-
-```js
-module.exports = {
-    userAliases   : [
-        'ilyamokin>Ilya Mokin',
-        'imokin>Ilya Mokin'
-    ],
-    appendToMd    : "report.md",
-    since         : "1.weeks",
-    until         : "",
-    graph         : "short",
-    lmargin       : 19,
-    barSize       : 100,
-    cwd           : [
-        "C:/repository/MyProject1",
-        "C:/repository/MyProject2"
-    ],
-    users         :'',
-    barType       :'default',
-    //Masks of files which will be ignored in your statistic
-    statIgnore    : [
-        /node_modules/mi,
-        /package\-lock\.json/mi,
-        /yarn\.lock/mi,
-        /assets/mi,
-        /dist/mi,
-        /\.gitignore/,
-        /www(\/|\\)build/mi,
-        /^(\/|\\)www/mi,
-        /\.idea/,
-        /config\.xml/,
-        /\.sourcemaps/,
-        /.+\.map/
-    ],
-
-
-    table: false,
-    daily: false,
-    prepull: false,
-    // The file extensions will be shown in your statistic,
-    // other will be under 'other' category.
-    statExtensions: [
-        'js', 'html', 'htm', 'cs', 'css', 'scss', 'less',
-        'json', 'php', 'sql'
-    ],
-
-    //The users will be ignored in your statistics
-    ignoreUsers : [
-        'Unknown', 'user1'
-    ]
-}
-```
-# Sample  `report.md`
-
-Chart generated by gimme-stat at Fri Feb 16 2018 12:43:46
-```sh
-Repositories:
+    reportRepos: `Repositories:
 home/rep/project1
-home/rep/project2
-```
-## Short
-```sh
-SomeMan1       ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
+home/rep/project2`,
+
+    reportShort: `SomeMan1       ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
 SomeMan2       ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 35.91%
 SomeMan3       █████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 22.84%
-Ilya Mokin     █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%
-```
-## Detailed
-```sh
-SomeMan1            ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
+Ilya Mokin     █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%`,
+
+    reportDetailed: `SomeMan1            ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
 ├── cs              ███████████████████░░░░░░░░░░░░░░░░░░░░░ 47.51%
 ├── other           ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 26.64%
 ├── js              ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 16.88%
@@ -232,11 +111,9 @@ SomeMan3            █████████░░░░░░░░░░░
 Ilya Mokin          █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%
 ├── cs              █████████████████████████████████████░░░ 92.11%
 ├── other           ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 6.14%
-└── js              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.75%
-```
+└── js              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.75%`,
 
-```sh
-┌──────────────┬─────────┬────────────┬───────────┬──────────────┐
+    reportTable: `┌──────────────┬─────────┬────────────┬───────────┬──────────────┐
 │ Author       │ Commits │ Insertions │ Deletions │ % of changes │
 ├──────────────┼─────────┼────────────┼───────────┼──────────────┤
 │ SomeMan      │ 69      │ 2237       │ 1110      │ 36           │
@@ -248,11 +125,9 @@ Ilya Mokin          █░░░░░░░░░░░░░░░░░░░
 │ SomeMan3     │ 5       │ 209        │ 127       │ 4            │
 ├──────────────┼─────────┼────────────┼───────────┼──────────────┤
 │ Ilya Mokin   │ 4       │ 193        │ 35        │ 3            │
-└──────────────┴─────────┴────────────┴───────────┴──────────────┘
-```
-## Daily
-```sh
-                                                      commits|changes
+└──────────────┴─────────┴────────────┴───────────┴──────────────┘`,
+
+    reportDaily: `                                                      commits|changes
 Thu Nov 23 2017 ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 4   | 119
 Fri Nov 24 2017 ████████████████░░░░░░░░░░░░░░░░░░░░░░░░ 7   | 290
 Sat Nov 25 2017 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0   | 0
@@ -260,38 +135,105 @@ Sun Nov 26 2017 ░░░░░░░░░░░░░░░░░░░░░�
 Mon Nov 27 2017 ██████████████████░░░░░░░░░░░░░░░░░░░░░░ 6   | 330
 Tue Nov 28 2017 ████████████████████████████░░░░░░░░░░░░ 8   | 517
 Wed Nov 29 2017 ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 5   | 265
-Thu Nov 30 2017 ████████████████████████████████████████ 20  | 741
-``` 
-# Usage as nodejs module
-Easiest way to use it is to call module with default parameters, use empty object for this.
-``` js
-let gimmeStat = require('gimme-stat');
-gimmeStat.text({}).then((answer) => {
-    console.log(answer);
-    });
-```
-Available 3 type of return:
- - `gimmeStat.text({})` - `{json, string}` - json will contain raw data and second field will be in requested format
- - `gimmeStat.md({})` - `{json, md}`
- - `gimmeStat.json({})` - `{json}`
+Thu Nov 30 2017 ████████████████████████████████████████ 20  | 741`
+};
 
-Also you can choose parameters, pass it as an object
-``` js
-let gimmeStat = require('gimme-stat');
-gimmeStat.text({
-    appendToMd:false,
-    barSize:60,
-    barType:"default",
-    cwd:Array(1) ["."],
-    daily:false,
-    graph:"short",
-    ignoreUsers:Array(2) ["Unknown", "user1"],
-    init:false,
-    prepull:false,
-    since:"3.months",
-    table:false,
-    until:"",
-    userAliases:Object {ilyamokin: "Ilya Mokin", imokin: "Ilya Mokin"},
-    users:Array(1) [""]
-}).then((answer) => {console.log(answer);});
-```
+// Create a terminal instance
+function createTerminal(elementId, content) {
+    const container = document.getElementById(elementId);
+    if (!container) return;
+
+    const term = new Terminal({
+        convertEol: true,
+        fontFamily: '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace',
+        fontSize: 13,
+        theme: {
+            background: '#000000',
+            foreground: '#ffffff',
+            cursor: '#ffffff',
+            cursorAccent: '#000000',
+        },
+        cursorBlink: false,
+        disableStdin: true,
+        rows: content.split('\n').length + 1
+    });
+
+    term.open(container);
+    term.write(content);
+}
+
+// Create terminal for collapsible sections
+function createCollapsibleTerminal(wrapperId, content) {
+    const wrapper = document.querySelector(`#${wrapperId} .terminal-wrapper`);
+    if (!wrapper) return;
+
+    const term = new Terminal({
+        convertEol: true,
+        fontFamily: '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace',
+        fontSize: 13,
+        theme: {
+            background: '#000000',
+            foreground: '#ffffff',
+            cursor: '#ffffff',
+            cursorAccent: '#000000',
+        },
+        cursorBlink: false,
+        disableStdin: true,
+        rows: content.split('\n').length + 1
+    });
+
+    term.open(wrapper);
+    term.write(content);
+}
+
+// Initialize all terminals on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize installation terminal (always visible)
+    createTerminal('terminal-install', terminalOutputs.install);
+
+    // Setup collapse/expand functionality
+    const collapseButtons = document.querySelectorAll('.collapse-btn');
+
+    collapseButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                const isOpen = targetElement.classList.contains('open');
+
+                if (isOpen) {
+                    // Close
+                    targetElement.classList.remove('open');
+                    this.textContent = 'Show Output';
+                    this.classList.remove('active');
+                } else {
+                    // Open
+                    targetElement.classList.add('open');
+                    this.textContent = 'Hide Output';
+                    this.classList.add('active');
+
+                    // Initialize terminal if not already done
+                    const wrapper = targetElement.querySelector('.terminal-wrapper');
+                    if (wrapper && !wrapper.hasChildNodes()) {
+                        const outputKey = targetId.replace('example', 'example')
+                            .replace('report-repos', 'reportRepos')
+                            .replace('report-short', 'reportShort')
+                            .replace('report-detailed', 'reportDetailed')
+                            .replace('report-table', 'reportTable')
+                            .replace('report-daily', 'reportDaily');
+
+                        if (terminalOutputs[outputKey]) {
+                            createCollapsibleTerminal(targetId, terminalOutputs[outputKey]);
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    // Initialize Prism.js syntax highlighting
+    if (typeof Prism !== 'undefined') {
+        Prism.highlightAll();
+    }
+});
