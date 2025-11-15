@@ -1,4 +1,4 @@
-# [gimme-stat](https://test.com) is a CLI **GIT report tool**
+# [gimme-stat](https://ilyamokin.github.io/gimme-stat/) is a CLI **GIT report tool**
 
 Having a git repository you can get the report which includes commits count per developer, number of changed lines, their percentage relative with other project developers.
 
@@ -10,7 +10,7 @@ $ cd /home/your_git_project_name
 $ gimme-stat
 ```
 
-## More examples and DOCUMENTATION by the [link](https://test.com).
+## More examples and DOCUMENTATION by the [link](https://ilyamokin.github.io/gimme-stat/).
 
 # Available arguments
 
