@@ -1,5 +1,7 @@
 # gimme-stat is a CLI **GIT report tool**
 
+
+
 Having a git repository you can get the report which includes commits count per developer, number of changed lines, their percentage relative with other project developers.
 
 It has flexible customization which allows to combine a list of repositories, merge developers nicknames, exclude some of them from the report. Allow to export the report to MD format.

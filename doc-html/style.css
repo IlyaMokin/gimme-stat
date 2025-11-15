@@ -24,6 +24,23 @@ header {
     border-bottom: 1px solid #e1e4e8;
 }
 
+.header-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.header-text {
+    flex: 1;
+}
+
 h1 {
     font-size: 2em;
     font-weight: 600;
@@ -43,6 +60,18 @@ h2 {
     padding-bottom: 8px;
     border-bottom: 1px solid #e1e4e8;
     color: #24292e;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    margin-bottom: 0;
+    flex: 1;
 }
 
 h3 {
@@ -158,12 +187,23 @@ pre code {
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
-.terminal-wrapper {
-    min-height: 100px;
+.terminal-content {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 16px;
+    margin: 0;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    overflow-x: auto;
 }
 
-#terminal-install {
-    min-height: 80px;
+.terminal-content code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
 }
 
 /* Collapsible sections */
@@ -199,12 +239,37 @@ pre code {
     background-color: #f6f8fa;
     border-radius: 6px;
     border: 1px solid #e1e4e8;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 14px;
+    line-height: 1.8;
 }
 
 .command-line code {
     background-color: transparent;
     color: #24292e;
     font-size: 14px;
+}
+
+/* Command line syntax highlighting */
+.cmd-prompt {
+    color: #6f42c1;
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.cmd-name {
+    color: #005cc5;
+    font-weight: 600;
+}
+
+.cmd-param {
+    color: #d73a49;
+    font-weight: 500;
+}
+
+.cmd-value {
+    color: #22863a;
+    font-weight: 400;
 }
 
 /* Collapse button */
@@ -237,6 +302,40 @@ pre code {
     background-color: #586069;
 }
 
+/* Expand All button */
+.expand-all-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
+}
+
+.expand-all-btn:hover {
+    background-color: #218838;
+}
+
+.expand-all-btn:active {
+    background-color: #1e7e34;
+}
+
+.expand-all-btn.collapse-mode {
+    background-color: #dc3545;
+}
+
+.expand-all-btn.collapse-mode:hover {
+    background-color: #c82333;
+}
+
+.expand-all-btn.collapse-mode:active {
+    background-color: #bd2130;
+}
+
 /* Installation section */
 .installation {
     margin-bottom: 40px;
@@ -262,6 +361,21 @@ footer {
         padding: 10px;
     }
 
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .header-text {
+        width: 100%;
+    }
+
     h1 {
         font-size: 1.5em;
     }
@@ -281,6 +395,22 @@ footer {
 
     .terminal-wrapper {
         min-height: 80px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .section-header h2 {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .expand-all-btn {
+        width: 100%;
+        margin-bottom: 8px;
     }
 }
 

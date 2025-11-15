@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gimme-stat - CLI GIT Report Tool</title>
+    <title>gimme-stat - CLI GIT Report Tool Documentation</title>
+    <meta name="description" content="gimme-stat is a CLI GIT report tool that provides detailed statistics on commits, changed lines, and developer contributions. Generate reports with flexible customization options.">
+    <meta name="keywords" content="git, statistics, commits, developer stats, git report, cli tool, code analysis, repository stats">
+    <meta name="author" content="gimme-stat">
 
-    <!-- xterm.js for terminal display -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo-icon.png">
 
     <!-- Prism.js for syntax highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" />
@@ -20,9 +22,14 @@
 <body>
     <div class="container">
         <header>
-            <h1>gimme-stat is a CLI <strong>GIT report tool</strong></h1>
-            <p>Having a git repository you can get the report which includes commits count per developer, number of changed lines, their percentage relative with other project developers.</p>
-            <p>It has flexible customization which allows to combine a list of repositories, merge developers nicknames, exclude some of them from the report. Allow to export the report to MD format.</p>
+            <div class="header-content">
+                <img src="logo.png" alt="gimme-stat logo" class="logo">
+                <div class="header-text">
+                    <h1>gimme-stat is a CLI <strong>GIT report tool</strong></h1>
+                    <p>Having a git repository you can get the report which includes commits count per developer, number of changed lines, their percentage relative with other project developers.</p>
+                    <p>It has flexible customization which allows to combine a list of repositories, merge developers nicknames, exclude some of them from the report. Allow to export the report to MD format.</p>
+                </div>
+            </div>
         </header>
 
         <section class="installation">
@@ -31,7 +38,9 @@
                 <div class="terminal-header">
                     <span class="terminal-title">Terminal</span>
                 </div>
-                <div id="terminal-install"></div>
+                <pre class="terminal-content"><code>$ npm -g install gimme-stat
+$ cd /home/your_git_project_name
+$ gimme-stat</code></pre>
             </div>
         </section>
 
@@ -118,19 +127,48 @@
         </section>
 
         <section class="examples">
-            <h2>Examples</h2>
+            <div class="section-header">
+                <h2>Examples</h2>
+                <button id="expand-all-btn" class="expand-all-btn">Expand All Examples</button>
+            </div>
 
             <div class="example-block">
                 <h3>Example 1: Detailed graph with file extensions</h3>
                 <button class="collapse-btn" data-target="example1">Show Output</button>
                 <div class="command-line">
-                    <code>$ gimme-stat --since=3.months --cwd="/home/project" --graph=detailed</code>
+                    <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--since</span>=<span class="cmd-value">3.months</span> <span class="cmd-param">--cwd</span>=<span class="cmd-value">"/home/project"</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">detailed</span>
                 </div>
                 <div id="example1" class="terminal-example collapsible">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>Nicolas Cage        ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
+├── cs              ███████████████████░░░░░░░░░░░░░░░░░░░░░ 47.51%
+├── other           ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 26.64%
+├── js              ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 16.88%
+├── scss            ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 6.41%
+├── sql             ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.46%
+└── json            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.10%
+Tom Hanks           ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 35.91%
+├── cs              ███████████████████████░░░░░░░░░░░░░░░░░ 57.25%
+├── other           ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 36.08%
+├── js              ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 5.18%
+├── scss            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.64%
+├── json            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.50%
+├── html            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.18%
+└── sql             ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.18%
+Keanu Reeves        █████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 22.84%
+├── cs              ██████████████████████░░░░░░░░░░░░░░░░░░ 54.38%
+├── other           ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 25.49%
+├── js              ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 15.45%
+├── sql             █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.40%
+├── json            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.73%
+├── scss            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.45%
+└── html            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.11%
+Morgan Freeman      █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%
+├── cs              █████████████████████████████████████░░░ 92.11%
+├── other           ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 6.14%
+└── js              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.75%</code></pre>
                 </div>
             </div>
 
@@ -138,13 +176,18 @@
                 <h3>Example 2: Short graph with detailed bar type</h3>
                 <button class="collapse-btn" data-target="example2">Show Output</button>
                 <div class="command-line">
-                    <code>$ gimme-stat --graph=short --bartype=detailed --barsize=40</code>
+                    <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">short</span> <span class="cmd-param">--bartype</span>=<span class="cmd-value">detailed</span> <span class="cmd-param">--barsize</span>=<span class="cmd-value">40</span>
                 </div>
                 <div id="example2" class="terminal-example collapsible">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>    Legend:
+    + - insertions
+    - - deletions
+
+Nicolas Cage   [-----------------+++++++++++            ] 71.26%
+Tom Hanks      [-------++++                             ] 28.74%</code></pre>
                 </div>
             </div>
 
@@ -152,13 +195,25 @@
                 <h3>Example 3: Short graph with daily statistics</h3>
                 <button class="collapse-btn" data-target="example3">Show Output</button>
                 <div class="command-line">
-                    <code>$ gimme-stat --since=1.weeks --graph=short --barsize=50 --daily</code>
+                    <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--since</span>=<span class="cmd-value">1.weeks</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">short</span> <span class="cmd-param">--barsize</span>=<span class="cmd-value">50</span> <span class="cmd-param">--daily</span>
                 </div>
                 <div id="example3" class="terminal-example collapsible">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>Nicolas Cage   ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
+Tom Hanks      ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 35.91%
+Keanu Reeves   █████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 22.84%
+Morgan Freeman █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%
+
+                                                      commits|changes
+Thu Nov 23 2017 ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 4   | 119
+Fri Nov 24 2017 ████████████████░░░░░░░░░░░░░░░░░░░░░░░░ 7   | 290
+Sat Nov 25 2017 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0   | 0
+Sun Nov 26 2017 ██████████████████░░░░░░░░░░░░░░░░░░░░░░ 6   | 330
+Mon Nov 27 2017 ████████████████████████████░░░░░░░░░░░░ 8   | 517
+Tue Nov 28 2017 ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 5   | 265
+Wed Nov 29 2017 ████████████████████████████████████████ 20  | 741</code></pre>
                 </div>
             </div>
 
@@ -166,13 +221,20 @@
                 <h3>Example 4: Daily statistics for specific user</h3>
                 <button class="collapse-btn" data-target="example4">Show Output</button>
                 <div class="command-line">
-                    <code>$ gimme-stat --since=1.weeks --daily --users="Dat Ding" --graph=none</code>
+                    <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--since</span>=<span class="cmd-value">1.weeks</span> <span class="cmd-param">--daily</span> <span class="cmd-param">--users</span>=<span class="cmd-value">"Dat Ding"</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">none</span>
                 </div>
                 <div id="example4" class="terminal-example collapsible">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>                                                      commits|changes
+Thu Nov 23 2017 ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 4   | 119
+Fri Nov 24 2017 ████████████████░░░░░░░░░░░░░░░░░░░░░░░░ 7   | 290
+Sat Nov 25 2017 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0   | 0
+Sun Nov 26 2017 ██████████████████░░░░░░░░░░░░░░░░░░░░░░ 6   | 330
+Mon Nov 27 2017 ████████████████████████████░░░░░░░░░░░░ 8   | 517
+Tue Nov 28 2017 ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 5   | 265
+Wed Nov 29 2017 ████████████████████████████████████████ 20  | 741</code></pre>
                 </div>
             </div>
 
@@ -180,13 +242,25 @@
                 <h3>Example 5: Table format</h3>
                 <button class="collapse-btn" data-target="example5">Show Output</button>
                 <div class="command-line">
-                    <code>$ gimme-stat --since=3.months --graph=none --table</code>
+                    <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--since</span>=<span class="cmd-value">3.months</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">none</span> <span class="cmd-param">--table</span>
                 </div>
                 <div id="example5" class="terminal-example collapsible">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>┌────────────────┬─────────┬────────────┬───────────┬──────────────┐
+│ Author         │ Commits │ Insertions │ Deletions │ % of changes │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Nicolas Cage   │ 69      │ 2237       │ 1110      │ 36           │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Tom Hanks      │ 92      │ 2335       │ 905       │ 35           │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Keanu Reeves   │ 42      │ 1389       │ 801       │ 24           │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Morgan Freeman │ 5       │ 209        │ 127       │ 4            │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Samuel Jackson │ 4       │ 193        │ 35        │ 3            │
+└────────────────┴─────────┴────────────┴───────────┴──────────────┘</code></pre>
                 </div>
             </div>
         </section>
@@ -254,7 +328,9 @@
                     <div class="terminal-header">
                         <span class="terminal-title">Repositories</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>Repositories:
+home/rep/project1
+home/rep/project2</code></pre>
                 </div>
             </div>
 
@@ -265,7 +341,10 @@
                     <div class="terminal-header">
                         <span class="terminal-title">Short Statistics</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>Nicolas Cage   ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
+Tom Hanks      ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 35.91%
+Keanu Reeves   █████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 22.84%
+Morgan Freeman █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%</code></pre>
                 </div>
             </div>
 
@@ -276,7 +355,33 @@
                     <div class="terminal-header">
                         <span class="terminal-title">Detailed Statistics</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>Nicolas Cage        ███████████████░░░░░░░░░░░░░░░░░░░░░░░░░ 38.34%
+├── cs              ███████████████████░░░░░░░░░░░░░░░░░░░░░ 47.51%
+├── other           ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 26.64%
+├── js              ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 16.88%
+├── scss            ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 6.41%
+├── sql             ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.46%
+└── json            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.10%
+Tom Hanks           ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 35.91%
+├── cs              ███████████████████████░░░░░░░░░░░░░░░░░ 57.25%
+├── other           ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 36.08%
+├── js              ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 5.18%
+├── scss            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.64%
+├── json            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.50%
+├── html            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.18%
+└── sql             ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.18%
+Keanu Reeves        █████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 22.84%
+├── cs              ██████████████████████░░░░░░░░░░░░░░░░░░ 54.38%
+├── other           ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 25.49%
+├── js              ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 15.45%
+├── sql             █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.40%
+├── json            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.73%
+├── scss            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.45%
+└── html            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0.11%
+Morgan Freeman      █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 2.90%
+├── cs              █████████████████████████████████████░░░ 92.11%
+├── other           ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 6.14%
+└── js              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.75%</code></pre>
                 </div>
             </div>
 
@@ -287,7 +392,19 @@
                     <div class="terminal-header">
                         <span class="terminal-title">Table Statistics</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>┌────────────────┬─────────┬────────────┬───────────┬──────────────┐
+│ Author         │ Commits │ Insertions │ Deletions │ % of changes │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Nicolas Cage   │ 69      │ 2237       │ 1110      │ 36           │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Tom Hanks      │ 92      │ 2335       │ 905       │ 35           │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Keanu Reeves   │ 42      │ 1389       │ 801       │ 24           │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Morgan Freeman │ 5       │ 209        │ 127       │ 4            │
+├────────────────┼─────────┼────────────┼───────────┼──────────────┤
+│ Samuel Jackson │ 4       │ 193        │ 35        │ 3            │
+└────────────────┴─────────┴────────────┴───────────┴──────────────┘</code></pre>
                 </div>
             </div>
 
@@ -298,7 +415,15 @@
                     <div class="terminal-header">
                         <span class="terminal-title">Daily Statistics</span>
                     </div>
-                    <div class="terminal-wrapper"></div>
+                    <pre class="terminal-content"><code>                                                      commits|changes
+Thu Nov 23 2017 ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 4   | 119
+Fri Nov 24 2017 ████████████████░░░░░░░░░░░░░░░░░░░░░░░░ 7   | 290
+Sat Nov 25 2017 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0   | 0
+Sun Nov 26 2017 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 0   | 0
+Mon Nov 27 2017 ██████████████████░░░░░░░░░░░░░░░░░░░░░░ 6   | 330
+Tue Nov 28 2017 ████████████████████████████░░░░░░░░░░░░ 8   | 517
+Wed Nov 29 2017 ██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 5   | 265
+Thu Nov 30 2017 ████████████████████████████████████████ 20  | 741</code></pre>
                 </div>
             </div>
         </section>
@@ -340,7 +465,7 @@ gimmeStat.text({
         </section>
 
         <footer>
-            <p>Created with gimme-stat | <a href="https://github.com/ioncreature/gimme-stat" target="_blank">GitHub Repository</a></p>
+            <p>Created with gimme-stat | <a href="https://github.com/ilyamokin/gimme-stat" target="_blank">GitHub Repository</a></p>
         </footer>
     </div>
 
