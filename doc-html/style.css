@@ -1,7 +1,12 @@
+/* ===== Reset & Base Styles ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -9,73 +14,217 @@ body {
     line-height: 1.6;
     color: #24292e;
     background-color: #ffffff;
-    padding: 20px;
 }
 
-.container {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-header {
-    margin-bottom: 40px;
-    padding-bottom: 20px;
+/* ===== Mobile Header ===== */
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #ffffff;
     border-bottom: 1px solid #e1e4e8;
+    padding: 0 20px;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1001;
 }
 
-.header-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 24px;
-}
-
-.logo {
-    width: 120px;
-    height: 120px;
+.mobile-logo {
+    width: 40px;
+    height: 40px;
     object-fit: contain;
-    flex-shrink: 0;
 }
 
-.header-text {
-    flex: 1;
-}
-
-h1 {
-    font-size: 2em;
+.mobile-title {
+    font-size: 18px;
     font-weight: 600;
-    margin-bottom: 16px;
-    color: #24292e;
-}
-
-h1 strong {
     color: #0366d6;
 }
 
-h2 {
-    font-size: 1.5em;
-    font-weight: 600;
-    margin-top: 40px;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
+/* Hamburger Menu */
+.hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger span {
+    display: block;
+    height: 3px;
+    background-color: #24292e;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* ===== Sidebar Navigation ===== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    background-color: #f6f8fa;
+    border-right: 1px solid #e1e4e8;
+    padding: 0;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+    padding: 20px 25px 0;
     border-bottom: 1px solid #e1e4e8;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.sidebar-title-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar-title-link:hover {
+    opacity: 0.8;
+}
+
+.sidebar-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #0366d6;
+    text-align: center;
+    margin: 0;
+}
+
+.npm-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+/* Navigation Menu */
+.nav-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-menu > li {
+    margin-bottom: 2px;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 25px;
+    color: #586069;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: #e1e4e8;
+    color: #0366d6;
+}
+
+.nav-link.active {
+    background-color: #ffffff;
+    color: #0366d6;
+    border-left-color: #0366d6;
+}
+
+/* Submenu */
+.nav-submenu {
+    list-style: none;
+    padding: 5px 0;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-submenu li {
+    margin-bottom: 1px;
+}
+
+.nav-sublink {
+    padding: 8px 25px 8px 50px;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* ===== Main Content Area ===== */
+.main-content {
+    margin-left: 260px;
+    padding: 40px 60px;
+    max-width: 1200px;
+}
+
+/* Documentation Sections */
+.doc-section {
+    margin-bottom: 60px;
+    padding-top: 20px;
+}
+
+.section-intro h1 {
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-bottom: 20px;
     color: #24292e;
 }
 
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
+.section-intro h1 strong {
+    color: #0366d6;
 }
 
-.section-header h2 {
-    margin-bottom: 0;
-    flex: 1;
+.section-intro p {
+    font-size: 16px;
+    color: #586069;
+    margin-bottom: 12px;
+    line-height: 1.7;
+}
+
+h2 {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e1e4e8;
+    color: #24292e;
 }
 
 h3 {
-    font-size: 1.25em;
+    font-size: 1.3em;
     font-weight: 600;
     margin-top: 24px;
     margin-bottom: 12px;
@@ -112,7 +261,8 @@ pre {
     line-height: 1.45;
     background-color: #f6f8fa;
     border-radius: 6px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #e1e4e8;
 }
 
 pre code {
@@ -127,7 +277,7 @@ pre code {
     font-size: 100%;
 }
 
-/* Arguments list */
+/* Arguments List */
 .arguments-list {
     list-style-type: none;
     padding-left: 0;
@@ -145,6 +295,7 @@ pre code {
     left: 0;
     color: #0366d6;
     font-weight: bold;
+    font-size: 18px;
 }
 
 .arguments-list ul {
@@ -154,7 +305,7 @@ pre code {
 }
 
 .arguments-list ul li {
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     position: relative;
     padding-left: 16px;
 }
@@ -166,7 +317,20 @@ pre code {
     color: #586069;
 }
 
-/* Terminal styling */
+/* Section Header with Button */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+/* Terminal Styling */
 .terminal-example {
     margin-bottom: 24px;
     border: 1px solid #e1e4e8;
@@ -206,7 +370,7 @@ pre code {
     font-family: inherit;
 }
 
-/* Collapsible sections */
+/* Collapsible Sections */
 .collapsible {
     display: none;
     overflow: hidden;
@@ -224,33 +388,31 @@ pre code {
     }
     to {
         opacity: 1;
-        max-height: 1000px;
+        max-height: 5000px;
     }
 }
 
-/* Example blocks */
+/* Example Blocks */
 .example-block {
     margin-bottom: 32px;
+    padding: 20px;
+    background-color: #f6f8fa;
+    border-radius: 6px;
+    border: 1px solid #e1e4e8;
 }
 
 .command-line {
     margin: 12px 0;
     padding: 12px 16px;
-    background-color: #f6f8fa;
+    background-color: #ffffff;
     border-radius: 6px;
-    border: 1px solid #e1e4e8;
+    border: 1px solid #d1d5da;
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
     font-size: 14px;
     line-height: 1.8;
 }
 
-.command-line code {
-    background-color: transparent;
-    color: #24292e;
-    font-size: 14px;
-}
-
-/* Command line syntax highlighting */
+/* Command Line Syntax Highlighting */
 .cmd-prompt {
     color: #6f42c1;
     font-weight: bold;
@@ -272,8 +434,9 @@ pre code {
     font-weight: 400;
 }
 
-/* Collapse button */
-.collapse-btn {
+/* Buttons */
+.collapse-btn,
+.expand-all-btn {
     background-color: #0366d6;
     color: white;
     border: none;
@@ -281,16 +444,18 @@ pre code {
     font-size: 14px;
     border-radius: 6px;
     cursor: pointer;
-    margin-bottom: 12px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     transition: background-color 0.2s ease;
+    font-weight: 500;
 }
 
-.collapse-btn:hover {
+.collapse-btn:hover,
+.expand-all-btn:hover {
     background-color: #0256c7;
 }
 
-.collapse-btn:active {
+.collapse-btn:active,
+.expand-all-btn:active {
     background-color: #024ea1;
 }
 
@@ -302,28 +467,6 @@ pre code {
     background-color: #586069;
 }
 
-/* Expand All button */
-.expand-all-btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    transition: background-color 0.2s ease;
-    font-weight: 500;
-}
-
-.expand-all-btn:hover {
-    background-color: #218838;
-}
-
-.expand-all-btn:active {
-    background-color: #1e7e34;
-}
-
 .expand-all-btn.collapse-mode {
     background-color: #dc3545;
 }
@@ -332,18 +475,9 @@ pre code {
     background-color: #c82333;
 }
 
-.expand-all-btn.collapse-mode:active {
-    background-color: #bd2130;
-}
-
-/* Installation section */
-.installation {
-    margin-bottom: 40px;
-}
-
 /* Footer */
-footer {
-    margin-top: 60px;
+.doc-footer {
+    margin-top: 80px;
     padding-top: 20px;
     border-top: 1px solid #e1e4e8;
     text-align: center;
@@ -351,50 +485,46 @@ footer {
     font-size: 14px;
 }
 
-/* Responsive design */
+/* ===== Responsive Design ===== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .main-content {
+        padding: 30px 40px;
+    }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
+    .mobile-header {
+        display: flex;
     }
 
-    .container {
-        padding: 10px;
+    .sidebar {
+        transform: translateX(-100%);
+        padding-top: 80px;
     }
 
-    .header-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    .logo {
-        width: 100px;
-        height: 100px;
+    .main-content {
+        margin-left: 0;
+        padding: 80px 20px 40px;
     }
 
-    .header-text {
-        width: 100%;
-    }
-
-    h1 {
-        font-size: 1.5em;
+    .section-intro h1 {
+        font-size: 1.8em;
     }
 
     h2 {
-        font-size: 1.25em;
+        font-size: 1.4em;
     }
 
     h3 {
         font-size: 1.1em;
-    }
-
-    pre {
-        padding: 12px;
-        font-size: 80%;
-    }
-
-    .terminal-wrapper {
-        min-height: 80px;
     }
 
     .section-header {
@@ -410,19 +540,34 @@ footer {
 
     .expand-all-btn {
         width: 100%;
-        margin-bottom: 8px;
+    }
+
+    .example-block {
+        padding: 15px;
+    }
+
+    .command-line {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    pre {
+        padding: 12px;
+        font-size: 80%;
+    }
+
+    .terminal-content {
+        font-size: 11px;
     }
 }
 
-/* xterm.js customization */
-.xterm {
-    padding: 10px;
-}
+/* Small Mobile */
+@media (max-width: 480px) {
+    .main-content {
+        padding: 70px 15px 30px;
+    }
 
-.xterm-viewport {
-    background-color: #000000 !important;
-}
-
-.xterm-screen {
-    background-color: #000000 !important;
+    .section-intro h1 {
+        font-size: 1.5em;
+    }
 }

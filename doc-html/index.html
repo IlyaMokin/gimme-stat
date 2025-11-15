@@ -20,19 +20,58 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <img src="logo.png" alt="gimme-stat logo" class="logo">
-                <div class="header-text">
-                    <h1>gimme-stat is a CLI <strong>GIT report tool</strong></h1>
-                    <p>Having a git repository you can get the report which includes commits count per developer, number of changed lines, their percentage relative with other project developers.</p>
-                    <p>It has flexible customization which allows to combine a list of repositories, merge developers nicknames, exclude some of them from the report. Allow to export the report to MD format.</p>
-                </div>
-            </div>
-        </header>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <img src="logo.png" alt="gimme-stat logo" class="mobile-logo">
+        <span class="mobile-title">gimme-stat</span>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
 
-        <section class="installation">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="logo.png" alt="gimme-stat logo" class="sidebar-logo">
+            <a href="https://www.npmjs.com/package/gimme-stat" target="_blank" rel="noopener noreferrer" class="sidebar-title-link">
+                <img src="npm.png" alt="npm" class="npm-icon">
+                <h2 class="sidebar-title">gimme-stat</h2>
+            </a>
+        </div>
+
+        <ul class="nav-menu">
+            <li><a href="#introduction" class="nav-link">Introduction</a></li>
+            <li><a href="#installation" class="nav-link">Installation</a></li>
+            <li><a href="#arguments" class="nav-link">Available Arguments</a></li>
+            <li>
+                <a href="#examples" class="nav-link">Examples</a>
+                <ul class="nav-submenu">
+                    <li><a href="#example1" class="nav-link nav-sublink">Detailed Graph</a></li>
+                    <li><a href="#example2" class="nav-link nav-sublink">Bar Type</a></li>
+                    <li><a href="#example3" class="nav-link nav-sublink">Daily Stats</a></li>
+                    <li><a href="#example4" class="nav-link nav-sublink">Specific User</a></li>
+                    <li><a href="#example5" class="nav-link nav-sublink">Table Format</a></li>
+                </ul>
+            </li>
+            <li><a href="#config" class="nav-link">Json Configuration</a></li>
+            <li><a href="#report-sample" class="nav-link">Report Types</a></li>
+            <li><a href="#nodejs-usage" class="nav-link">Node.js Usage</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section id="introduction" class="doc-section">
+            <div class="section-intro">
+                <h1>gimme-stat is a CLI <strong>GIT report tool</strong></h1>
+                <p>Having a git repository you can get the report which includes commits count per developer, number of changed lines, their percentage relative with other project developers.</p>
+                <p>It has flexible customization which allows to combine a list of repositories, merge developers nicknames, exclude some of them from the report. Allow to export the report to MD format.</p>
+            </div>
+        </section>
+
+        <section id="installation" class="doc-section">
             <h2>Installation</h2>
             <div class="terminal-example">
                 <div class="terminal-header">
@@ -44,8 +83,8 @@ $ gimme-stat</code></pre>
             </div>
         </section>
 
-        <section class="arguments">
-            <h2>Available arguments</h2>
+        <section id="arguments" class="doc-section">
+            <h2>Available Arguments</h2>
             <ul class="arguments-list">
                 <li>
                     <code>--init</code> - create default configuration file <code>gimme.config.js</code>. The config can be an alternative for console arguments.
@@ -65,6 +104,7 @@ $ gimme-stat</code></pre>
                                 <li>--since="2014-02-12T16:36:00-07:00"</li>
                                 <li>--since="1 month ago"</li>
                                 <li>--since="2 weeks 3 days 2 hours 30 minutes 59 seconds ago"</li>
+                                <li>---since="2024-01-01" --until="2024-03-31"</li>
                             </ul>
                         </li>
                     </ul>
@@ -126,19 +166,19 @@ $ gimme-stat</code></pre>
             </ul>
         </section>
 
-        <section class="examples">
+        <section id="examples" class="doc-section">
             <div class="section-header">
                 <h2>Examples</h2>
-                <button id="expand-all-btn" class="expand-all-btn">Expand All Examples</button>
+                <button id="expand-all-btn" class="expand-all-btn collapse-mode">Collapse All Examples</button>
             </div>
 
-            <div class="example-block">
+            <div id="example1" class="example-block">
                 <h3>Example 1: Detailed graph with file extensions</h3>
-                <button class="collapse-btn" data-target="example1">Show Output</button>
+                <button class="collapse-btn active" data-target="example1-output">Hide Output</button>
                 <div class="command-line">
                     <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--since</span>=<span class="cmd-value">3.months</span> <span class="cmd-param">--cwd</span>=<span class="cmd-value">"/home/project"</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">detailed</span>
                 </div>
-                <div id="example1" class="terminal-example collapsible">
+                <div id="example1-output" class="terminal-example collapsible open">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
@@ -172,13 +212,13 @@ Morgan Freeman      █░░░░░░░░░░░░░░░░░░░
                 </div>
             </div>
 
-            <div class="example-block">
+            <div id="example2" class="example-block">
                 <h3>Example 2: Short graph with detailed bar type</h3>
-                <button class="collapse-btn" data-target="example2">Show Output</button>
+                <button class="collapse-btn active" data-target="example2-output">Hide Output</button>
                 <div class="command-line">
                     <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">short</span> <span class="cmd-param">--bartype</span>=<span class="cmd-value">detailed</span> <span class="cmd-param">--barsize</span>=<span class="cmd-value">40</span>
                 </div>
-                <div id="example2" class="terminal-example collapsible">
+                <div id="example2-output" class="terminal-example collapsible open">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
@@ -191,13 +231,13 @@ Tom Hanks      [-------++++                             ] 28.74%</code></pre>
                 </div>
             </div>
 
-            <div class="example-block">
+            <div id="example3" class="example-block">
                 <h3>Example 3: Short graph with daily statistics</h3>
-                <button class="collapse-btn" data-target="example3">Show Output</button>
+                <button class="collapse-btn active" data-target="example3-output">Hide Output</button>
                 <div class="command-line">
                     <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--since</span>=<span class="cmd-value">1.weeks</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">short</span> <span class="cmd-param">--barsize</span>=<span class="cmd-value">50</span> <span class="cmd-param">--daily</span>
                 </div>
-                <div id="example3" class="terminal-example collapsible">
+                <div id="example3-output" class="terminal-example collapsible open">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
@@ -217,13 +257,13 @@ Wed Nov 29 2017 █████████████████████�
                 </div>
             </div>
 
-            <div class="example-block">
+            <div id="example4" class="example-block">
                 <h3>Example 4: Daily statistics for specific user</h3>
-                <button class="collapse-btn" data-target="example4">Show Output</button>
+                <button class="collapse-btn active" data-target="example4-output">Hide Output</button>
                 <div class="command-line">
                     <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--since</span>=<span class="cmd-value">1.weeks</span> <span class="cmd-param">--daily</span> <span class="cmd-param">--users</span>=<span class="cmd-value">"Dat Ding"</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">none</span>
                 </div>
-                <div id="example4" class="terminal-example collapsible">
+                <div id="example4-output" class="terminal-example collapsible open">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
@@ -238,13 +278,13 @@ Wed Nov 29 2017 █████████████████████�
                 </div>
             </div>
 
-            <div class="example-block">
+            <div id="example5" class="example-block">
                 <h3>Example 5: Table format</h3>
-                <button class="collapse-btn" data-target="example5">Show Output</button>
+                <button class="collapse-btn active" data-target="example5-output">Hide Output</button>
                 <div class="command-line">
                     <span class="cmd-prompt">$</span> <span class="cmd-name">gimme-stat</span> <span class="cmd-param">--since</span>=<span class="cmd-value">3.months</span> <span class="cmd-param">--graph</span>=<span class="cmd-value">none</span> <span class="cmd-param">--table</span>
                 </div>
-                <div id="example5" class="terminal-example collapsible">
+                <div id="example5-output" class="terminal-example collapsible open">
                     <div class="terminal-header">
                         <span class="terminal-title">Output</span>
                     </div>
@@ -265,13 +305,13 @@ Wed Nov 29 2017 █████████████████████�
             </div>
         </section>
 
-        <section class="config">
-            <h2>Sample <code>gimme.config.js</code></h2>
-            <p>You can place the config in a directory which you are using to generate <code>gimme-stat</code> reports.</p>
+        <section id="config" class="doc-section">
+            <h2>JSON Configuration <code>gimme.config.js</code></h2>
+            <p>To save your git report / gimme-stat configuration create following <code>gimme.config.js</code> file.</p>
             <pre><code class="language-javascript">module.exports = {
     userAliases   : [
-        'ilyamokin>Ilya Mokin',
-        'imokin>Ilya Mokin'
+        'Barack Obama>Reptiloid',
+        'Justin Bieber>Reptiloid'
     ],
     appendToMd    : "report.md",
     since         : "1.weeks",
@@ -319,12 +359,11 @@ Wed Nov 29 2017 █████████████████████�
 }</code></pre>
         </section>
 
-        <section class="report-sample">
-            <h2>Sample <code>report.md</code></h2>
-            <p>Chart generated by gimme-stat at Fri Feb 16 2018 12:43:46</p>
+        <section id="report-sample" class="doc-section">
+            <h2>Report types</h2>
             <div class="example-block">
-                <button class="collapse-btn" data-target="report-repos">Show Repositories</button>
-                <div id="report-repos" class="terminal-example collapsible">
+                <h3>Repositories</h3>
+                <div class="terminal-example">
                     <div class="terminal-header">
                         <span class="terminal-title">Repositories</span>
                     </div>
@@ -336,8 +375,7 @@ home/rep/project2</code></pre>
 
             <div class="example-block">
                 <h3>Short</h3>
-                <button class="collapse-btn" data-target="report-short">Show Output</button>
-                <div id="report-short" class="terminal-example collapsible">
+                <div class="terminal-example">
                     <div class="terminal-header">
                         <span class="terminal-title">Short Statistics</span>
                     </div>
@@ -350,8 +388,7 @@ Morgan Freeman █░░░░░░░░░░░░░░░░░░░░�
 
             <div class="example-block">
                 <h3>Detailed</h3>
-                <button class="collapse-btn" data-target="report-detailed">Show Output</button>
-                <div id="report-detailed" class="terminal-example collapsible">
+                <div class="terminal-example">
                     <div class="terminal-header">
                         <span class="terminal-title">Detailed Statistics</span>
                     </div>
@@ -387,8 +424,7 @@ Morgan Freeman      █░░░░░░░░░░░░░░░░░░░
 
             <div class="example-block">
                 <h3>Table</h3>
-                <button class="collapse-btn" data-target="report-table">Show Output</button>
-                <div id="report-table" class="terminal-example collapsible">
+                <div class="terminal-example">
                     <div class="terminal-header">
                         <span class="terminal-title">Table Statistics</span>
                     </div>
@@ -410,8 +446,7 @@ Morgan Freeman      █░░░░░░░░░░░░░░░░░░░
 
             <div class="example-block">
                 <h3>Daily</h3>
-                <button class="collapse-btn" data-target="report-daily">Show Output</button>
-                <div id="report-daily" class="terminal-example collapsible">
+                <div class="terminal-example">
                     <div class="terminal-header">
                         <span class="terminal-title">Daily Statistics</span>
                     </div>
@@ -428,8 +463,8 @@ Thu Nov 30 2017 █████████████████████�
             </div>
         </section>
 
-        <section class="nodejs-usage">
-            <h2>Usage as nodejs module</h2>
+        <section id="nodejs-usage" class="doc-section">
+            <h2>Usage as Node.js Module</h2>
             <p>Easiest way to use it is to call module with default parameters, use empty object for this.</p>
 
             <pre><code class="language-javascript">let gimmeStat = require('gimme-stat');
@@ -464,10 +499,10 @@ gimmeStat.text({
 }).then((answer) => {console.log(answer);});</code></pre>
         </section>
 
-        <footer>
+        <footer class="doc-footer">
             <p>Created with gimme-stat | <a href="https://github.com/ilyamokin/gimme-stat" target="_blank">GitHub Repository</a></p>
         </footer>
-    </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
